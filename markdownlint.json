@@ -1,0 +1,25 @@
+{
+  "default": true,
+  "MD009": {
+    "br_spaces": 0
+  },
+  "MD010": {
+    "code_blocks": true
+  },
+  "MD012": {
+    "maximum": 1
+  },
+  "MD022": {
+    "lines_above": 1,
+    "lines_below": 1
+  },
+  "MD023": true,
+  "MD024": true,
+  "MD030": {
+    "ul_single": 1,
+    "ol_single": 1
+  },
+  "MD031": true,
+  "MD032": true,
+  "MD038": true
+}
