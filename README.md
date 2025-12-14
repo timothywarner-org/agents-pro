@@ -1,4 +1,8 @@
+<img src="images/cover.png" alt="How to Create AI Agents Like a Pro cover" width="640" style="max-width: 100%; height: auto;" />
+
 # How to Create AI Agents Like a Pro
+
+[![Website TechTrainerTim.com](https://img.shields.io/badge/Website-TechTrainerTim.com-0a66c2)](https://techtrainertim.com) [![GitHub Copilot Memory Store](https://img.shields.io/badge/GitHub-copilot--memory--store-181717?logo=github)](https://github.com/timothywarner-org/copilot-memory-store)
 
 **O'Reilly Live Learning Course** | 4 Hours | Microsoft Copilot Studio
 
