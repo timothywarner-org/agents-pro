@@ -12,20 +12,20 @@ Build three production-ready AI agents using Microsoft Copilot Studio's low-code
 
 ```mermaid
 flowchart LR
-    subgraph "Hour 1"
+    subgraph "Segment 1"
         H1[Fundamentals]
     end
 
-    subgraph "Hour 2"
-        H2[Customer Service<br/>Assistant]
+    subgraph "Segment 2"
+        H2[Customer Service Assistant]
     end
 
-    subgraph "Hour 3"
-        H3[Employee Onboarding<br/>Agent]
+    subgraph "Segment 3"
+        H3[Employee Onboarding Agent]
     end
 
-    subgraph "Hour 4"
-        H4[Document Processor<br/>Agent]
+    subgraph "Segment 4"
+        H4[Document Processor Agent]
     end
 
     H1 --> H2 --> H3 --> H4
@@ -38,10 +38,10 @@ flowchart LR
 
 | Segment | Focus | Difficulty | Key Skills |
 |---------|-------|------------|------------|
-| Hour 1 | Copilot Studio Fundamentals | Intro | Navigation, agent creation, terminology |
-| Hour 2 | Customer Service Assistant | Beginner | Topics, knowledge sources, generative answers |
-| Hour 3 | Employee Onboarding Agent | Intermediate | Power Automate flows, authentication, approvals |
-| Hour 4 | Document Processor Agent | Advanced | Autonomous triggers, AI Builder, event-driven automation |
+| Segment 1 | Copilot Studio Fundamentals | Intro | Navigation, agent creation, terminology |
+| Segment 2 | Customer Service Assistant | Beginner | Topics, knowledge sources, generative answers |
+| Segment 3 | Employee Onboarding Agent | Intermediate | Power Automate flows, authentication, approvals |
+| Segment 4 | Document Processor Agent | Advanced | Autonomous triggers, AI Builder, event-driven automation |
 
 ## Prerequisites
 
