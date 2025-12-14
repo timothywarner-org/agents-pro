@@ -1,0 +1,44 @@
+topic:
+  name: Benefits FAQ
+  description: Answer benefits questions using the uploaded benefits and policy knowledge
+    sources.
+  trigger:
+    type: User says a phrase
+    phrases:
+    - benefits
+    - health insurance
+    - when do benefits start
+    - 401k
+    - PTO
+    - vacation policy
+    - open enrollment
+    - dental and vision
+  variables:
+  - name: t_question
+    type: string
+    scope: topic
+    description: Employee benefits question.
+  - name: t_answer
+    type: string
+    scope: topic
+    description: Grounded answer.
+  - name: t_sources
+    type: string
+    scope: topic
+    description: Which knowledge docs were used.
+  flow:
+  - node: Ask a question
+    prompt: What’s your benefits question?
+    save_to: t_question
+  - node: Generative answers
+    instructions: 'Answer using benefits-faq.yaml and hr-policies.md.
+
+      If the user asks something not covered, say it’s not in the docs and suggest
+      who to contact.
+
+      Keep the answer under 120 words.'
+    outputs:
+    - t_answer
+  - node: Message
+    text: '{t_answer}'
+  - node: End

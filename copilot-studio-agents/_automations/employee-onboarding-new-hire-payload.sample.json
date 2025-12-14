@@ -1,0 +1,9 @@
+{
+  "employeeId": "E-10488",
+  "displayName": "Jordan Lee",
+  "email": "jordan.lee@contoso.com",
+  "managerEmail": "pat.singh@contoso.com",
+  "startDate": "2026-01-06",
+  "role": "Software Engineer",
+  "location": "Nashville, TN"
+}

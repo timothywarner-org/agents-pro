@@ -128,3 +128,14 @@ flowchart TD
 | Low confidence | Random_Document.pdf | Routes to manual queue |
 | Large file | 15MB_Report.pdf | Exception: File too large |
 | Processing error | Corrupted_File.pdf | Exception logged, admin notified |
+
+## Implemented in this repo
+
+Blueprint topic folders:
+
+- `T01_ClassifyAndRoute`
+- `T02_ExtractMetadata`
+- `T03_RequestMissingInfo`
+
+These are designed to be selected by **generative orchestration** when an event payload arrives.
+

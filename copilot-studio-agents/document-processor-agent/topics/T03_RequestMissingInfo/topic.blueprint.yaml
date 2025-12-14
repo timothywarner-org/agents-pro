@@ -1,0 +1,40 @@
+topic:
+  name: Request Missing Info
+  description: When confidence is low or fields are missing, ask a human reviewer
+    for the missing info.
+  trigger:
+    type: The agent chooses
+    when_to_use: Use when classification confidence is low or extracted required fields
+      are null.
+  variables:
+  - name: t_missing_fields
+    type: string
+    scope: topic
+    description: What’s missing.
+  - name: t_request_message
+    type: string
+    scope: topic
+    description: Message to reviewer.
+  flow:
+  - node: Generative answers
+    instructions: 'Create a short message to a reviewer that:
+
+      - lists missing fields
+
+      - includes what you *did* detect
+
+      - asks for exactly one action: reply with the missing values
+
+      Keep it under 80 words.'
+    outputs:
+    - t_request_message
+  - node: Action (recommended)
+    name: Post to Teams
+    notes: Use Power Automate to post the request message to a reviewer channel, including
+      the file URL.
+  - node: Message
+    text: 'Sent to reviewers:
+
+
+      {t_request_message}'
+  - node: End

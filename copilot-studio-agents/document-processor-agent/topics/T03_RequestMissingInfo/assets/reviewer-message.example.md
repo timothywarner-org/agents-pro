@@ -1,0 +1,1 @@
+Please confirm the invoice number and total due. I detected this is an Invoice but the number/total are unclear. Reply with: invoiceNumber=<value>, totalDue=<value>.

@@ -1,0 +1,67 @@
+topic:
+  name: Request Access
+  description: Collect access request details and optionally call a flow to create
+    an IT ticket.
+  trigger:
+    type: User says a phrase
+    phrases:
+    - I need access
+    - request access to an app
+    - need permissions
+    - can't log in
+    - access request
+    - I need VPN
+    - I need github access
+    - need microsoft 365 access
+  variables:
+  - name: t_app_or_system
+    type: string
+    scope: topic
+    description: System the user needs access to.
+  - name: t_reason
+    type: string
+    scope: topic
+    description: Business reason.
+  - name: t_manager
+    type: string
+    scope: topic
+    description: Manager name or email.
+  - name: t_request_summary
+    type: string
+    scope: topic
+    description: Structured request summary.
+  flow:
+  - node: Ask a question
+    prompt: 'Which **app or system** do you need access to? (Example: GitHub, VPN,
+      Jira)'
+    save_to: t_app_or_system
+  - node: Ask a question
+    prompt: What’s the **reason** you need it? (One sentence)
+    save_to: t_reason
+  - node: Ask a question
+    prompt: Who is your **manager** (name or email)?
+    save_to: t_manager
+  - node: Generative answers
+    instructions: 'Create a structured access request summary.
+
+      Include: system, reason, manager, urgency (low/normal/high).
+
+      Output as 6 short bullets.'
+    outputs:
+    - t_request_summary
+  - node: Message
+    text: 'Here’s the request I’ll submit:
+
+
+      {t_request_summary}'
+  - node: Action (agent flow)
+    name: Create IT ticket (optional)
+    action_name: CreateITTicket
+    inputs:
+      system: t_app_or_system
+      reason: t_reason
+      manager: t_manager
+    outputs:
+      ticketId: t_ticket_id
+    notes: If you build the flow, return a ticket id so you can confirm success.
+  - node: End
