@@ -1,34 +1,42 @@
 # Copilot Instructions for agents-pro
 
-## Project Snapshot
-- Repository curates course collateral for the “How to Create AI Agents Like a Pro” O’Reilly live training.
-- Source capture: How to Create AI Agents Like a Pro.html (full marketing page).
-- Authored assets: how-to-create-ai-agents-like-a-pro-markdown.md (condensed course page) and how-to-create-ai-agents-like-a-pro-training-proposal.md (executive proposal).
+## Repository Purpose
+- Align every addition with the four-hour O’Reilly live course outlined in [README.md](README.md) and [course-plan.md](course-plan.md); each segment builds toward the three Copilot Studio agents.
+- Keep marketing and proposal collateral synchronized with [reference/how-to-create-ai-agents-like-a-pro-markdown.md](reference/how-to-create-ai-agents-like-a-pro-markdown.md) and [reference/how-to-create-ai-agents-like-a-pro-training-proposal.md](reference/how-to-create-ai-agents-like-a-pro-training-proposal.md).
+- Treat the repo as the instructor’s source of truth: capture objectives, prerequisites, success metrics, and deliverables for every agent experience.
 
-## Core Workflows
-1. **HTML → Markdown conversions**
-   - Always run the MarkItDown MCP server (`convert_to_markdown`) instead of manual parsing.
-   - Strip navigation/footer noise after conversion; keep course-specific information, schedules, and links.
-2. **Content authoring**
-   - Proposal files follow the structure seen in how-to-create-ai-agents-like-a-pro-training-proposal.md: Executive Summary → Outcomes → Audience → Prerequisites → Agenda → Cohorts → Instructor → Resources.
-   - Marketing markdown stays concise (one-paragraph overview, key outcomes, schedule, instructor, resources) mirroring how-to-create-ai-agents-like-a-pro-markdown.md.
+## Key Reference Materials
+- Use [copilot-studio-agents/README.md](copilot-studio-agents/README.md) as the scaffold blueprint; it documents how topics, actions, and knowledge notes interlock.
+- Mirror the depth and sequencing in [copilot-studio-agents/customer-service-assistant/README.md](copilot-studio-agents/customer-service-assistant/README.md), [copilot-studio-agents/employee-onboarding-agent/README.md](copilot-studio-agents/employee-onboarding-agent/README.md), and [copilot-studio-agents/document-processor-agent/README.md](copilot-studio-agents/document-processor-agent/README.md).
+- Cross-reference supporting playbooks in each `topics/`, `actions/`, and `knowledge/` folder; tables there define flow inputs, environment variables, and content calendars.
 
-## Editing Conventions
-- Default to ASCII; introduce non-ASCII glyphs only when already present (see existing typography with en dash for segment headers).
-- Headings are Title Case (`# How to Create AI Agents Like a Pro — Training Proposal`).
-- Bullets use `-`; preserve compact lists (no blank separators) unless clarity demands.
-- Keep external links intact and use angle brackets `<...>` for bare URLs in checklists.
-- Include course dates with bolded day and em dash format (`**December 18, 2025** — 9:00 AM…`).
+## Agent Scaffold
+- Every agent folder should expose the same trio of subdirectories (`topics`, `actions`, `knowledge`) with README files that explain trigger strategy, automation design, and data sources.
+- Document flows with connection references and environment variables as shown in [copilot-studio-agents/customer-service-assistant/actions/README.md](copilot-studio-agents/customer-service-assistant/actions/README.md) so solutions stay ALM-ready.
+- Maintain knowledge architecture diagrams and maintenance schedules like those in [copilot-studio-agents/customer-service-assistant/knowledge/README.md](copilot-studio-agents/customer-service-assistant/knowledge/README.md); surface SharePoint scopes, crawl cadences, and review owners.
 
-## Tooling & Repo Layout
-- There is no build or test pipeline; focus on content accuracy.
-- .vscode/settings.json only disables SARIF GitHub connection—no additional tooling.
-- Add new collateral as top-level `.md` files unless a new directory hierarchy is justified.
+## Authoring Patterns
+- Long-form guides follow the rhythm: Overview → Scenario → Success Metrics → Phased build instructions → Testing/Publishing → Sample transcript/log; reuse the five-phase structure when adding new material.
+- Include Mermaid diagrams for architecture, triggers, and flow designs; imitate existing styles (e.g., fill colors, grouped subgraphs) for visual consistency.
+- Capture trigger phrases, variable schemas, and step-by-step tables directly in text so Copilot Studio builders can reproduce flows without guessing.
+- When introducing Power Automate integrations, list inputs/outputs, adaptive card templates, and connector licensing to reflect classroom expectations.
 
-## Quality Checklist Before PR
-- Confirm MarkItDown output was post-processed: remove duplicated nav/footers and summarize sections clearly.
-- Cross-check agenda segments against the original HTML to ensure timing and bullet ordering remain accurate.
-- Verify all URLs resolve to the correct O’Reilly resources or course materials.
-- Ensure file names remain lowercase with hyphens for readability (`course-name-detail.md`).
+## Tooling & Workflows
+- Perform HTML-to-Markdown conversions with the MarkItDown MCP server (`convert_to_markdown`); remove navigation, legal footers, and duplicate sections post-conversion.
+- There is no automated build or test pipeline; quality comes from cross-checking timelines, flow steps, and URLs against the source proposal and marketing copies.
+- Reuse sample data references (e.g., link to the copilot-studio-business repo) so learners can preload environments during the course.
+- Note authentication scopes, AI Builder requirements, and autonomous trigger setup steps whenever an agent depends on premium Power Platform features.
 
-Need clarification or missing patterns? Ping the maintainer with proposed updates before diverging from these structures.
+## Style Conventions
+- Headings remain Title Case and may use the existing em dash pattern for subtitles (see How to Create AI Agents Like a Pro — Training Proposal).
+- Default to ASCII; only keep existing non-ASCII glyphs (em dashes) when necessary.
+- Bulleted lists stay compact with `-`, tables present key metrics, and bare URLs appear inside angle brackets `<...>`.
+- Keep filenames lowercase with hyphens; add new collateral as top-level `.md` files unless a new hierarchy is justified.
+
+## Review Checklist
+- Verify agenda timing, learning objectives, and deliverables align with the canonical references before finalizing edits.
+- Confirm knowledge sources, triggers, and flows you mention match the details documented in the corresponding `knowledge` and `actions` READMEs.
+- Ensure MarkItDown output is trimmed to course content and that all external links resolve to official Microsoft or O’Reilly resources.
+- Preview diagrams and tables for readability and update dates, seat counts, and resource links when schedules shift.
+
+Need clarification or missing patterns? Ping the maintainer before diverging from these structures.
