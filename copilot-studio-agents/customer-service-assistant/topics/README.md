@@ -415,3 +415,17 @@ Agent: I can help! Are you looking to:
 
 (Buttons for each option)
 ```
+
+## Implemented in this repo
+
+These topics are implemented as learner-friendly blueprints:
+
+- `T01_ReturnsAndRefunds`
+- `T02_OrderStatus`
+- `T03_EscalateToHuman`
+
+Each folder contains:
+- `topic.build.md` (click-by-click build guide)
+- `topic.blueprint.yaml` (topic “source code” blueprint)
+- `assets/` (test payloads and transcripts)
+

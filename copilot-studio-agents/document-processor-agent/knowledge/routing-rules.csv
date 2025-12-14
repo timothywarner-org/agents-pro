@@ -1,0 +1,6 @@
+DocumentType,Condition,RouteTo,Action
+Invoice,Amount>=10000,Finance-Approvals,RequireApproval
+Invoice,Amount<10000,AP-Queue,AutoPost
+Contract,Value>=50000,Legal-Review,RequireApproval
+Contract,Value<50000,Procurement,StandardReview
+Resume,,Recruiting,CreateCandidateRecord

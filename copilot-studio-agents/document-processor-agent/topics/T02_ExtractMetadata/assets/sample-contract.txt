@@ -1,0 +1,4 @@
+AGREEMENT
+This Agreement is made on 2025-12-01 between Contoso Robotics ("Company") and Northwind Legal ("Vendor").
+Term: 12 months
+Renewal: automatic unless cancelled 30 days prior

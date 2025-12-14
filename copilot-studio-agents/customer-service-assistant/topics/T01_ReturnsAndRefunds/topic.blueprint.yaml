@@ -1,0 +1,86 @@
+topic:
+  name: Returns and Refunds
+  description: Help customers understand return eligibility and start a return.
+  trigger:
+    type: User says a phrase
+    phrases:
+    - I want to return an item
+    - start a return
+    - refund my order
+    - how do returns work
+    - return policy
+    - I need a refund
+    - can I send this back
+    - return a damaged product
+    notes: Aim for 5–10 trigger phrases; keep them short and varied.
+  variables:
+  - name: t_order_number
+    type: string
+    scope: topic
+    description: Order number provided by customer.
+  - name: t_return_reason
+    type: string
+    scope: topic
+    description: Customer’s reason for return.
+  - name: t_is_eligible
+    type: boolean
+    scope: topic
+    description: Eligibility decision for return window and condition.
+  - name: t_next_step
+    type: string
+    scope: topic
+    description: Instruction to customer (label, drop-off, etc.).
+  flow:
+  - node: Message
+    name: Intro
+    text: I can help with returns and refunds. I’ll ask two quick questions.
+  - node: Ask a question
+    name: Ask order number
+    prompt: What’s your **order number**?
+    save_to: t_order_number
+    type_hint: Text
+  - node: Ask a question
+    name: Ask reason
+    prompt: What’s the **reason** for the return (damaged, wrong item, changed mind,
+      other)?
+    save_to: t_return_reason
+    type_hint: Text
+  - node: Generative answers
+    name: Eligibility + next step
+    instructions: 'Use the knowledge source **contoso-returns-policy.md** as the policy
+      authority.
+
+      Decide whether the return is eligible.
+
+      If eligible, give next steps in 3 bullets.
+
+      If not eligible, explain why in 1 sentence and offer 2 alternative options (warranty,
+      support).
+
+      Ask exactly one follow-up question only if required (missing purchase date,
+      missing condition).'
+    outputs:
+    - t_is_eligible
+    - t_next_step
+    output_shape: 'Return JSON with keys: isEligible (bool), nextStep (string)'
+  - node: Condition
+    name: Eligible?
+    condition: t_is_eligible == true
+    if_true:
+    - node: Message
+      text: '✅ Eligible. Here’s what to do next:
+
+
+        {t_next_step}'
+    - node: Message
+      text: If you want, I can also draft the message you’ll send to support.
+    if_false:
+    - node: Message
+      text: '⚠️ Not eligible under the standard return policy.
+
+
+        {t_next_step}'
+    - node: Go to topic
+      topic: Warranty Inquiry
+  - node: End
+    name: End

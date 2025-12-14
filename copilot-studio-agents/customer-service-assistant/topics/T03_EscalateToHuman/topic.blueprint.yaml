@@ -1,0 +1,49 @@
+topic:
+  name: Escalate to Human
+  description: Create a crisp escalation summary and route it to a queue or Teams
+    channel.
+  trigger:
+    type: User says a phrase
+    phrases:
+    - talk to a person
+    - human agent
+    - representative
+    - escalate this
+    - this isn't working
+    - complaint
+    - supervisor
+    - I need help now
+  variables:
+  - name: t_issue_summary
+    type: string
+    scope: topic
+    description: One-paragraph summary for a human agent.
+  - name: t_priority
+    type: string
+    scope: topic
+    description: low|normal|high priority classification.
+  flow:
+  - node: Generative answers
+    name: Summarize
+    instructions: 'Summarize the user’s issue for a human support agent.
+
+      Output:
+
+      - issueSummary: 4–6 sentences, neutral tone, include any order number if present.
+
+      - priority: low|normal|high based on urgency, safety, or financial risk.'
+    outputs:
+    - t_issue_summary
+    - t_priority
+  - node: Message
+    text: 'Got it. I’m sending this to a human agent.
+
+
+      **Priority:** {t_priority}
+
+
+      **Summary:** {t_issue_summary}'
+  - node: Action (optional)
+    name: Notify queue
+    notes: Optionally call a Power Automate flow to create a ticket and post to Teams.
+  - node: End

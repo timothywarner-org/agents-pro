@@ -1,0 +1,28 @@
+{
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "TextBlock",
+      "weight": "Bolder",
+      "text": "Return request summary"
+    },
+    {
+      "type": "FactSet",
+      "facts": [
+        {
+          "title": "Order",
+          "value": "CT-482991"
+        },
+        {
+          "title": "Reason",
+          "value": "wrong item"
+        },
+        {
+          "title": "Eligibility",
+          "value": "(agent output)"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+version: 2025.12
+benefits:
+  medical:
+    enrollmentWindowDays: 30
+    note: "You can change plans during Open Enrollment or after a qualifying life event."
+  401k:
+    match: "50% match up to 6% of eligible pay"
+    vesting: "Immediate vesting on employee contributions; match vests over 2 years"
+  time_off:
+    pto:
+      accrual: "1.5 days/month"
+      carryoverMaxDays: 10

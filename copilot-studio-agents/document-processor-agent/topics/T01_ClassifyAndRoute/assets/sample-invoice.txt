@@ -1,0 +1,6 @@
+Contoso Supplies Invoice
+Invoice Number: INV-2025-11992
+Date: 2025-12-12
+Total Due: $2,914.00
+Bill To: Contoso Robotics
+Payment Terms: Net 30

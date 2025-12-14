@@ -1,0 +1,45 @@
+topic:
+  name: Order Status
+  description: Collect order number and return a clear status + next action.
+  trigger:
+    type: User says a phrase
+    phrases:
+    - where is my order
+    - order status
+    - track my package
+    - has my order shipped
+    - delivery date
+    - my order hasn't arrived
+    - tracking number
+    - shipment status
+  variables:
+  - name: t_order_number
+    type: string
+    scope: topic
+    description: Order number.
+  - name: t_status_summary
+    type: string
+    scope: topic
+    description: Short status for the customer.
+  flow:
+  - node: Ask a question
+    name: Ask order number
+    prompt: Sure. What’s your **order number**?
+    save_to: t_order_number
+  - node: Action (agent flow)
+    name: Get order status
+    action_name: GetOrderStatus
+    inputs:
+      orderNumber: t_order_number
+    outputs:
+      statusSummary: t_status_summary
+    notes: If you don’t want to build a flow yet, replace with a Generative answers
+      node that gives a *sample* status.
+  - node: Message
+    text: 'Here’s what I see:
+
+
+      {t_status_summary}'
+  - node: Message
+    text: If you share your ZIP code, I can sanity-check delivery expectations.
+  - node: End

@@ -1,0 +1,34 @@
+{
+  "catalogVersion": "2025.12",
+  "brand": "Contoso Electronics",
+  "products": [
+    {
+      "sku": "CX15-32-1TB",
+      "name": "Contoso Pro X15",
+      "category": "Laptop",
+      "specs": {
+        "ramGB": 32,
+        "storage": "1TB SSD",
+        "cpu": "Intel Core i7",
+        "screen": "15.6in"
+      },
+      "priceUSD": 1299,
+      "warranty": "2-year limited hardware warranty",
+      "returnWindowDays": 30
+    },
+    {
+      "sku": "CE17-32-2TB",
+      "name": "Contoso Elite 17",
+      "category": "Laptop",
+      "specs": {
+        "ramGB": 32,
+        "storage": "2TB SSD",
+        "cpu": "Intel Core i9",
+        "screen": "17in"
+      },
+      "priceUSD": 1799,
+      "warranty": "2-year limited hardware warranty",
+      "returnWindowDays": 30
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "orderNumber": "CT-482991",
+  "purchaseDate": "2025-11-22",
+  "items": [
+    {
+      "sku": "HD-1001",
+      "name": "Contoso Headphones",
+      "qty": 1
+    }
+  ]
+}

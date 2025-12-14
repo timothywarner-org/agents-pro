@@ -1,0 +1,36 @@
+topic:
+  name: Extract Metadata
+  description: Extract key fields from documents based on type schema.
+  trigger:
+    type: The agent chooses
+    when_to_use: Use after classification to extract structured fields.
+  variables:
+  - name: t_file_url
+    type: string
+    scope: topic
+    description: URL to the file.
+  - name: t_extracted_fields
+    type: string
+    scope: topic
+    description: JSON string with extracted fields.
+  flow:
+  - node: Generative answers
+    instructions: 'Use document-types-schema.json.
+
+      Extract fields appropriate for the classified document type.
+
+      Output JSON in a single code block.
+
+      If you cannot find a required field, set it to null.'
+    outputs:
+    - t_extracted_fields
+  - node: Message
+    text: 'Here are the extracted fields:
+
+
+      ```json
+
+      {t_extracted_fields}
+
+      ```'
+  - node: End

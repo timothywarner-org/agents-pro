@@ -87,3 +87,14 @@ flowchart TD
 | IT Setup | Complete request | Ticket created, confirmation shown |
 | Policies | Sign all policies | Records saved, status updated |
 | Benefits | Start enrollment | Approval created, HR notified |
+
+## Implemented in this repo
+
+Blueprint topic folders:
+
+- `T01_Day1Checklist`
+- `T02_RequestAccess`
+- `T03_BenefitsFAQ`
+
+Each folder includes build steps, a YAML blueprint, and test assets.
+
