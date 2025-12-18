@@ -10,37 +10,6 @@ Build three production-ready AI agents using Microsoft Copilot Studio's low-code
 
 ## Course Overview
 
-```mermaid
-flowchart LR
-    subgraph "Segment 1: Foundations"
-        A1[Claude Code Demo] --> A2[M365 Copilot Tour]
-        A2 --> A3[Copilot Studio Intro]
-        A3 --> A4[Foundry Mention]
-    end
-
-    subgraph "Segment 2: Hands-On"
-        H2[Customer Service Assistant]
-    end
-
-    subgraph "Segment 3: Hands-On"
-        H3[Employee Onboarding Agent]
-    end
-
-    subgraph "Segment 4: Hands-On"
-        H4[Document Processor Agent]
-    end
-
-    A4 --> H2 --> H3 --> H4
-
-    style A1 fill:#e8eaf6
-    style A2 fill:#e8eaf6
-    style A3 fill:#e8eaf6
-    style A4 fill:#e8eaf6
-    style H2 fill:#c8e6c9
-    style H3 fill:#fff3e0
-    style H4 fill:#ffcdd2
-```
-
 | Segment | Focus | Difficulty | Key Skills |
 |---------|-------|------------|------------|
 | Segment 1 | AI Agent Landscape | Intro | Claude Code demo, M365 Copilot chat, Copilot Studio navigation, Azure AI Foundry awareness |
