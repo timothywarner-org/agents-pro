@@ -1,0 +1,35 @@
+{
+  "documentTypes": [
+    {
+      "type": "Invoice",
+      "requiredFields": [
+        "InvoiceNumber",
+        "Vendor",
+        "Amount",
+        "DueDate"
+      ]
+    },
+    {
+      "type": "Contract",
+      "requiredFields": [
+        "Parties",
+        "EffectiveDate",
+        "Termination",
+        "Value"
+      ]
+    },
+    {
+      "type": "Resume",
+      "requiredFields": [
+        "CandidateName",
+        "Email",
+        "Role",
+        "Skills"
+      ]
+    }
+  ],
+  "confidenceThresholds": {
+    "autoRoute": 0.85,
+    "manualReview": 0.6
+  }
+}
