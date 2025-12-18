@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../copilot_studio_agents"
+		}
+	],
+	"settings": {
+		"powershell.cwd": "agents-pro"
+	}
+}

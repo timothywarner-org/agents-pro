@@ -1,36 +1,128 @@
+# -----------------------------------------------------------------------------
+# Topic Blueprint: Extract Metadata
+# Agent: Document Processor Agent
+# Purpose: Extract structured fields from classified documents
+# -----------------------------------------------------------------------------
 topic:
   name: Extract Metadata
-  description: Extract key fields from documents based on type schema.
+  id: topic_extract_metadata
+  description: >
+    Extract key fields from documents based on the document type schema.
+    This topic is typically invoked after classification to pull structured
+    data from invoices, contracts, resumes, and other document types.
+
   trigger:
     type: The agent chooses
-    when_to_use: Use after classification to extract structured fields.
+    when_to_use: >
+      Use after classification to extract structured fields from a document,
+      or when a user asks to extract data, metadata, or fields from a file.
+
+  # Trigger phrases for intent recognition (5-15 varied phrases recommended)
+  triggerQueries:
+    - "extract metadata from this document"
+    - "pull the fields from this file"
+    - "get the data from this document"
+    - "extract invoice details"
+    - "what are the key fields in this document"
+    - "parse this document"
+    - "read the metadata"
+    - "extract contract information"
+    - "get candidate details from resume"
+    - "pull structured data"
+
   variables:
-  - name: t_file_url
-    type: string
-    scope: topic
-    description: URL to the file.
-  - name: t_extracted_fields
-    type: string
-    scope: topic
-    description: JSON string with extracted fields.
+    - name: t_file_url
+      type: string
+      scope: topic
+      description: URL to the file in SharePoint or OneDrive.
+    - name: t_doc_type
+      type: string
+      scope: topic
+      description: >
+        Document type from classification (Invoice, Contract, Resume, Other).
+        Passed from T01_ClassifyAndRoute or set manually.
+    - name: t_extracted_fields
+      type: string
+      scope: topic
+      description: JSON string containing the extracted field values.
+    - name: t_extraction_status
+      type: string
+      scope: topic
+      description: Status of extraction (Complete, Partial, Failed).
+
   flow:
-  - node: Generative answers
-    instructions: 'Use document-types-schema.json.
+    - node: Message
+      id: msg_start_extraction_001
+      name: Acknowledge Extraction Request
+      text: >
+        I'll extract the relevant fields from this {Topic.t_doc_type} document.
 
-      Extract fields appropriate for the classified document type.
+    - node: GenerativeAnswers
+      id: genans_extract_fields_002
+      name: Extract Document Fields
+      moderationLevel: High
+      instructions: |
+        Use document-types-schema.json to determine which fields to extract
+        based on the document type: {Topic.t_doc_type}
 
-      Output JSON in a single code block.
+        Extract all fields appropriate for the classified document type.
 
-      If you cannot find a required field, set it to null.'
-    outputs:
-    - t_extracted_fields
-  - node: Message
-    text: 'Here are the extracted fields:
+        Output a valid JSON object with the extracted values.
 
+        Rules:
+        - If you cannot find a required field, set its value to null
+        - Use consistent date format: YYYY-MM-DD
+        - Use numeric values without currency symbols for amounts
+        - Include a "_extractionConfidence" field (0-1) indicating overall confidence
 
-      ```json
+        Example output for Invoice:
+        {
+          "InvoiceNumber": "INV-2025-001",
+          "Vendor": "Contoso Ltd",
+          "Amount": 15000.00,
+          "DueDate": "2025-02-15",
+          "_extractionConfidence": 0.92
+        }
+      outputs:
+        - t_extracted_fields
 
-      {t_extracted_fields}
+    - node: Condition
+      id: cond_check_extraction_003
+      name: Check Extraction Completeness
+      condition: "t_extracted_fields contains 'null'"
+      if_true:
+        - node: SetVariable
+          id: setvar_partial_004
+          name: Set Partial Status
+          variable: t_extraction_status
+          value: "Partial"
+        - node: Message
+          id: msg_partial_005
+          name: Partial Extraction Warning
+          text: >
+            Some fields could not be extracted. Here are the results:
 
-      ```'
-  - node: End
+            ```json
+            {Topic.t_extracted_fields}
+            ```
+
+            You may want to request missing information from a reviewer.
+      if_false:
+        - node: SetVariable
+          id: setvar_complete_006
+          name: Set Complete Status
+          variable: t_extraction_status
+          value: "Complete"
+        - node: Message
+          id: msg_complete_007
+          name: Extraction Complete
+          text: >
+            Here are the extracted fields:
+
+            ```json
+            {Topic.t_extracted_fields}
+            ```
+
+    - node: End
+      id: end_topic_008
+      name: End Extraction

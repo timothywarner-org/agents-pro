@@ -1,71 +1,85 @@
+# -----------------------------------------------------------------------------
+# Topic: Day 1 Checklist
+# Purpose: Collect basic details and generate a tailored Day 1 plan using
+#          onboarding checklist and policy knowledge sources.
+# -----------------------------------------------------------------------------
 topic:
-  name: Day 1 Checklist
-  description: Collect basic details and generate a tailored Day 1 plan from checklist
-    + policy knowledge.
+  name: Day1Checklist
+  displayName: Day 1 Checklist
+  description: >-
+    Collect basic details and generate a tailored Day 1 plan from checklist
+    and policy knowledge sources.
   trigger:
     type: User says a phrase
     phrases:
-    - day 1 checklist
-    - what do I do on my first day
-    - first day onboarding
-    - getting started
-    - new hire checklist
-    - start onboarding
-    - what should I do first
-    - onboarding steps
+      - day 1 checklist
+      - what do I do on my first day
+      - first day onboarding
+      - getting started
+      - new hire checklist
+      - start onboarding
+      - what should I do first
+      - onboarding steps
+      - help me get started on day one
+      - my first day tasks
+      - what are my onboarding tasks
   variables:
-  - name: t_role
-    type: string
-    scope: topic
-    description: Employee role/title.
-  - name: t_start_date
-    type: string
-    scope: topic
-    description: Start date (as text).
-  - name: t_location
-    type: string
-    scope: topic
-    description: Office/remote location.
-  - name: t_plan
-    type: string
-    scope: topic
-    description: Tailored Day 1 plan.
+    - name: t_role
+      type: string
+      scope: topic
+      description: Employee role/title.
+    - name: t_start_date
+      type: string
+      scope: topic
+      description: Start date (as text).
+    - name: t_location
+      type: string
+      scope: topic
+      description: Office/remote location.
+    - name: t_plan
+      type: string
+      scope: topic
+      description: Tailored Day 1 plan.
   flow:
-  - node: Ask a question
-    prompt: Welcome aboard. What’s your **role**?
-    save_to: t_role
-  - node: Ask a question
-    prompt: 'What’s your **start date**? (Example: 2026-01-05)'
-    save_to: t_start_date
-  - node: Ask a question
-    prompt: Are you **remote** or **in-office**? If in-office, which location?
-    save_to: t_location
-  - node: Generative answers
-    instructions: 'Use knowledge sources:
+    - id: question_role_001
+      node: Ask a question
+      prompt: Welcome aboard! What is your **role**?
+      save_to: t_role
 
-      - onboarding-checklist.csv
+    - id: question_startdate_002
+      node: Ask a question
+      prompt: "What is your **start date**? (Example: 2026-01-05)"
+      save_to: t_start_date
 
-      - hr-policies.md
+    - id: question_location_003
+      node: Ask a question
+      prompt: Are you **remote** or **in-office**? If in-office, which location?
+      save_to: t_location
 
-      - benefits-faq.yaml
+    - id: genAnswers_day1plan_004
+      node: Generative answers
+      instructions: >-
+        Use knowledge sources:
+        - onboarding-checklist.csv
+        - hr-policies.md
+        - benefits-faq.yaml
 
+        Create a Day 1 plan tailored to the role ({t_role}) and location ({t_location}).
 
-      Create a Day 1 plan tailored to the role and location.
+        Output must be:
+        - 6-10 checklist bullets
+        - grouped into Morning / Midday / Afternoon
+        - include any mandatory compliance or policy items
+        - include exactly one question at the end if something important is missing
+      outputs:
+        - t_plan
 
-      Output must be:
+    - id: message_showplan_005
+      node: Message
+      text: |-
+        Here is your Day 1 plan:
 
-      - 6–10 checklist bullets
+        {t_plan}
 
-      - grouped into Morning / Midday / Afternoon
-
-      - include any mandatory compliance or policy items
-
-      - include exactly one question at the end if something important is missing'
-    outputs:
-    - t_plan
-  - node: Message
-    text: 'Here’s your Day 1 plan:
-
-
-      {t_plan}'
-  - node: End
+    - id: end_topic_006
+      node: End
