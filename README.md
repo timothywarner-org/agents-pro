@@ -19,48 +19,100 @@ Build three production-ready AI agents using Microsoft Copilot Studio's low-code
 
 ## Prerequisites
 
-- Microsoft 365 account (Business or Enterprise)
-- Copilot Studio access ([start free trial](https://copilotstudio.microsoft.com))
+- Microsoft 365 account (Business or Enterprise) — [start free trial](https://www.microsoft.com/en-us/microsoft-365/try)
+- Copilot Studio access — [start free trial](https://copilotstudio.microsoft.com)
+- Power Automate Premium — [start 90-day trial](https://www.microsoft.com/en-us/power-platform/try-free)
 - Microsoft Teams desktop app
 - Basic familiarity with Microsoft 365 apps
+
+**Optional trials for extended scenarios:**
+
+| Resource | URL | Duration |
+|----------|-----|----------|
+| Power Apps Developer Plan | <https://www.microsoft.com/power-platform/products/power-apps/free> | No limit |
+| Azure Free Account | <https://azure.microsoft.com/en-us/free> | 30 days ($200 credit) |
+| Power Platform Trials Hub | <https://www.microsoft.com/en-us/power-platform/try-free> | Various |
 
 ## Repository Structure
 
 ```text
 agents-pro/
 ├── README.md                           # This file
+├── CLAUDE.md                           # Claude Code instructions
 ├── CODE_OF_CONDUCT.md                  # Community guidelines
 ├── contributing.md                     # Contribution guide
 ├── SECURITY.md                         # Security policy
 ├── LICENSE                             # MIT License
-├── images/                             # Course images
+├── markdownlint.json                   # Markdown linting config
+│
+├── .github/                            # GitHub Copilot configurations
+│   ├── agents/                         # Copilot agent definitions
+│   ├── prompts/                        # Copilot prompt templates
+│   └── instructions/                   # Copilot coding instructions
+│
 ├── docs/                               # Documentation
 │   ├── course-plan.md                  # Instructor course plan
 │   └── PowerPlatform-WAF-for-CopilotStudio-Agents.md
-├── reference/                          # Training proposals & marketing
-│   ├── how-to-create-ai-agents-like-a-pro-training-proposal.md
-│   └── how-to-create-ai-agents-like-a-pro-markdown.md
-└── copilot-studio-agents/
+│
+├── images/                             # Course images and assets
+│
+└── copilot-studio-agents/              # Main course content
     ├── README.md                       # Scaffold overview
     ├── resources.md                    # Microsoft Learn resources
+    │
     ├── _labs/                          # Hands-on lab guides
-    ├── _topics/                        # Topic blueprint templates
-    ├── _automations/                   # Power Automate templates
-    ├── customer-service-assistant/     # Segment 2 project
-    │   ├── README.md                   # Full tutorial
-    │   ├── topics/                     # Topic configurations
-    │   ├── actions/                    # Power Automate flows
-    │   └── knowledge/                  # Knowledge sources
-    ├── employee-onboarding-agent/      # Segment 3 project
+    │   ├── Lab-00-Setup.md             # Environment setup
+    │   ├── Lab-01-CustomerService-Topics.md
+    │   ├── Lab-02-Onboarding-Topics.md
+    │   └── Lab-03-DocumentProcessor-Topics.md
+    │
+    ├── _topics/                        # Topic blueprint conventions
+    │   └── README.md                   # Naming standards & templates
+    │
+    ├── _automations/                   # Power Automate flow templates
     │   ├── README.md
+    │   └── *.sample.json               # Sample payloads per agent
+    │
+    ├── customer-service-assistant/     # Segment 2 — Beginner
+    │   ├── README.md                   # Full tutorial
+    │   ├── customer-service-QUICK-START-TRIGGERS.md
+    │   ├── customer-service-QUICK-START-FLOWS.md
+    │   ├── topics/                     # T01–T03 topic folders
+    │   │   ├── T01_ReturnsAndRefunds/
+    │   │   ├── T02_OrderStatus/
+    │   │   └── T03_EscalateToHuman/
+    │   ├── actions/                    # Power Automate flows
+    │   └── knowledge/                  # SharePoint content (PDFs)
+    │       ├── Policies/
+    │       ├── Product-Info/
+    │       └── Training/
+    │
+    ├── employee-onboarding-agent/      # Segment 3 — Intermediate
+    │   ├── README.md
+    │   ├── employee-onboarding-QUICK-START-TRIGGERS.md
+    │   ├── employee-onboarding-QUICK-START-FLOWS.md
     │   ├── topics/
+    │   │   ├── T01_Day1Checklist/
+    │   │   ├── T02_RequestAccess/
+    │   │   └── T03_BenefitsFAQ/
     │   ├── actions/
     │   └── knowledge/
-    └── document-processor-agent/       # Segment 4 project
+    │       ├── Benefits/
+    │       ├── Onboarding/
+    │       └── Policies/
+    │
+    └── document-processor-agent/       # Segment 4 — Advanced
         ├── README.md
+        ├── document-processor-QUICK-START-TRIGGERS.md
+        ├── document-processor-QUICK-START-FLOWS.md
         ├── topics/
+        │   ├── T01_ClassifyAndRoute/
+        │   ├── T02_ExtractMetadata/
+        │   └── T03_RequestMissingInfo/
         ├── actions/
         └── knowledge/
+            ├── DocumentProcessorKnowledge/  # Classification rules & examples
+            └── IncomingDocuments/           # SharePoint folder simulation
 ```
 
 ## Quick Start
@@ -125,11 +177,35 @@ agents-pro/
 
 ## Learning Resources
 
-- [Microsoft Copilot Studio Documentation](https://learn.microsoft.com/en-us/microsoft-copilot-studio/)
-- [Copilot Studio Agent Academy](https://learn.microsoft.com/en-us/microsoft-copilot-studio)
+### Microsoft Copilot Studio
+
+- [Copilot Studio Documentation](https://learn.microsoft.com/en-us/microsoft-copilot-studio/)
+- [Copilot Studio VS Code Extension (Preview)](https://marketplace.visualstudio.com/items?itemName=ms-CopilotStudio.vscode-copilotstudio)
 - [Topic Authoring Best Practices](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/topic-authoring-best-practices)
 - [Agent Flows Overview](https://learn.microsoft.com/en-us/microsoft-copilot-studio/flows-overview)
-- [Autonomous Agents](https://learn.microsoft.com/en-us/power-platform/release-plan/2024wave2/microsoft-copilot-studio/create-automated-copilots-triggered-events)
+
+### Microsoft 365 Copilot
+
+- [Microsoft 365 Copilot Hub](https://learn.microsoft.com/en-us/copilot/microsoft-365/)
+- [Agents for Microsoft 365 Copilot](https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/)
+- [Declarative Agents Overview](https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/overview-declarative-agent)
+
+### Azure AI & Agent Frameworks
+
+- [Azure AI Foundry (Microsoft Foundry)](https://learn.microsoft.com/en-us/azure/ai-foundry/)
+- [Microsoft Agent Framework](https://learn.microsoft.com/en-us/agent-framework/) | [GitHub](https://github.com/microsoft/agent-framework)
+- [Microsoft 365 Agents SDK](https://learn.microsoft.com/en-us/microsoft-365/agents-sdk/)
+
+### Model Context Protocol (MCP)
+
+- [MCP Documentation](https://modelcontextprotocol.io)
+- [MCP GitHub](https://github.com/modelcontextprotocol)
+
+### Certifications
+
+- [MS-4004: M365 Copilot Use Cases](https://learn.microsoft.com/en-us/training/courses/ms-4004)
+- [AI-102: Azure AI Engineer Associate](https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer/)
+- [Copilot & Agent Administration Fundamentals](https://learn.microsoft.com/en-us/credentials/certifications/copilot-and-agent-administration-fundamentals/)
 
 ## Course Schedule
 

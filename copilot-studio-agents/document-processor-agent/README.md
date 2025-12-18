@@ -38,10 +38,10 @@ flowchart TD
         P4 --> QA[Exception Tracker]
     end
 
-    style E1 fill:#fff3e0
-    style E2 fill:#fff3e0
-    style E3 fill:#fff3e0
-    style C fill:#e8f5e9
+    style E1 fill:#000000
+    style E2 fill:#000000
+    style E3 fill:#000000
+    style C fill:#000000
 ```
 
 ## Learning Objectives
