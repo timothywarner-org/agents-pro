@@ -1,85 +1,134 @@
+# -----------------------------------------------------------------------------
+# Topic Blueprint: Classify and Route
+# Agent: Document Processor Agent
+# Purpose: Classify uploaded documents and determine routing destination
+# -----------------------------------------------------------------------------
 topic:
   name: Classify and Route
-  description: Classify an uploaded document and decide routing based on routing-rules.csv.
+  id: topic_classify_and_route
+  description: >
+    Classify an uploaded document and decide routing based on routing-rules.csv.
+    This topic handles both event-triggered (SharePoint file created) and
+    user-initiated document processing requests.
+
   trigger:
     type: The agent chooses
-    when_to_use: Use when an event payload includes a file URL/name, or when a user
-      asks to process a document.
+    when_to_use: >
+      Use when an event payload includes a file URL/name, or when a user
+      asks to process, classify, or route a document.
+
+  # Trigger phrases for intent recognition (5-15 varied phrases recommended)
+  triggerQueries:
+    - "classify this document"
+    - "what type of document is this"
+    - "process this file"
+    - "route this document"
+    - "where should this document go"
+    - "categorize this file"
+    - "identify document type"
+    - "I need to classify a document"
+    - "help me route this file"
+    - "determine the document category"
+
   variables:
-  - name: t_file_url
-    type: string
-    scope: topic
-    description: URL to the file.
-  - name: t_file_name
-    type: string
-    scope: topic
-    description: File name.
-  - name: t_library
-    type: string
-    scope: topic
-    description: Library/list name.
-  - name: t_doc_type
-    type: string
-    scope: topic
-    description: Classified type (Invoice, Contract, HR, Other).
-  - name: t_route_to
-    type: string
-    scope: topic
-    description: Destination queue/team.
-  - name: t_confidence
-    type: number
-    scope: topic
-    description: 0–1 confidence estimate.
+    - name: t_file_url
+      type: string
+      scope: topic
+      description: URL to the file in SharePoint or OneDrive.
+    - name: t_file_name
+      type: string
+      scope: topic
+      description: Name of the file including extension.
+    - name: t_library
+      type: string
+      scope: topic
+      description: SharePoint library or list name where file resides.
+    - name: t_doc_type
+      type: string
+      scope: topic
+      description: Classified document type (Invoice, Contract, Resume, Other).
+    - name: t_route_to
+      type: string
+      scope: topic
+      description: Destination queue or team for routing.
+    - name: t_confidence
+      type: number
+      scope: topic
+      description: Classification confidence score from 0 to 1.
+
   flow:
-  - node: Message
-    name: Acknowledge
-    text: Okay. I’ll classify the document and decide where it should go.
-  - node: Set variable
-    name: Map payload (optional)
-    notes: If started by an event trigger, map payload fields into t_file_url, t_file_name,
-      t_library.
-  - node: Generative answers
-    name: Classify + route
-    instructions: 'Use knowledge sources:
-
-      - document-types-schema.json
-
-      - routing-rules.csv
-
-
-      Given file name, library, and any extracted text (if available), classify the
-      document type.
-
-      Then choose a routing destination based on the rule table.
-
-      Output JSON:
-
-      - docType: string
-
-      - routeTo: string
-
-      - confidence: number (0–1)
-
-      If confidence < 0.6, routeTo must be "ManualReview".'
-    outputs:
-    - t_doc_type
-    - t_route_to
-    - t_confidence
-  - node: Condition
-    name: Manual review?
-    condition: t_route_to == 'ManualReview'
-    if_true:
     - node: Message
-      text: ⚠️ I’m not confident enough to auto-route this. I’m sending it for manual
-        review.
-    - node: Action (optional)
-      name: Notify reviewers
-      notes: Post summary + file URL to a Teams channel via Power Automate.
-    if_false:
-    - node: Message
-      text: ✅ Classified as **{t_doc_type}** (confidence {t_confidence}). Routing
-        to **{t_route_to}**.
-    - node: Action (optional)
-      name: Move file
-      notes: Use Power Automate to move/copy the file to the destination library.
-  - node: End
+      id: msg_acknowledge_001
+      name: Acknowledge Request
+      text: >
+        Okay, I'll classify the document and decide where it should go.
+
+    - node: SetVariable
+      id: setvar_map_payload_002
+      name: Map Event Payload
+      notes: >
+        If started by an event trigger (e.g., SharePoint file created),
+        map payload fields into t_file_url, t_file_name, and t_library.
+        For manual invocation, these may be collected via Question nodes.
+
+    - node: GenerativeAnswers
+      id: genans_classify_route_003
+      name: Classify and Determine Route
+      moderationLevel: High
+      instructions: |
+        Use knowledge sources:
+        - document-types-schema.json
+        - routing-rules.csv
+
+        Given the file name, library, and any extracted text (if available),
+        classify the document type.
+
+        Then choose a routing destination based on the rule table.
+
+        Output JSON:
+        - docType: string
+        - routeTo: string
+        - confidence: number (0-1)
+
+        If confidence < 0.6, routeTo must be "ManualReview".
+      outputs:
+        - t_doc_type
+        - t_route_to
+        - t_confidence
+
+    - node: Condition
+      id: cond_manual_review_004
+      name: Check Manual Review Required
+      condition: "t_route_to = 'ManualReview'"
+      if_true:
+        - node: Message
+          id: msg_low_confidence_005
+          name: Low Confidence Warning
+          text: >
+            I'm not confident enough to auto-route this document.
+            I'm sending it for manual review.
+        - node: Action
+          id: action_notify_reviewers_006
+          name: Notify Reviewers
+          optional: true
+          notes: >
+            Post summary and file URL to a Teams channel via Power Automate.
+            Include t_doc_type, t_confidence, and t_file_url in the message.
+      if_false:
+        - node: Message
+          id: msg_success_007
+          name: Classification Success
+          text: >
+            Classified as **{Topic.t_doc_type}** (confidence {Topic.t_confidence}).
+            Routing to **{Topic.t_route_to}**.
+        - node: Action
+          id: action_move_file_008
+          name: Move File to Destination
+          optional: true
+          notes: >
+            Use Power Automate to move or copy the file to the destination library.
+            Pass t_file_url, t_route_to, and t_doc_type to the flow.
+
+    - node: End
+      id: end_topic_009
+      name: End Classification

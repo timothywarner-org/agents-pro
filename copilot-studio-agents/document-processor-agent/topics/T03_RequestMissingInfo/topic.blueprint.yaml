@@ -1,40 +1,143 @@
+# -----------------------------------------------------------------------------
+# Topic Blueprint: Request Missing Info
+# Agent: Document Processor Agent
+# Purpose: Request human input when classification or extraction is incomplete
+# -----------------------------------------------------------------------------
 topic:
   name: Request Missing Info
-  description: When confidence is low or fields are missing, ask a human reviewer
-    for the missing info.
+  id: topic_request_missing_info
+  description: >
+    When classification confidence is low or required fields could not be extracted,
+    this topic generates a request message and sends it to human reviewers for input.
+
   trigger:
     type: The agent chooses
-    when_to_use: Use when classification confidence is low or extracted required fields
-      are null.
+    when_to_use: >
+      Use when classification confidence is low, extracted required fields are null,
+      or when manual verification is needed before processing can continue.
+
+  # Trigger phrases for intent recognition (5-15 varied phrases recommended)
+  triggerQueries:
+    - "request missing information"
+    - "ask for help with this document"
+    - "send to reviewer"
+    - "I need human input"
+    - "escalate for review"
+    - "missing fields need attention"
+    - "request clarification"
+    - "get help from a person"
+    - "this document needs review"
+    - "ask someone to verify"
+
   variables:
-  - name: t_missing_fields
-    type: string
-    scope: topic
-    description: What’s missing.
-  - name: t_request_message
-    type: string
-    scope: topic
-    description: Message to reviewer.
+    - name: t_file_url
+      type: string
+      scope: topic
+      description: URL to the file requiring review.
+    - name: t_file_name
+      type: string
+      scope: topic
+      description: Name of the file for reference in the request.
+    - name: t_doc_type
+      type: string
+      scope: topic
+      description: Classified document type (may be uncertain).
+    - name: t_confidence
+      type: number
+      scope: topic
+      description: Classification confidence score that triggered the review.
+    - name: t_extracted_fields
+      type: string
+      scope: topic
+      description: JSON string of fields that were successfully extracted.
+    - name: t_missing_fields
+      type: string
+      scope: topic
+      description: Comma-separated list of fields that could not be extracted.
+    - name: t_request_message
+      type: string
+      scope: topic
+      description: Generated message to send to the reviewer.
+    - name: t_request_sent
+      type: boolean
+      scope: topic
+      description: Flag indicating whether the request was successfully sent.
+
   flow:
-  - node: Generative answers
-    instructions: 'Create a short message to a reviewer that:
+    - node: Message
+      id: msg_acknowledge_001
+      name: Acknowledge Missing Info
+      text: >
+        I found some information I couldn't extract or verify.
+        Let me prepare a request for a human reviewer.
 
-      - lists missing fields
+    - node: GenerativeAnswers
+      id: genans_create_request_002
+      name: Generate Review Request Message
+      moderationLevel: High
+      instructions: |
+        Create a concise message to a human reviewer that:
 
-      - includes what you *did* detect
+        1. States the document type (if known): {Topic.t_doc_type}
+        2. Lists the missing or uncertain fields: {Topic.t_missing_fields}
+        3. Summarizes what WAS successfully detected from the extracted fields
+        4. Asks for exactly one action: reply with the missing values
 
-      - asks for exactly one action: reply with the missing values
+        Context:
+        - File: {Topic.t_file_name}
+        - Classification confidence: {Topic.t_confidence}
+        - Extracted fields: {Topic.t_extracted_fields}
 
-      Keep it under 80 words.'
-    outputs:
-    - t_request_message
-  - node: Action (recommended)
-    name: Post to Teams
-    notes: Use Power Automate to post the request message to a reviewer channel, including
-      the file URL.
-  - node: Message
-    text: 'Sent to reviewers:
+        Keep the message under 80 words and professional in tone.
+        Format as plain text suitable for a Teams message.
+      outputs:
+        - t_request_message
 
+    - node: Condition
+      id: cond_check_message_003
+      name: Validate Request Message
+      condition: "t_request_message is not empty"
+      if_true:
+        - node: Action
+          id: action_post_teams_004
+          name: Post Request to Teams
+          recommended: true
+          notes: >
+            Use Power Automate to post the request message to a reviewer channel.
+            Include:
+            - t_request_message (the generated message)
+            - t_file_url (link to the document)
+            - t_doc_type (for channel routing if applicable)
+            Configure adaptive card for structured response collection.
+        - node: SetVariable
+          id: setvar_sent_true_005
+          name: Mark Request as Sent
+          variable: t_request_sent
+          value: true
+        - node: Message
+          id: msg_sent_confirmation_006
+          name: Confirm Request Sent
+          text: >
+            I've sent the following request to the review team:
 
-      {t_request_message}'
-  - node: End
+            ---
+            {Topic.t_request_message}
+            ---
+
+            You'll be notified when they respond.
+      if_false:
+        - node: SetVariable
+          id: setvar_sent_false_007
+          name: Mark Request as Not Sent
+          variable: t_request_sent
+          value: false
+        - node: Message
+          id: msg_generation_failed_008
+          name: Generation Failed Notice
+          text: >
+            I was unable to generate a review request message.
+            Please manually review the document at: {Topic.t_file_url}
+
+    - node: End
+      id: end_topic_009
+      name: End Request Missing Info

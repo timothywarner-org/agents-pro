@@ -1,12 +1,86 @@
-version: 2025.12
+# -----------------------------------------------------------------------------
+# Knowledge Source: Benefits FAQ
+# Purpose: Structured benefits information for the Employee Onboarding Agent.
+#          Used by T03_BenefitsFAQ topic for generative answers.
+# -----------------------------------------------------------------------------
+version: "2025.12"
+lastUpdated: "2025-01-15"
+contact: hr@contoso.com
+
 benefits:
   medical:
     enrollmentWindowDays: 30
-    note: "You can change plans during Open Enrollment or after a qualifying life event."
-  401k:
-    match: "50% match up to 6% of eligible pay"
-    vesting: "Immediate vesting on employee contributions; match vests over 2 years"
+    plans:
+      - name: "Basic Health Plan"
+        monthlyCost: "$150/month (employee only)"
+        coverage: "80/20 coverage after $500 deductible"
+      - name: "Premium Health Plan"
+        monthlyCost: "$300/month (employee only)"
+        coverage: "90/10 coverage after $250 deductible"
+    note: >-
+      You can change plans during Open Enrollment (November 1-15) or after a
+      qualifying life event (marriage, birth, etc.).
+
+  dental:
+    enrollmentWindowDays: 30
+    plans:
+      - name: "Standard Dental"
+        monthlyCost: "$25/month"
+        coverage: "Preventive 100%, Basic 80%, Major 50%"
+    note: "Dental coverage begins on your first day of employment."
+
+  vision:
+    enrollmentWindowDays: 30
+    plans:
+      - name: "Vision Care"
+        monthlyCost: "$10/month"
+        coverage: "Annual eye exam covered; $150 allowance for frames/contacts"
+    note: "Vision coverage begins on your first day of employment."
+
+  retirement:
+    401k:
+      match: "50% match up to 6% of eligible pay"
+      vesting: "Immediate vesting on employee contributions; match vests over 2 years"
+      enrollmentEligibility: "Eligible after 30 days of employment"
+      note: "You can change contribution percentage at any time via the benefits portal."
+
   time_off:
     pto:
       accrual: "1.5 days/month"
       carryoverMaxDays: 10
+      note: "PTO accrual begins on your first day. Maximum balance is 30 days."
+    sick_leave:
+      accrual: "1 day/month"
+      carryoverMaxDays: 5
+      note: "Sick leave is separate from PTO and does not affect PTO balance."
+    holidays:
+      count: 10
+      note: "Company observes 10 paid holidays per year. See HR calendar for dates."
+    parental_leave:
+      weeks: 12
+      note: "12 weeks paid parental leave for birth or adoption. Eligible after 6 months."
+
+  other:
+    life_insurance:
+      coverage: "1x annual salary (basic), up to 5x annual salary (voluntary)"
+      note: "Basic life insurance is provided at no cost. Voluntary coverage available."
+    disability:
+      short_term: "60% of salary for up to 26 weeks"
+      long_term: "60% of salary after 26 weeks"
+      note: "Both short-term and long-term disability are provided at no cost."
+    employee_assistance:
+      name: "Employee Assistance Program (EAP)"
+      coverage: "Free counseling and support services for employees and families"
+      note: "Call 1-800-XXX-XXXX or visit eap.contoso.com for confidential support."
+
+faq:
+  - question: "When do my benefits start?"
+    answer: "Most benefits start on your first day of employment. 401k eligibility begins after 30 days."
+  - question: "How do I enroll in benefits?"
+    answer: "Log into the benefits portal at benefits.contoso.com within your first 30 days to enroll."
+  - question: "Can I add dependents?"
+    answer: "Yes, you can add dependents during enrollment or after a qualifying life event."
+  - question: "What is a qualifying life event?"
+    answer: "Marriage, divorce, birth/adoption of a child, or loss of other coverage."
+  - question: "How do I change my 401k contribution?"
+    answer: "Log into the benefits portal and navigate to Retirement > 401k > Change Contribution."

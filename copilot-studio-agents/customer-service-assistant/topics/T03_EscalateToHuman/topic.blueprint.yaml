@@ -1,49 +1,86 @@
+# -----------------------------------------------------------------------------
+# Topic Blueprint: Escalate to Human
+# Agent: Customer Service Assistant
+# Purpose: Create a crisp escalation summary and route it to a queue or Teams channel
+# -----------------------------------------------------------------------------
+
 topic:
-  name: Escalate to Human
-  description: Create a crisp escalation summary and route it to a queue or Teams
-    channel.
+  name: EscalateToHuman
+  display_name: Escalate to Human
+  description: Create a crisp escalation summary and route it to a queue or Teams channel.
+  conversationOutcome: Escalated
+
   trigger:
-    type: User says a phrase
+    type: OnRecognizedIntent
+    intent: EscalateToHuman
     phrases:
-    - talk to a person
-    - human agent
-    - representative
-    - escalate this
-    - this isn't working
-    - complaint
-    - supervisor
-    - I need help now
+      - talk to a person
+      - human agent
+      - representative
+      - escalate this
+      - this isn't working
+      - complaint
+      - supervisor
+      - I need help now
+      - speak to someone
+      - real person please
+      - connect me to support
+      - I want to file a complaint
+    # Note: Aim for 5-15 trigger phrases; keep them short and varied
+
   variables:
-  - name: t_issue_summary
-    type: string
-    scope: topic
-    description: One-paragraph summary for a human agent.
-  - name: t_priority
-    type: string
-    scope: topic
-    description: low|normal|high priority classification.
+    - name: t_issue_summary
+      type: string
+      scope: topic
+      description: One-paragraph summary for a human agent.
+    - name: t_priority
+      type: string
+      scope: topic
+      description: low|normal|high priority classification.
+
   flow:
-  - node: Generative answers
-    name: Summarize
-    instructions: 'Summarize the user’s issue for a human support agent.
+    - node: GenerativeAnswers
+      id: gen_summarize_001
+      name: SummarizeIssue
+      moderationLevel: High
+      instructions: |
+        Summarize the user's issue for a human support agent.
 
-      Output:
+        Output:
+        - issueSummary: 4-6 sentences, neutral tone, include any order number if present.
+        - priority: low|normal|high based on urgency, safety, or financial risk.
 
-      - issueSummary: 4–6 sentences, neutral tone, include any order number if present.
+        Guidelines:
+        - Be factual and objective
+        - Include relevant context from the conversation
+        - Do not make assumptions beyond what the user stated
+      outputs:
+        - t_issue_summary
+        - t_priority
+      output_shape: "Return JSON with keys: issueSummary (string), priority (string)"
 
-      - priority: low|normal|high based on urgency, safety, or financial risk.'
-    outputs:
-    - t_issue_summary
-    - t_priority
-  - node: Message
-    text: 'Got it. I’m sending this to a human agent.
+    - node: Message
+      id: msg_escalation_confirm_001
+      name: EscalationConfirmation
+      text: |
+        Got it. I'm sending this to a human agent.
 
+        **Priority:** {t_priority}
 
-      **Priority:** {t_priority}
+        **Summary:** {t_issue_summary}
 
+    - node: Action
+      id: action_notify_queue_001
+      name: NotifyQueue
+      action_name: NotifyEscalationQueue
+      optional: true
+      inputs:
+        issueSummary: t_issue_summary
+        priority: t_priority
+      # Note: Optionally call a Power Automate flow to create a ticket and post to Teams.
+      # Remove optional: true and implement the flow when ready.
 
-      **Summary:** {t_issue_summary}'
-  - node: Action (optional)
-    name: Notify queue
-    notes: Optionally call a Power Automate flow to create a ticket and post to Teams.
-  - node: End
+    - node: End
+      id: end_topic_001
+      name: EndTopic
+      escalate: true

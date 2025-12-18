@@ -1,44 +1,94 @@
+# -----------------------------------------------------------------------------
+# Topic: Benefits FAQ
+# Purpose: Answer employee benefits questions using the uploaded benefits and
+#          policy knowledge sources with citation support.
+# -----------------------------------------------------------------------------
 topic:
-  name: Benefits FAQ
-  description: Answer benefits questions using the uploaded benefits and policy knowledge
-    sources.
+  name: BenefitsFAQ
+  displayName: Benefits FAQ
+  description: >-
+    Answer benefits questions using the uploaded benefits and policy knowledge
+    sources with citation support.
   trigger:
     type: User says a phrase
     phrases:
-    - benefits
-    - health insurance
-    - when do benefits start
-    - 401k
-    - PTO
-    - vacation policy
-    - open enrollment
-    - dental and vision
+      - benefits
+      - health insurance
+      - when do benefits start
+      - 401k
+      - PTO
+      - vacation policy
+      - open enrollment
+      - dental and vision
+      - what benefits do I get
+      - how much PTO do I have
+      - retirement plan
+      - medical coverage
   variables:
-  - name: t_question
-    type: string
-    scope: topic
-    description: Employee benefits question.
-  - name: t_answer
-    type: string
-    scope: topic
-    description: Grounded answer.
-  - name: t_sources
-    type: string
-    scope: topic
-    description: Which knowledge docs were used.
+    - name: t_question
+      type: string
+      scope: topic
+      description: Employee benefits question.
+    - name: t_answer
+      type: string
+      scope: topic
+      description: Grounded answer from knowledge sources.
+    - name: t_sources
+      type: string
+      scope: topic
+      description: Which knowledge docs were used for the answer.
+    - name: t_followup
+      type: string
+      scope: topic
+      description: User response to follow-up question (Yes/No).
   flow:
-  - node: Ask a question
-    prompt: What’s your benefits question?
-    save_to: t_question
-  - node: Generative answers
-    instructions: 'Answer using benefits-faq.yaml and hr-policies.md.
+    - id: question_benefits_001
+      node: Ask a question
+      prompt: What is your benefits question?
+      save_to: t_question
 
-      If the user asks something not covered, say it’s not in the docs and suggest
-      who to contact.
+    - id: genAnswers_benefits_002
+      node: Generative answers
+      instructions: >-
+        Answer using benefits-faq.yaml and hr-policies.md.
+        Question: {t_question}
 
-      Keep the answer under 120 words.'
-    outputs:
-    - t_answer
-  - node: Message
-    text: '{t_answer}'
-  - node: End
+        If the user asks something not covered, say it is not in the docs and
+        suggest contacting HR at hr@contoso.com.
+
+        Keep the answer under 120 words.
+
+        At the end, list which knowledge source(s) you used.
+      outputs:
+        - t_answer
+        - t_sources
+
+    - id: message_answer_003
+      node: Message
+      text: |-
+        {t_answer}
+
+        **Sources:** {t_sources}
+
+    - id: question_followup_004
+      node: Ask a question
+      prompt: Do you have any other benefits questions?
+      save_to: t_followup
+      options:
+        - "Yes"
+        - "No"
+
+    - id: condition_followup_005
+      node: Condition
+      condition: t_followup equals "Yes"
+      then:
+        - id: redirect_self_006
+          node: Redirect
+          target: BenefitsFAQ
+      else:
+        - id: message_goodbye_007
+          node: Message
+          text: "Great! If you have more questions later, just ask about benefits anytime."
+
+    - id: end_topic_008
+      node: End
