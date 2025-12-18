@@ -1,8 +1,8 @@
-<img src="images/cover.png" alt="How to Create AI Agents Like a Pro cover" width="640" style="max-width: 100%; height: auto;" />
-
 # How to Create AI Agents Like a Pro
 
-[![Website TechTrainerTim.com](https://img.shields.io/badge/Website-TechTrainerTim.com-0a66c2)](https://techtrainertim.com) [![GitHub Copilot Memory Store](https://img.shields.io/badge/GitHub-copilot--memory--store-181717?logo=github)](https://github.com/timothywarner-org/copilot-memory-store)
+![How to Create AI Agents Like a Pro cover](images/cover.png)
+
+[![Website TechTrainerTim.com](https://img.shields.io/badge/Website-TechTrainerTim.com-0a66c2)](https://techtrainertim.com) [![GitHub Copilot Memory Store](https://img.shields.io/badge/GitHub-copilot--memory--store-181717?logo=github)](https://github.com/timothywarner-org/copilot-memory-store) [![GitHub Prompt Pro](https://img.shields.io/badge/GitHub-prompt--pro-181717?logo=github)](https://github.com/timothywarner-org/prompt-pro)
 
 **O'Reilly Live Learning Course** | 4 Hours | Microsoft Copilot Studio
 
@@ -12,25 +12,30 @@ Build three production-ready AI agents using Microsoft Copilot Studio's low-code
 
 ```mermaid
 flowchart LR
-    subgraph "Segment 1"
-        H1[Fundamentals]
+    subgraph "Segment 1: Foundations"
+        A1[Claude Code Demo] --> A2[M365 Copilot Tour]
+        A2 --> A3[Copilot Studio Intro]
+        A3 --> A4[Foundry Mention]
     end
 
-    subgraph "Segment 2"
+    subgraph "Segment 2: Hands-On"
         H2[Customer Service Assistant]
     end
 
-    subgraph "Segment 3"
+    subgraph "Segment 3: Hands-On"
         H3[Employee Onboarding Agent]
     end
 
-    subgraph "Segment 4"
+    subgraph "Segment 4: Hands-On"
         H4[Document Processor Agent]
     end
 
-    H1 --> H2 --> H3 --> H4
+    A4 --> H2 --> H3 --> H4
 
-    style H1 fill:#e3f2fd
+    style A1 fill:#e8eaf6
+    style A2 fill:#e8eaf6
+    style A3 fill:#e8eaf6
+    style A4 fill:#e8eaf6
     style H2 fill:#c8e6c9
     style H3 fill:#fff3e0
     style H4 fill:#ffcdd2
@@ -38,10 +43,10 @@ flowchart LR
 
 | Segment | Focus | Difficulty | Key Skills |
 |---------|-------|------------|------------|
-| Segment 1 | Copilot Studio Fundamentals | Intro | Navigation, agent creation, terminology |
-| Segment 2 | Customer Service Assistant | Beginner | Topics, knowledge sources, generative answers |
-| Segment 3 | Employee Onboarding Agent | Intermediate | Power Automate flows, authentication, approvals |
-| Segment 4 | Document Processor Agent | Advanced | Autonomous triggers, AI Builder, event-driven automation |
+| Segment 1 | AI Agent Landscape | Intro | Claude Code demo, M365 Copilot chat, Copilot Studio navigation, Azure AI Foundry awareness |
+| Segment 2 | Customer Service Assistant | Beginner | Topics, trigger phrases, knowledge sources, generative answers, Teams deployment |
+| Segment 3 | Employee Onboarding Agent | Intermediate | Authentication, Power Automate flows, Approvals connector, personalized experiences |
+| Segment 4 | Document Processor Agent | Advanced | Autonomous triggers, AI Builder classification, event-driven routing, exception handling |
 
 ## Prerequisites
 
@@ -52,7 +57,7 @@ flowchart LR
 
 ## Repository Structure
 
-```
+```text
 agents-pro/
 ├── README.md                           # This file
 ├── CODE_OF_CONDUCT.md                  # Community guidelines
@@ -92,6 +97,7 @@ agents-pro/
 ## Quick Start
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/timothywarner-org/agents-pro.git
    ```
@@ -110,6 +116,7 @@ agents-pro/
 **Scenario:** Automate tier-one support for Contoso Electronics
 
 **What you'll build:**
+
 - Knowledge-powered FAQ bot
 - Generative answers from SharePoint
 - Escalation to human agents
@@ -124,6 +131,7 @@ agents-pro/
 **Scenario:** Streamline new hire onboarding at Contoso
 
 **What you'll build:**
+
 - Authenticated, personalized experience
 - IT equipment request workflow
 - Policy acknowledgment with signatures
@@ -138,6 +146,7 @@ agents-pro/
 **Scenario:** Automate document classification and routing
 
 **What you'll build:**
+
 - Autonomous agent (no user interaction)
 - Event triggers (SharePoint file creation)
 - AI Builder classification
@@ -157,13 +166,13 @@ agents-pro/
 
 | Time | Activity |
 |------|----------|
-| 0:00 - 0:50 | Copilot Studio fundamentals, demo, mini-exercise |
+| 0:00 - 0:50 | Segment 1: Claude Code demo, M365 Copilot tour, Copilot Studio intro |
 | 0:50 - 1:00 | Q&A + Break |
-| 1:00 - 1:50 | Customer Service Assistant hands-on |
+| 1:00 - 1:50 | Segment 2: Customer Service Assistant build |
 | 1:50 - 2:00 | Q&A + Break |
-| 2:00 - 2:50 | Employee Onboarding Agent hands-on |
+| 2:00 - 2:50 | Segment 3: Employee Onboarding Agent build |
 | 2:50 - 3:00 | Q&A + Break |
-| 3:00 - 3:50 | Document Processor Agent hands-on |
+| 3:00 - 3:50 | Segment 4: Document Processor Agent build |
 | 3:50 - 4:00 | Wrap-up, resources, next steps |
 
 ## Instructor
