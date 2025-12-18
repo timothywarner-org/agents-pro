@@ -27,16 +27,16 @@ flowchart TD
     end
 
     subgraph "External Systems"
-        PA1 --> AD[Azure AD]
+        PA1 --> AD[Entra ID]
         PA1 --> TM[Teams]
         PA2 --> SP[SharePoint]
         PA3 --> APP[Approvals]
     end
 
-    style U fill:#e1f5fe
-    style PA1 fill:#c8e6c9
-    style PA2 fill:#c8e6c9
-    style PA3 fill:#c8e6c9
+        style U fill:#000000
+        style PA1 fill:#000000
+        style PA2 fill:#000000
+        style PA3 fill:#000000
 ```
 
 ## Learning Objectives
