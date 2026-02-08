@@ -1,8 +1,5 @@
 {
   "permissions": {
-    "allow": [
-      "Bash(test:*)",
-      "Bash(git mv:*)"
-    ]
+    "allow": ["Bash(test:*)", "Bash(git mv:*)"]
   }
 }

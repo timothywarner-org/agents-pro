@@ -4,26 +4,31 @@
 
 [![Website TechTrainerTim.com](https://img.shields.io/badge/Website-TechTrainerTim.com-0a66c2)](https://techtrainertim.com) [![GitHub Copilot Memory Store](https://img.shields.io/badge/GitHub-copilot--memory--store-181717?logo=github)](https://github.com/timothywarner-org/copilot-memory-store) [![GitHub Prompt Pro](https://img.shields.io/badge/GitHub-prompt--pro-181717?logo=github)](https://github.com/timothywarner-org/prompt-pro)
 
-**O'Reilly Live Learning Course** | 4 Hours | Microsoft Copilot Studio
+**O'Reilly Live Learning Course** | 4 Hours | AI Agents -- From Landscape to Code
 
-Build three production-ready AI agents using Microsoft Copilot Studio's low-code platform. Learn to automate customer service, employee onboarding, and document processing workflows.
+Build AI agents across the full spectrum -- from declarative M365 Copilot agents and low-code Copilot Studio bots to code-first Python agents with Azure AI Foundry, LangGraph, and FastMCP.
 
 ## Course Overview
 
-| Segment | Focus | Difficulty | Key Skills |
-|---------|-------|------------|------------|
-| Segment 1 | AI Agent Landscape | Intro | Claude Code demo, M365 Copilot chat, Copilot Studio navigation, Azure AI Foundry awareness |
-| Segment 2 | Customer Service Assistant | Beginner | Topics, trigger phrases, knowledge sources, generative answers, Teams deployment |
-| Segment 3 | Employee Onboarding Agent | Intermediate | Authentication, Power Automate flows, Approvals connector, personalized experiences |
-| Segment 4 | Document Processor Agent | Advanced | Autonomous triggers, AI Builder classification, event-driven routing, exception handling |
+| Hour | Theme | Key Platforms & Tools |
+|------|-------|-----------------------|
+| 1 | What "Agent" Means | M365 Copilot agents (custom GPTs), declarative agents, agent landscape taxonomy |
+| 2 | Low-Code Agents | Copilot Studio, Antigrav, Claude Code / GitHub Copilot agents |
+| 3 | Code-First Agents | Azure AI Foundry agents, Python, LangGraph, FastMCP |
+| 4 | TBD | Best practices, MCP deep dive, future trends (finalize before delivery) |
 
 ## Prerequisites
 
-- Microsoft 365 account (Business or Enterprise) — [start free trial](https://www.microsoft.com/en-us/microsoft-365/try)
-- Copilot Studio access — [start free trial](https://copilotstudio.microsoft.com)
-- Power Automate Premium — [start 90-day trial](https://www.microsoft.com/en-us/power-platform/try-free)
+- Microsoft 365 account (Business or Enterprise) -- [start free trial](https://www.microsoft.com/en-us/microsoft-365/try)
+- Copilot Studio access -- [start free trial](https://copilotstudio.microsoft.com)
+- Power Automate Premium -- [start 90-day trial](https://www.microsoft.com/en-us/power-platform/try-free)
 - Microsoft Teams desktop app
 - Basic familiarity with Microsoft 365 apps
+
+**Hour 3 additionally requires:**
+
+- Python 3.11+ -- <https://www.python.org/downloads/>
+- Azure subscription (free tier OK) -- <https://azure.microsoft.com/en-us/free>
 
 **Optional trials for extended scenarios:**
 
@@ -50,69 +55,22 @@ agents-pro/
 │   ├── prompts/                        # Copilot prompt templates
 │   └── instructions/                   # Copilot coding instructions
 │
-├── docs/                               # Documentation
-│   ├── course-plan.md                  # Instructor course plan
-│   └── PowerPlatform-WAF-for-CopilotStudio-Agents.md
+├── docs/                               # Documentation & course plan
 │
 ├── images/                             # Course images and assets
 │
-└── copilot-studio-agents/              # Main course content
-    ├── README.md                       # Scaffold overview
-    ├── resources.md                    # Microsoft Learn resources
-    │
+├── hour-1-agent-landscape/             # Hour 1 — What "Agent" Means
+├── hour-2-low-code/                    # Hour 2 — Low-Code Agents
+├── hour-3-code-first/                  # Hour 3 — Code-First Agents
+├── hour-4-tbd/                         # Hour 4 — TBD
+│
+└── copilot-studio-agents/              # Copilot Studio content (Hour 2)
     ├── _labs/                          # Hands-on lab guides
-    │   ├── Lab-00-Setup.md             # Environment setup
-    │   ├── Lab-01-CustomerService-Topics.md
-    │   ├── Lab-02-Onboarding-Topics.md
-    │   └── Lab-03-DocumentProcessor-Topics.md
-    │
     ├── _topics/                        # Topic blueprint conventions
-    │   └── README.md                   # Naming standards & templates
-    │
     ├── _automations/                   # Power Automate flow templates
-    │   ├── README.md
-    │   └── *.sample.json               # Sample payloads per agent
-    │
-    ├── customer-service-assistant/     # Segment 2 — Beginner
-    │   ├── README.md                   # Full tutorial
-    │   ├── customer-service-QUICK-START-TRIGGERS.md
-    │   ├── customer-service-QUICK-START-FLOWS.md
-    │   ├── topics/                     # T01–T03 topic folders
-    │   │   ├── T01_ReturnsAndRefunds/
-    │   │   ├── T02_OrderStatus/
-    │   │   └── T03_EscalateToHuman/
-    │   ├── actions/                    # Power Automate flows
-    │   └── knowledge/                  # SharePoint content (PDFs)
-    │       ├── Policies/
-    │       ├── Product-Info/
-    │       └── Training/
-    │
-    ├── employee-onboarding-agent/      # Segment 3 — Intermediate
-    │   ├── README.md
-    │   ├── employee-onboarding-QUICK-START-TRIGGERS.md
-    │   ├── employee-onboarding-QUICK-START-FLOWS.md
-    │   ├── topics/
-    │   │   ├── T01_Day1Checklist/
-    │   │   ├── T02_RequestAccess/
-    │   │   └── T03_BenefitsFAQ/
-    │   ├── actions/
-    │   └── knowledge/
-    │       ├── Benefits/
-    │       ├── Onboarding/
-    │       └── Policies/
-    │
-    └── document-processor-agent/       # Segment 4 — Advanced
-        ├── README.md
-        ├── document-processor-QUICK-START-TRIGGERS.md
-        ├── document-processor-QUICK-START-FLOWS.md
-        ├── topics/
-        │   ├── T01_ClassifyAndRoute/
-        │   ├── T02_ExtractMetadata/
-        │   └── T03_RequestMissingInfo/
-        ├── actions/
-        └── knowledge/
-            ├── DocumentProcessorKnowledge/  # Classification rules & examples
-            └── IncomingDocuments/           # SharePoint folder simulation
+    ├── customer-service-assistant/     # Knowledge-driven FAQ bot
+    ├── employee-onboarding-agent/      # Auth, flows, approvals
+    └── document-processor-agent/       # Autonomous triggers, AI Builder
 ```
 
 ## Quick Start
@@ -123,80 +81,89 @@ agents-pro/
    git clone https://github.com/timothywarner-org/agents-pro.git
    ```
 
-2. **Review Hour 1 materials** in the training proposal
+2. **Hour 1 -- Agent Landscape:** Review the taxonomy and declarative agent demos in `hour-1-agent-landscape/`
 
-3. **Build agents in order:**
-   - [Customer Service Assistant](./copilot-studio-agents/customer-service-assistant/) (Hour 2)
-   - [Employee Onboarding Agent](./copilot-studio-agents/employee-onboarding-agent/) (Hour 3)
-   - [Document Processor Agent](./copilot-studio-agents/document-processor-agent/) (Hour 4)
+3. **Hour 2 -- Low-Code Agents:** Build a Copilot Studio agent and explore Claude Code / GitHub Copilot agent workflows in `hour-2-low-code/`
 
-## Agent Summaries
+4. **Hour 3 -- Code-First Agents:** Set up Python 3.11+, create an Azure AI Foundry agent, and wire up LangGraph and FastMCP in `hour-3-code-first/`
 
-### Hour 2: Customer Service Assistant
+5. **Hour 4 -- TBD:** Best practices, MCP deep dive, and future trends in `hour-4-tbd/`
 
-**Scenario:** Automate tier-one support for Contoso Electronics
+## Hour Summaries
 
-**What you'll build:**
+### Hour 1: What "Agent" Means
 
-- Knowledge-powered FAQ bot
-- Generative answers from SharePoint
-- Escalation to human agents
-- Teams deployment
+**Theme:** Orientation and taxonomy
 
-**Skills:** Topics, triggers, knowledge sources, generative AI
+- Agent landscape -- what counts as an "agent" and what does not
+- M365 Copilot agents (custom GPTs) and declarative agents
+- Where Copilot Studio, Azure AI Foundry, and open-source frameworks fit
+- Hands-on: explore a declarative agent inside M365 Copilot
 
----
-
-### Hour 3: Employee Onboarding Agent
-
-**Scenario:** Streamline new hire onboarding at Contoso
-
-**What you'll build:**
-
-- Authenticated, personalized experience
-- IT equipment request workflow
-- Policy acknowledgment with signatures
-- Benefits enrollment with approvals
-
-**Skills:** Authentication, Power Automate flows, Approvals connector
+**Skills:** Agent taxonomy, M365 Copilot configuration, declarative agent basics
 
 ---
 
-### Hour 4: Document Processor Agent
+### Hour 2: Low-Code Agents
 
-**Scenario:** Automate document classification and routing
+**Theme:** Build agents without writing code
 
-**What you'll build:**
+- Copilot Studio -- topics, triggers, knowledge sources, generative answers
+- Antigrav low-code agent builder
+- Claude Code and GitHub Copilot as agentic coding assistants
+- Hands-on: build and publish a Copilot Studio agent to Teams
 
-- Autonomous agent (no user interaction)
-- Event triggers (SharePoint file creation)
-- AI Builder classification
-- Multi-destination routing
+**Skills:** Copilot Studio authoring, Power Automate integration, low-code agent patterns
 
-**Skills:** Autonomous agents, event triggers, AI Builder, exception handling
+---
+
+### Hour 3: Code-First Agents
+
+**Theme:** Python-based agents with full control
+
+- Azure AI Foundry agents -- deploy and orchestrate from code
+- LangGraph -- stateful, multi-step agent graphs
+- FastMCP -- lightweight Model Context Protocol servers
+- Hands-on: wire an Azure AI Foundry agent to a LangGraph workflow with MCP tools
+
+**Skills:** Python agent development, Azure AI Foundry SDK, LangGraph, FastMCP, MCP
+
+---
+
+### Hour 4: TBD
+
+**Theme:** To be finalized before delivery
+
+- Best practices for production agent deployments
+- MCP deep dive -- protocol internals and tool authoring
+- Future trends in the agent ecosystem
+- Wrap-up exercise: identify three processes to automate next
 
 ## Learning Resources
 
-### Microsoft Copilot Studio
-
-- [Copilot Studio Documentation](https://learn.microsoft.com/en-us/microsoft-copilot-studio/)
-- [Copilot Studio VS Code Extension (Preview)](https://marketplace.visualstudio.com/items?itemName=ms-CopilotStudio.vscode-copilotstudio)
-- [Topic Authoring Best Practices](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/topic-authoring-best-practices)
-- [Agent Flows Overview](https://learn.microsoft.com/en-us/microsoft-copilot-studio/flows-overview)
-
-### Microsoft 365 Copilot
+### Hour 1 -- Agent Landscape
 
 - [Microsoft 365 Copilot Hub](https://learn.microsoft.com/en-us/copilot/microsoft-365/)
 - [Agents for Microsoft 365 Copilot](https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/)
 - [Declarative Agents Overview](https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/overview-declarative-agent)
 
-### Azure AI & Agent Frameworks
+### Hour 2 -- Low-Code Agents
 
-- [Azure AI Foundry (Microsoft Foundry)](https://learn.microsoft.com/en-us/azure/ai-foundry/)
+- [Copilot Studio Documentation](https://learn.microsoft.com/en-us/microsoft-copilot-studio/)
+- [Topic Authoring Best Practices](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/topic-authoring-best-practices)
+- [Agent Flows Overview](https://learn.microsoft.com/en-us/microsoft-copilot-studio/flows-overview)
+- [Copilot Studio VS Code Extension (Preview)](https://marketplace.visualstudio.com/items?itemName=ms-CopilotStudio.vscode-copilotstudio)
+
+### Hour 3 -- Code-First Agents
+
+- [Azure AI Foundry](https://learn.microsoft.com/en-us/azure/ai-foundry/)
+- [LangGraph Documentation](https://langchain-ai.github.io/langgraph/)
+- [FastMCP](https://github.com/jlowin/fastmcp)
+- [Model Context Protocol](https://modelcontextprotocol.io)
 - [Microsoft Agent Framework](https://learn.microsoft.com/en-us/agent-framework/) | [GitHub](https://github.com/microsoft/agent-framework)
 - [Microsoft 365 Agents SDK](https://learn.microsoft.com/en-us/microsoft-365/agents-sdk/)
 
-### Model Context Protocol (MCP)
+### Hour 4 -- Best Practices & MCP
 
 - [MCP Documentation](https://modelcontextprotocol.io)
 - [MCP GitHub](https://github.com/modelcontextprotocol)
@@ -211,18 +178,18 @@ agents-pro/
 
 | Time | Activity |
 |------|----------|
-| 0:00 - 0:50 | Segment 1: Claude Code demo, M365 Copilot tour, Copilot Studio intro |
+| 0:00 - 0:50 | Hour 1: What "Agent" Means -- taxonomy, M365 Copilot agents, declarative agents |
 | 0:50 - 1:00 | Q&A + Break |
-| 1:00 - 1:50 | Segment 2: Customer Service Assistant build |
+| 1:00 - 1:50 | Hour 2: Low-Code Agents -- Copilot Studio, Antigrav, Claude Code / GitHub Copilot |
 | 1:50 - 2:00 | Q&A + Break |
-| 2:00 - 2:50 | Segment 3: Employee Onboarding Agent build |
+| 2:00 - 2:50 | Hour 3: Code-First Agents -- Azure AI Foundry, Python, LangGraph, FastMCP |
 | 2:50 - 3:00 | Q&A + Break |
-| 3:00 - 3:50 | Segment 4: Document Processor Agent build |
+| 3:00 - 3:50 | Hour 4: TBD -- best practices, MCP deep dive, future trends |
 | 3:50 - 4:00 | Wrap-up, resources, next steps |
 
 ## Instructor
 
-**Tim Warner** — Microsoft MVP (Azure AI and Cloud/Datacenter Management), Microsoft Certified Trainer
+**Tim Warner** -- Microsoft MVP (Azure AI and Cloud/Datacenter Management), Microsoft Certified Trainer
 
 - [LinkedIn](https://www.linkedin.com/in/timothywarner/)
 - [Website](https://techtrainertim.com/)
