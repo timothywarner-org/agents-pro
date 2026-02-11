@@ -83,6 +83,15 @@ agents-pro/
 
 5. **Hour 4 -- TBD:** Track the draft plan in `docs/course-plan-february-2026.md`
 
+## Git LFS
+
+This repo tracks PowerPoint decks with Git LFS. Install Git LFS before cloning or pushing PPTX updates.
+
+```bash
+git lfs install
+git lfs pull
+```
+
 ## Hour Summaries
 
 ### Hour 1: What "Agent" Means
