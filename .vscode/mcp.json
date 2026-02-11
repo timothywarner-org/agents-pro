@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "oreilly-agent-pipeline-workspace": {
+      "command": "C:\\github\\class\\agents-pro\\src\\oreilly-agent-mvp\\.venv\\Scripts\\python.exe",
+      "args": ["-m", "agent_mvp.mcp_server"],
+      "cwd": "C:\\github\\class\\agents-pro\\src\\oreilly-agent-mvp",
+      "env": {
+        "PYTHONPATH": "C:\\github\\class\\agents-pro\\src\\oreilly-agent-mvp\\src"
+      }
+    }
+  }
+}

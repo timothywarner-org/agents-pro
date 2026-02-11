@@ -10,12 +10,12 @@ Build AI agents across the full spectrum -- from declarative M365 Copilot agents
 
 ## Course Overview
 
-| Hour | Theme | Key Platforms & Tools |
-|------|-------|-----------------------|
-| 1 | What "Agent" Means | M365 Copilot agents (custom GPTs), declarative agents, agent landscape taxonomy |
-| 2 | Low-Code Agents | Copilot Studio, Antigrav, Claude Code / GitHub Copilot agents |
-| 3 | Code-First Agents | Azure AI Foundry agents, Python, LangGraph, FastMCP |
-| 4 | TBD | Best practices, MCP deep dive, future trends (finalize before delivery) |
+| Hour | Theme              | Key Platforms & Tools                                                           |
+| ---- | ------------------ | ------------------------------------------------------------------------------- |
+| 1    | What "Agent" Means | M365 Copilot agents (custom GPTs), declarative agents, agent landscape taxonomy |
+| 2    | Low-Code Agents    | Copilot Studio, Antigrav, Claude Code / GitHub Copilot agents                   |
+| 3    | Code-First Agents  | Azure AI Foundry agents, Python, LangGraph, FastMCP                             |
+| 4    | TBD                | Best practices, MCP deep dive, future trends (finalize before delivery)         |
 
 ## Prerequisites
 
@@ -32,11 +32,11 @@ Build AI agents across the full spectrum -- from declarative M365 Copilot agents
 
 **Optional trials for extended scenarios:**
 
-| Resource | URL | Duration |
-|----------|-----|----------|
-| Power Apps Developer Plan | <https://www.microsoft.com/power-platform/products/power-apps/free> | No limit |
-| Azure Free Account | <https://azure.microsoft.com/en-us/free> | 30 days ($200 credit) |
-| Power Platform Trials Hub | <https://www.microsoft.com/en-us/power-platform/try-free> | Various |
+| Resource                  | URL                                                                 | Duration              |
+| ------------------------- | ------------------------------------------------------------------- | --------------------- |
+| Power Apps Developer Plan | <https://www.microsoft.com/power-platform/products/power-apps/free> | No limit              |
+| Azure Free Account        | <https://azure.microsoft.com/en-us/free>                            | 30 days ($200 credit) |
+| Power Platform Trials Hub | <https://www.microsoft.com/en-us/power-platform/try-free>           | Various               |
 
 ## Repository Structure
 
@@ -55,22 +55,16 @@ agents-pro/
 │   ├── prompts/                        # Copilot prompt templates
 │   └── instructions/                   # Copilot coding instructions
 │
-├── docs/                               # Documentation & course plan
-│
+├── agents-playground/                  # Sandbox workspace + experiments
+├── docs/                               # Course plan, WAF notes, research
 ├── images/                             # Course images and assets
-│
-├── hour-1-agent-landscape/             # Hour 1 — What "Agent" Means
-├── hour-2-low-code/                    # Hour 2 — Low-Code Agents
-├── hour-3-code-first/                  # Hour 3 — Code-First Agents
-├── hour-4-tbd/                         # Hour 4 — TBD
-│
-└── copilot-studio-agents/              # Copilot Studio content (Hour 2)
-    ├── _labs/                          # Hands-on lab guides
-    ├── _topics/                        # Topic blueprint conventions
-    ├── _automations/                   # Power Automate flow templates
-    ├── customer-service-assistant/     # Knowledge-driven FAQ bot
-    ├── employee-onboarding-agent/      # Auth, flows, approvals
-    └── document-processor-agent/       # Autonomous triggers, AI Builder
+├── src/                                # Canonical agent implementations
+│   ├── claude-agent/                   # Claude Code agent materials
+│   ├── copilot-studio/                 # Copilot Studio topic assets
+│   ├── copilot-studio-agent/           # Copilot Studio agent scaffolds
+│   ├── foundry-agent/                  # Azure AI Foundry code-first agent
+│   └── oreilly-agent-mvp/              # O'Reilly agent MVP workspace
+└── tests/                              # (currently empty)
 ```
 
 ## Quick Start
@@ -81,13 +75,13 @@ agents-pro/
    git clone https://github.com/timothywarner-org/agents-pro.git
    ```
 
-2. **Hour 1 -- Agent Landscape:** Review the taxonomy and declarative agent demos in `hour-1-agent-landscape/`
+2. **Hour 1 -- Agent Landscape:** Use the teaching guides in `agents-playground/docs/` (see `hour-1-teaching-guide.md`)
 
-3. **Hour 2 -- Low-Code Agents:** Build a Copilot Studio agent and explore Claude Code / GitHub Copilot agent workflows in `hour-2-low-code/`
+3. **Hour 2 -- Low-Code Agents:** Build from `src/copilot-studio-agent/` and reference assets in `src/copilot-studio/` or `agents-playground/copilot-studio/`
 
-4. **Hour 3 -- Code-First Agents:** Set up Python 3.11+, create an Azure AI Foundry agent, and wire up LangGraph and FastMCP in `hour-3-code-first/`
+4. **Hour 3 -- Code-First Agents:** Start with `src/foundry-agent/` and the MVP workspace in `src/oreilly-agent-mvp/`
 
-5. **Hour 4 -- TBD:** Best practices, MCP deep dive, and future trends in `hour-4-tbd/`
+5. **Hour 4 -- TBD:** Track the draft plan in `docs/course-plan-february-2026.md`
 
 ## Hour Summaries
 
@@ -176,16 +170,16 @@ agents-pro/
 
 ## Course Schedule
 
-| Time | Activity |
-|------|----------|
-| 0:00 - 0:50 | Hour 1: What "Agent" Means -- taxonomy, M365 Copilot agents, declarative agents |
-| 0:50 - 1:00 | Q&A + Break |
+| Time        | Activity                                                                          |
+| ----------- | --------------------------------------------------------------------------------- |
+| 0:00 - 0:50 | Hour 1: What "Agent" Means -- taxonomy, M365 Copilot agents, declarative agents   |
+| 0:50 - 1:00 | Q&A + Break                                                                       |
 | 1:00 - 1:50 | Hour 2: Low-Code Agents -- Copilot Studio, Antigrav, Claude Code / GitHub Copilot |
-| 1:50 - 2:00 | Q&A + Break |
-| 2:00 - 2:50 | Hour 3: Code-First Agents -- Azure AI Foundry, Python, LangGraph, FastMCP |
-| 2:50 - 3:00 | Q&A + Break |
-| 3:00 - 3:50 | Hour 4: TBD -- best practices, MCP deep dive, future trends |
-| 3:50 - 4:00 | Wrap-up, resources, next steps |
+| 1:50 - 2:00 | Q&A + Break                                                                       |
+| 2:00 - 2:50 | Hour 3: Code-First Agents -- Azure AI Foundry, Python, LangGraph, FastMCP         |
+| 2:50 - 3:00 | Q&A + Break                                                                       |
+| 3:00 - 3:50 | Hour 4: TBD -- best practices, MCP deep dive, future trends                       |
+| 3:50 - 4:00 | Wrap-up, resources, next steps                                                    |
 
 ## Instructor
 

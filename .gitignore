@@ -125,6 +125,10 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
+# Allow repo-scoped VS Code MCP config
+!.vscode/
+!.vscode/mcp.json
+
 # yarn v3
 .pnp.*
 .yarn/*
@@ -166,6 +170,7 @@ appsettings.Development.json
 # Temporary files
 tmp*
 !tmp-*-readme.md
+~$*.pptx
 
 # Zip archives
 *.zip
