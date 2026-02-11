@@ -1,0 +1,2 @@
+# This file ensures the outgoing/ folder is tracked by Git.
+# Pipeline results are written here as JSON files.

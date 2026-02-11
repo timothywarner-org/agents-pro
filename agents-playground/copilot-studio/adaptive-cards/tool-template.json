@@ -1,0 +1,46 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "MCP Tool Template",
+      "weight": "Bolder",
+      "size": "Large"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Here's a basic tool structure for your MCP server:",
+      "wrap": true
+    },
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "```python\n@mcp.tool()\nasync def my_tool(param: str) -> str:\n    \"\"\"Tool description here.\"\"\"\n    return f\"Result: {param}\"\n```",
+          "wrap": true,
+          "fontType": "Monospace"
+        }
+      ]
+    },
+    {
+      "type": "FactSet",
+      "facts": [
+        { "title": "Decorator", "value": "@mcp.tool()" },
+        { "title": "Async", "value": "Required for I/O operations" },
+        { "title": "Docstring", "value": "Becomes tool description" },
+        { "title": "Type hints", "value": "Define input schema" }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "View Full Docs",
+      "url": "https://modelcontextprotocol.io/sdk/python#tools"
+    }
+  ]
+}

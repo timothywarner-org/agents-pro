@@ -1,0 +1,10 @@
+{
+  "issue_id": "timothywarner-org/agents2#104",
+  "repo": "timothywarner-org/agents2",
+  "issue_number": 104,
+  "title": "Token tracking: handle missing usage data and keep totals consistent",
+  "body": "Synopsis: Make token/cost tracking resilient when providers omit token counts, and ensure totals always reconcile.\n\n## Background\nToken tracking is part of the teaching story in this repo. Some providers (or error paths) may return missing/partial token usage, which should not crash the pipeline or produce confusing totals.\n\n## Requirements\n- Ensure token totals are always consistent:\n  - total_tokens = input_tokens + output_tokens\n  - pipeline totals match the sum of per-agent totals\n- If an LLM call does not return token usage, record zeros and set estimated costs to null (or omit costs) rather than failing.\n- Update run report formatting so it clearly communicates when usage is missing.\n\n## Acceptance Criteria\n- [ ] Given complete usage data, totals reconcile at agent and pipeline levels.\n- [ ] Given missing usage data, the pipeline still completes and output is schema-valid.\n- [ ] Tests cover: complete usage, missing usage, and unknown model pricing behavior (if applicable).\n\n## Where to look\n- src/agent_mvp/models.py (TokenUsage / PipelineTokens models)\n- src/agent_mvp/util/token_tracking.py (token tracking helpers, if present)\n- tests/test_token_tracking.py (existing tests)",
+  "labels": ["enhancement", "token-tracking", "observability", "good-first-issue", "priority:medium"],
+  "url": "https://github.com/timothywarner-org/agents2/issues/104",
+  "source": "mock"
+}

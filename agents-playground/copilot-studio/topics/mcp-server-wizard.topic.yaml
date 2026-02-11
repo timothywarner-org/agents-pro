@@ -1,0 +1,514 @@
+# =============================================================================
+# MCP Server Wizard Topic
+# =============================================================================
+# This Copilot Studio topic guides users through creating an MCP server.
+# It demonstrates:
+#   - Adaptive Dialog structure with OnRecognizedIntent trigger
+#   - Question nodes for gathering user input
+#   - Conditional branching based on responses
+#   - GenerativeAnswers node for AI-powered responses
+#   - Adaptive Cards for rich visual output
+#
+# File: topics/mcp-server-wizard.topic.yaml
+# Version: 1.0.0
+# Last Updated: 2026-01-12
+# =============================================================================
+
+kind: AdaptiveDialog
+modelDescription: Guides developers through creating a new MCP server step-by-step
+
+# -----------------------------------------------------------------------------
+# TRIGGER CONFIGURATION
+# -----------------------------------------------------------------------------
+# OnRecognizedIntent triggers when the user's message matches one of the
+# trigger phrases. Include 5-15 variations to improve recognition accuracy.
+# IMPORTANT: Topic names must NOT contain periods (causes export failures)
+# -----------------------------------------------------------------------------
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: MCP Server Wizard
+    triggerQueries:
+      - "Create an MCP server"
+      - "Build MCP server"
+      - "New MCP server"
+      - "Start MCP server project"
+      - "How do I create an MCP server"
+      - "MCP server setup"
+      - "Initialize MCP server"
+      - "MCP server from scratch"
+      - "Set up MCP server"
+      - "Create new MCP project"
+
+  # ---------------------------------------------------------------------------
+  # ACTIONS
+  # ---------------------------------------------------------------------------
+  # Actions execute sequentially. Each action needs a unique ID for debugging
+  # and analytics. Use descriptive IDs like: kind_purpose_sequence
+  # ---------------------------------------------------------------------------
+  actions:
+    # -------------------------------------------------------------------------
+    # Step 1: Welcome message
+    # -------------------------------------------------------------------------
+    - kind: SendActivity
+      id: sendActivity_welcome_001
+      activity:
+        text: |
+          I'll help you create an MCP (Model Context Protocol) server!
+
+          MCP servers enable AI assistants like Claude to interact with your tools,
+          data, and services. Let me gather some information about your project.
+
+    # -------------------------------------------------------------------------
+    # Step 2: Ask for programming language preference
+    # -------------------------------------------------------------------------
+    # Question nodes collect user input and store it in variables.
+    # - Topic.VarName: scoped to this topic only
+    # - Global.VarName: persists across all topics
+    # - init:Topic.VarName: initializes if not already set
+    # -------------------------------------------------------------------------
+    - kind: Question
+      id: question_language_002
+      alwaysPrompt: true
+      variable: init:Topic.ProgrammingLanguage
+      prompt: Which programming language would you like to use?
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          items:
+            - id: python
+              displayName: Python
+            - id: typescript
+              displayName: TypeScript
+            - id: javascript
+              displayName: JavaScript
+
+    # -------------------------------------------------------------------------
+    # Step 3: Ask about server capabilities
+    # -------------------------------------------------------------------------
+    - kind: Question
+      id: question_capabilities_003
+      alwaysPrompt: true
+      variable: init:Topic.ServerCapabilities
+      prompt: What capabilities should your MCP server have? (Select all that apply)
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          multiSelect: true
+          items:
+            - id: tools
+              displayName: Tools (functions the AI can call)
+            - id: resources
+              displayName: Resources (data the AI can read)
+            - id: prompts
+              displayName: Prompts (reusable prompt templates)
+
+    # -------------------------------------------------------------------------
+    # Step 4: Ask about transport protocol
+    # -------------------------------------------------------------------------
+    - kind: Question
+      id: question_transport_004
+      alwaysPrompt: true
+      variable: init:Topic.Transport
+      prompt: Which transport protocol will you use?
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          items:
+            - id: stdio
+              displayName: stdio (local, Claude Desktop, VS Code)
+            - id: http
+              displayName: HTTP/SSE (remote, web deployment)
+
+    # -------------------------------------------------------------------------
+    # Step 5: Conditional branching based on language selection
+    # -------------------------------------------------------------------------
+    # ConditionGroup evaluates conditions in order. First matching condition
+    # executes its actions. elseActions run if no conditions match.
+    # -------------------------------------------------------------------------
+    - kind: ConditionGroup
+      id: conditionGroup_language_005
+      conditions:
+        # Python path
+        - id: condition_python_005a
+          condition: =Topic.ProgrammingLanguage = "python"
+          actions:
+            - kind: SendActivity
+              id: sendActivity_pythonIntro_006
+              activity:
+                text: |
+                  Excellent choice! Python with FastMCP is the fastest way to build MCP servers.
+
+            # Adaptive Card with Python setup instructions
+            - kind: SendActivity
+              id: sendActivity_pythonCard_007
+              activity:
+                attachments:
+                  - kind: AdaptiveCardTemplate
+                    cardContent: |
+                      {
+                        "type": "AdaptiveCard",
+                        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                        "version": "1.5",
+                        "body": [
+                          {
+                            "type": "TextBlock",
+                            "text": "Python MCP Server Setup",
+                            "weight": "Bolder",
+                            "size": "Large",
+                            "color": "Accent"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "text": "Step 1: Install the MCP package",
+                            "weight": "Bolder",
+                            "wrap": true
+                          },
+                          {
+                            "type": "Container",
+                            "style": "emphasis",
+                            "items": [
+                              {
+                                "type": "TextBlock",
+                                "text": "pip install mcp",
+                                "fontType": "Monospace",
+                                "wrap": true
+                              }
+                            ]
+                          },
+                          {
+                            "type": "TextBlock",
+                            "text": "Step 2: Create your server file",
+                            "weight": "Bolder",
+                            "wrap": true,
+                            "spacing": "Medium"
+                          },
+                          {
+                            "type": "Container",
+                            "style": "emphasis",
+                            "items": [
+                              {
+                                "type": "TextBlock",
+                                "text": "from mcp.server.fastmcp import FastMCP\n\nmcp = FastMCP(\"my-server\")\n\n@mcp.tool()\nasync def hello(name: str) -> str:\n    \"\"\"Say hello to someone.\"\"\"\n    return f\"Hello, {name}!\"\n\nif __name__ == \"__main__\":\n    mcp.run()",
+                                "fontType": "Monospace",
+                                "wrap": true
+                              }
+                            ]
+                          },
+                          {
+                            "type": "FactSet",
+                            "facts": [
+                              {"title": "SDK", "value": "mcp (FastMCP)"},
+                              {"title": "Python", "value": "3.10+"},
+                              {"title": "Async", "value": "Required"}
+                            ]
+                          }
+                        ],
+                        "actions": [
+                          {
+                            "type": "Action.OpenUrl",
+                            "title": "View Python SDK Docs",
+                            "url": "https://modelcontextprotocol.io/sdk/python"
+                          }
+                        ]
+                      }
+
+        # TypeScript/JavaScript path
+        - id: condition_typescript_005b
+          condition: =Topic.ProgrammingLanguage = "typescript" || Topic.ProgrammingLanguage = "javascript"
+          actions:
+            - kind: SendActivity
+              id: sendActivity_tsIntro_008
+              activity:
+                text: |
+                  Great! TypeScript/JavaScript with the MCP SDK provides excellent type safety and tooling.
+
+            # Adaptive Card with TypeScript setup instructions
+            - kind: SendActivity
+              id: sendActivity_tsCard_009
+              activity:
+                attachments:
+                  - kind: AdaptiveCardTemplate
+                    cardContent: |
+                      {
+                        "type": "AdaptiveCard",
+                        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                        "version": "1.5",
+                        "body": [
+                          {
+                            "type": "TextBlock",
+                            "text": "TypeScript MCP Server Setup",
+                            "weight": "Bolder",
+                            "size": "Large",
+                            "color": "Accent"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "text": "Step 1: Install the MCP SDK",
+                            "weight": "Bolder",
+                            "wrap": true
+                          },
+                          {
+                            "type": "Container",
+                            "style": "emphasis",
+                            "items": [
+                              {
+                                "type": "TextBlock",
+                                "text": "npm install @modelcontextprotocol/sdk",
+                                "fontType": "Monospace",
+                                "wrap": true
+                              }
+                            ]
+                          },
+                          {
+                            "type": "TextBlock",
+                            "text": "Step 2: Create your server file",
+                            "weight": "Bolder",
+                            "wrap": true,
+                            "spacing": "Medium"
+                          },
+                          {
+                            "type": "Container",
+                            "style": "emphasis",
+                            "items": [
+                              {
+                                "type": "TextBlock",
+                                "text": "import { Server } from '@modelcontextprotocol/sdk/server';\nimport { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio';\n\nconst server = new Server({\n  name: 'my-server',\n  version: '1.0.0'\n});\n\nserver.setRequestHandler('tools/call', async (req) => {\n  // Handle tool calls\n});\n\nconst transport = new StdioServerTransport();\nawait server.connect(transport);",
+                                "fontType": "Monospace",
+                                "wrap": true
+                              }
+                            ]
+                          },
+                          {
+                            "type": "FactSet",
+                            "facts": [
+                              {"title": "SDK", "value": "@modelcontextprotocol/sdk"},
+                              {"title": "Node.js", "value": "18+"},
+                              {"title": "TypeScript", "value": "5.0+"}
+                            ]
+                          }
+                        ],
+                        "actions": [
+                          {
+                            "type": "Action.OpenUrl",
+                            "title": "View TypeScript SDK Docs",
+                            "url": "https://modelcontextprotocol.io/sdk/typescript"
+                          }
+                        ]
+                      }
+
+      # Default/fallback if no condition matches
+      elseActions:
+        - kind: SendActivity
+          id: sendActivity_unknownLang_010
+          activity:
+            text: I'm not sure which language you selected. Let me provide general guidance.
+
+    # -------------------------------------------------------------------------
+    # Step 6: GenerativeAnswers node for capability-specific guidance
+    # -------------------------------------------------------------------------
+    # GenerativeAnswers uses AI to generate contextual responses based on
+    # knowledge sources. Always set moderationLevel for customer-facing agents.
+    #
+    # Moderation levels:
+    #   - High: Most restrictive, recommended for public-facing
+    #   - Medium: Balanced
+    #   - Low: Least restrictive
+    # -------------------------------------------------------------------------
+    - kind: GenerativeAnswers
+      id: generativeAnswers_capabilities_011
+      variable: Topic.CapabilityGuidance
+      moderationLevel: High
+      prompt: |
+        Based on the user's selected capabilities ({Topic.ServerCapabilities})
+        and programming language ({Topic.ProgrammingLanguage}), provide specific
+        guidance on implementing each capability.
+
+        Include:
+        - Code examples for each selected capability
+        - Best practices for implementation
+        - Common pitfalls to avoid
+
+        Keep the response focused and actionable.
+
+    # -------------------------------------------------------------------------
+    # Step 7: Transport-specific configuration guidance
+    # -------------------------------------------------------------------------
+    - kind: ConditionGroup
+      id: conditionGroup_transport_012
+      conditions:
+        - id: condition_stdio_012a
+          condition: =Topic.Transport = "stdio"
+          actions:
+            - kind: SendActivity
+              id: sendActivity_stdioConfig_013
+              activity:
+                text: |
+                  **stdio Transport Configuration**
+
+                  To use your server with Claude Desktop, add this to your config:
+
+                  ```json
+                  {
+                    "mcpServers": {
+                      "my-server": {
+                        "command": "python",
+                        "args": ["path/to/server.py"]
+                      }
+                    }
+                  }
+                  ```
+
+                  Config file location:
+                  - macOS: ~/Library/Application Support/Claude/claude_desktop_config.json
+                  - Windows: %APPDATA%\Claude\claude_desktop_config.json
+
+        - id: condition_http_012b
+          condition: =Topic.Transport = "http"
+          actions:
+            - kind: SendActivity
+              id: sendActivity_httpConfig_014
+              activity:
+                text: |
+                  **HTTP/SSE Transport Configuration**
+
+                  For HTTP transport, your server needs to expose:
+                  - POST endpoint for requests
+                  - SSE endpoint for server-sent events
+
+                  Example deployment options:
+                  - Docker container
+                  - Cloud Functions (AWS Lambda, Azure Functions)
+                  - Traditional web server (nginx, Apache)
+
+    # -------------------------------------------------------------------------
+    # Step 8: Summary and next steps
+    # -------------------------------------------------------------------------
+    - kind: SendActivity
+      id: sendActivity_summary_015
+      activity:
+        attachments:
+          - kind: AdaptiveCardTemplate
+            cardContent: |
+              {
+                "type": "AdaptiveCard",
+                "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                "version": "1.5",
+                "body": [
+                  {
+                    "type": "TextBlock",
+                    "text": "Your MCP Server Configuration",
+                    "weight": "Bolder",
+                    "size": "Large"
+                  },
+                  {
+                    "type": "FactSet",
+                    "facts": [
+                      {"title": "Language", "value": "${Topic.ProgrammingLanguage}"},
+                      {"title": "Transport", "value": "${Topic.Transport}"},
+                      {"title": "Capabilities", "value": "${Topic.ServerCapabilities}"}
+                    ]
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "Next Steps",
+                    "weight": "Bolder",
+                    "spacing": "Medium"
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "1. Create your project directory\n2. Install the SDK\n3. Implement your tools/resources\n4. Test with Claude Desktop\n5. Deploy to production",
+                    "wrap": true
+                  }
+                ],
+                "actions": [
+                  {
+                    "type": "Action.OpenUrl",
+                    "title": "MCP Documentation",
+                    "url": "https://modelcontextprotocol.io"
+                  },
+                  {
+                    "type": "Action.Submit",
+                    "title": "I have questions",
+                    "data": {"action": "askQuestion"}
+                  }
+                ]
+              }
+
+    # -------------------------------------------------------------------------
+    # Step 9: Offer additional help
+    # -------------------------------------------------------------------------
+    - kind: Question
+      id: question_moreHelp_016
+      alwaysPrompt: true
+      variable: init:Topic.NeedsMoreHelp
+      prompt: Would you like more detailed guidance on any specific aspect?
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          items:
+            - id: tools
+              displayName: Creating tools
+            - id: resources
+              displayName: Creating resources
+            - id: prompts
+              displayName: Creating prompts
+            - id: debugging
+              displayName: Debugging tips
+            - id: done
+              displayName: No, I'm all set!
+
+    # -------------------------------------------------------------------------
+    # Step 10: Handle follow-up or end conversation
+    # -------------------------------------------------------------------------
+    - kind: ConditionGroup
+      id: conditionGroup_followup_017
+      conditions:
+        - id: condition_done_017a
+          condition: =Topic.NeedsMoreHelp = "done"
+          actions:
+            - kind: SendActivity
+              id: sendActivity_goodbye_018
+              activity:
+                text: |
+                  Great! You're all set to build your MCP server.
+
+                  Remember: If you run into issues, I'm here to help with troubleshooting.
+                  Just ask about "MCP debugging" or "MCP server not connecting".
+
+                  Happy coding!
+
+            - kind: EndDialog
+              id: endDialog_success_019
+
+      elseActions:
+        # Use GenerativeAnswers for specific follow-up questions
+        - kind: GenerativeAnswers
+          id: generativeAnswers_followup_020
+          variable: Topic.FollowUpAnswer
+          moderationLevel: High
+          prompt: |
+            The user wants more information about: {Topic.NeedsMoreHelp}
+
+            Their server configuration:
+            - Language: {Topic.ProgrammingLanguage}
+            - Transport: {Topic.Transport}
+            - Capabilities: {Topic.ServerCapabilities}
+
+            Provide detailed, actionable guidance with code examples specific to their setup.
+
+        - kind: SendActivity
+          id: sendActivity_followupResponse_021
+          activity:
+            text: "{Topic.FollowUpAnswer}"
+
+        # Loop back to offer more help
+        - kind: BeginDialog
+          id: beginDialog_loop_022
+          dialog: mcp-server-wizard
+          input: {}

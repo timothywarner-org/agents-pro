@@ -1,0 +1,94 @@
+# ============================================================================
+# Python
+# ============================================================================
+
+~$warner-github-agents.pptx
+tmp*
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ============================================================================
+# Virtual Environments
+# ============================================================================
+.venv/
+venv/
+ENV/
+env/
+
+# ============================================================================
+# IDE / Editor
+# ============================================================================
+.idea/
+*.swp
+*.swo
+*~
+
+# ============================================================================
+# Environment & Secrets
+# ============================================================================
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# ============================================================================
+# Testing & Coverage
+# ============================================================================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# ============================================================================
+# Project-specific
+# ============================================================================
+
+# LangGraph checkpoints (state persistence)
+.state/
+
+# Processed issues (keep folder but ignore contents except .gitkeep)
+processed/*
+!processed/.gitkeep
+
+# Outgoing results (keep folder but ignore contents except .gitkeep)
+outgoing/*
+!outgoing/.gitkeep
+
+# Incoming issues (keep folder but ignore contents except .gitkeep)
+# Note: You might want to track some test files here during development
+incoming/*
+!incoming/.gitkeep
+
+# ============================================================================
+# OS-specific
+# ============================================================================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ============================================================================
+# Logs
+# ============================================================================
+*.log
+logs/

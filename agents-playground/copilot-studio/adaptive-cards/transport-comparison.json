@@ -1,0 +1,103 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "MCP Transport Comparison",
+      "weight": "Bolder",
+      "size": "Large"
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "width": "stretch",
+          "style": "emphasis",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "stdio",
+              "weight": "Bolder",
+              "color": "Accent"
+            },
+            {
+              "type": "TextBlock",
+              "text": "Local execution",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "Simple setup",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "Claude Desktop",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "VS Code Copilot",
+              "wrap": true
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": "stretch",
+          "style": "emphasis",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "HTTP/SSE",
+              "weight": "Bolder",
+              "color": "Accent"
+            },
+            {
+              "type": "TextBlock",
+              "text": "Remote servers",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "Stateless scaling",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "Web deployment",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "Multi-client support",
+              "wrap": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "text": "Recommendation: Start with stdio for local development, switch to HTTP/SSE for production deployments.",
+      "wrap": true,
+      "color": "Good",
+      "weight": "Bolder"
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "stdio Docs",
+      "url": "https://modelcontextprotocol.io/specification#stdio-transport"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "HTTP Docs",
+      "url": "https://modelcontextprotocol.io/specification#http-transport"
+    }
+  ]
+}

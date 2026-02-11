@@ -1,0 +1,130 @@
+{
+  "run_id": "550e8400-e29b-41d4-a716-446655440000",
+  "timestamp_utc": "2026-01-10T15:30:45Z",
+  "issue": {
+    "issue_id": "acme/app#42",
+    "repo": "acme/app",
+    "issue_number": 42,
+    "title": "Add dark mode support",
+    "body": "Users have requested a dark mode theme...",
+    "author": "jdoe",
+    "created_at": "2026-01-10T10:00:00Z",
+    "labels": ["enhancement", "ui"],
+    "source": "github-mcp"
+  },
+  "pm": {
+    "summary": "Add dark mode theme toggle with persistent user preference storage",
+    "acceptance_criteria": [
+      "Toggle button in settings menu",
+      "Preference persists across sessions",
+      "All UI components support dark mode",
+      "WCAG contrast requirements met"
+    ],
+    "plan": [
+      "Create theme context provider",
+      "Implement localStorage for persistence",
+      "Add CSS variables for colors",
+      "Update all components to use theme",
+      "Add toggle component"
+    ],
+    "assumptions": [
+      "Using React context for state management",
+      "CSS custom properties supported by target browsers"
+    ]
+  },
+  "dev": {
+    "files": [
+      {
+        "path": "src/contexts/ThemeContext.tsx",
+        "content": "import React, { createContext, useState, useEffect }...",
+        "language": "typescript"
+      },
+      {
+        "path": "src/components/ThemeToggle.tsx",
+        "content": "export const ThemeToggle = () => {...}",
+        "language": "typescript"
+      }
+    ],
+    "notes": [
+      "Using localStorage key 'theme-preference'",
+      "Defaulting to system preference on first load",
+      "CSS variables defined in :root and [data-theme='dark']"
+    ]
+  },
+  "qa": {
+    "verdict": "pass",
+    "findings": [
+      "All acceptance criteria met",
+      "Theme toggle is keyboard accessible",
+      "Color contrast meets WCAG AA",
+      "No console errors in dev or prod"
+    ],
+    "suggested_changes": [
+      "Consider adding auto-theme mode (follows system)",
+      "Add transition animation for theme switch"
+    ]
+  },
+  "next_steps": [
+    "Review the proposed implementation",
+    "Create a feature branch",
+    "Apply the generated code",
+    "Run full test suite",
+    "Submit PR for review"
+  ],
+  "metadata": {
+    "run_id": "550e8400-e29b-41d4-a716-446655440000",
+    "timestamp_utc": "2026-01-10T15:30:45Z",
+    "duration_seconds": 42.18,
+    "token_usage": {
+      "agents": [
+        {
+          "agent_name": "PM",
+          "usage": {
+            "input_tokens": 1234,
+            "output_tokens": 2456,
+            "total_tokens": 3690,
+            "model_name": "claude-3-5-sonnet-20241022",
+            "estimated_cost_usd": 0.009270
+          }
+        },
+        {
+          "agent_name": "Dev",
+          "usage": {
+            "input_tokens": 2345,
+            "output_tokens": 4567,
+            "total_tokens": 6912,
+            "model_name": "claude-3-5-sonnet-20241022",
+            "estimated_cost_usd": 0.017355
+          }
+        },
+        {
+          "agent_name": "QA",
+          "usage": {
+            "input_tokens": 1890,
+            "output_tokens": 1234,
+            "total_tokens": 3124,
+            "model_name": "claude-3-5-sonnet-20241022",
+            "estimated_cost_usd": 0.007935
+          }
+        }
+      ],
+      "total_input_tokens": 5469,
+      "total_output_tokens": 8257,
+      "total_tokens": 13726,
+      "estimated_total_cost_usd": 0.034560,
+      "cost_breakdown": {
+        "PM": 0.009270,
+        "Dev": 0.017355,
+        "QA": 0.007935
+      },
+      "efficiency_metrics": {
+        "average_tokens_per_agent": 4575.33,
+        "max_agent_tokens": 6912,
+        "estimated_context_window_usage_percent": 3.46,
+        "input_output_ratio": 0.662,
+        "total_agents": 3,
+        "cost_per_agent_avg": 0.011520
+      }
+    }
+  }
+}
