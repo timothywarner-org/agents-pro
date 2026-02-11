@@ -1,5 +1,6 @@
 {
   "chat.tools.terminal.autoApprove": {
-    "git rm": true
+    "git rm": true,
+    "git lfs": true
   }
 }
