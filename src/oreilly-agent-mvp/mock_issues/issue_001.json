@@ -1,0 +1,16 @@
+{
+  "issue_id": "timothywarner-org/agents2#101",
+  "repo": "timothywarner-org/agents2",
+  "issue_number": 101,
+  "title": "CLI: add 'validate-issue' command for issue JSON files",
+  "body": "Synopsis: Add a small CLI command to validate an issue JSON file and print actionable errors.\n\n## Background\nWe demo this project using JSON issue files (mock issues, incoming/ watcher files, and MCP-fetched issues). When a file fails validation, it's hard to quickly tell *why*.\n\n## Requirements\n- Add a CLI command (or subcommand) to validate a single issue JSON file against the existing Pydantic model.\n- Print errors in a human-friendly format (one error per line).\n- Use consistent exit codes:\n  - 0 = valid\n  - 2 = schema invalid (missing/invalid fields)\n  - 3 = file not found / unreadable\n  - 4 = invalid JSON\n- Support absolute and relative paths.\n\n## Acceptance Criteria\n- [ ] Valid file returns exit code 0.\n- [ ] Invalid JSON returns exit code 4 and prints the parse error.\n- [ ] Missing required fields returns exit code 2 and prints field paths (e.g., 'issue_number').\n- [ ] Tests cover: valid file, invalid JSON, missing required field(s).\n\n## Where to look\n- src/agent_mvp/pipeline/run_once.py (CLI entrypoint patterns)\n- src/agent_mvp/issue_sources/file_issue_source.py (existing parsing/validation)\n- tests/test_schema.py (model validation tests)",
+  "labels": [
+    "enhancement",
+    "cli",
+    "schema",
+    "good-first-issue",
+    "priority:high"
+  ],
+  "url": "https://github.com/timothywarner-org/agents2/issues/101",
+  "source": "mock"
+}

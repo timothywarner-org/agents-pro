@@ -1,0 +1,10 @@
+{
+  "issue_id": "timothywarner-org/agents2#106",
+  "repo": "timothywarner-org/agents2",
+  "issue_number": 106,
+  "title": "Pipeline UX: add --dry-run and clarify output directory behavior",
+  "body": "Synopsis: Add a safe dry-run mode for demos and make output directory behavior consistent across scripts/docs.\n\n## Background\nIn workshops, we often want to run PM/Dev/QA to generate a result without writing any Dev-proposed files or moving watcher files. Also, output directory examples should behave consistently.\n\n## Requirements\n- Add a '--dry-run' option for run_once:\n  - run PM/Dev/QA as normal\n  - do not write Dev files (even if --write-files is set)\n  - still write the result JSON to outgoing/ (or print to stdout; choose one and document it)\n- Ensure '--output-dir' is always respected and documented consistently across scripts and README.\n\n## Acceptance Criteria\n- [ ] --dry-run produces a result JSON but does not write Dev-proposed code files.\n- [ ] --output-dir changes where the result JSON is written.\n- [ ] Scripts and docs show accurate examples.\n\n## Where to look\n- src/agent_mvp/pipeline/run_once.py (CLI flags and save_result behavior)\n- scripts/run_once.ps1 and scripts/run_once.sh (examples)\n- README.md (usage docs)",
+  "labels": ["enhancement", "pipeline", "cli", "dx", "good-first-issue", "priority:low"],
+  "url": "https://github.com/timothywarner-org/agents2/issues/106",
+  "source": "mock"
+}

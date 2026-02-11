@@ -1,0 +1,10 @@
+{
+  "issue_id": "timothywarner-org/agents2#102",
+  "repo": "timothywarner-org/agents2",
+  "issue_number": 102,
+  "title": "MCP: list_mock_issues should derive priority from labels (schema-safe)",
+  "body": "Synopsis: Fix MCP mock-issue listing so 'priority' comes from labels, not a forbidden JSON field.\n\n## Background\nThe MCP tool 'list_mock_issues' currently reads a top-level 'priority' key from each JSON file. Our Issue input schema does not allow arbitrary extra fields, so schema-valid mock issues cannot include 'priority'.\n\n## Requirements\n- Update MCP tool output so priority is inferred from labels (e.g., 'priority:high', 'priority:medium', 'priority:low').\n- If no priority label is present, return 'unknown'.\n- The tool must never crash if it encounters an unreadable/invalid JSON file; include it in results with a clear placeholder title.\n- Update docs/examples to match the new behavior.\n\n## Acceptance Criteria\n- [ ] Schema-valid mock issues show priority based on labels.\n- [ ] A mock file missing labels shows priority 'unknown'.\n- [ ] Invalid JSON is handled gracefully (tool returns success; file is skipped or listed as unreadable, per existing pattern).\n- [ ] Tests cover: priority from labels, unknown priority, invalid JSON handling.\n\n## Where to look\n- src/agent_mvp/mcp_server/server.py (list_mock_issues tool)\n- src/agent_mvp/issue_sources/mock_issue_source.py (mock issue loading patterns)\n- tests/test_mcp_server.py (existing MCP tests)",
+  "labels": ["bug", "mcp", "schema", "good-first-issue", "priority:high"],
+  "url": "https://github.com/timothywarner-org/agents2/issues/102",
+  "source": "mock"
+}

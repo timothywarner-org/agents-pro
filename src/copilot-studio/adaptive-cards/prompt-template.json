@@ -1,0 +1,45 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "MCP Prompt Template",
+      "weight": "Bolder",
+      "size": "Large"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Prompts are reusable templates that clients can invoke:",
+      "wrap": true
+    },
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "```python\n@mcp.prompt()\nasync def analyze_code(\n    language: str,\n    focus: str = \"general\"\n) -> str:\n    \"\"\"Generate a code analysis prompt.\"\"\"\n    return f\"\"\"Analyze this {language} code.\n    Focus on: {focus}\n    Provide specific recommendations.\"\"\"\n```",
+          "wrap": true,
+          "fontType": "Monospace"
+        }
+      ]
+    },
+    {
+      "type": "FactSet",
+      "facts": [
+        { "title": "Purpose", "value": "Reusable prompt templates" },
+        { "title": "Parameters", "value": "Arguments customize the prompt" },
+        { "title": "Return", "value": "String or list of messages" }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "View Full Docs",
+      "url": "https://modelcontextprotocol.io/sdk/python#prompts"
+    }
+  ]
+}

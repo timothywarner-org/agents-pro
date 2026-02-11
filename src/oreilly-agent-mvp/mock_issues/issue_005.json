@@ -1,0 +1,10 @@
+{
+  "issue_id": "timothywarner-org/agents2#105",
+  "repo": "timothywarner-org/agents2",
+  "issue_number": 105,
+  "title": "Schema: allow optional issue metadata while keeping strict validation",
+  "body": "Synopsis: Add a single optional 'metadata' field to Issue input for course/demos, without allowing arbitrary extra keys.\n\n## Background\nIssue input validation is intentionally strict (great for reliability). For teaching, it would be useful to attach optional course/difficulty context to issues without loosening validation broadly.\n\n## Requirements\n- Extend the Issue model to allow an optional 'metadata' object/dict.\n- Keep strict validation:\n  - only allow the 'metadata' field (do not allow arbitrary extra top-level keys)\n  - validate metadata type is an object/dict\n- Ensure backward compatibility: existing issue JSON files still validate.\n- Document the new field in docs.\n\n## Acceptance Criteria\n- [ ] Existing mock issues validate unchanged.\n- [ ] An issue JSON including 'metadata' validates successfully.\n- [ ] Unknown extra fields still fail validation.\n- [ ] Tests cover positive and negative cases.\n\n## Where to look\n- src/agent_mvp/models.py (Issue model)\n- tests/test_schema.py (schema validation tests)\n- README.md (document input shape)",
+  "labels": ["enhancement", "schema", "pipeline", "good-first-issue", "priority:medium"],
+  "url": "https://github.com/timothywarner-org/agents2/issues/105",
+  "source": "mock"
+}

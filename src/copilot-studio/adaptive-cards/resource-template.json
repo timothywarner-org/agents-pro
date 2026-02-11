@@ -1,0 +1,45 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "MCP Resource Template",
+      "weight": "Bolder",
+      "size": "Large"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Resources expose data that AI assistants can read:",
+      "wrap": true
+    },
+    {
+      "type": "Container",
+      "style": "emphasis",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "```python\n@mcp.resource(\"config://settings\")\nasync def get_settings() -> str:\n    \"\"\"Current app configuration.\"\"\"\n    return json.dumps(settings)\n```",
+          "wrap": true,
+          "fontType": "Monospace"
+        }
+      ]
+    },
+    {
+      "type": "FactSet",
+      "facts": [
+        { "title": "URI Pattern", "value": "scheme://path" },
+        { "title": "Static", "value": "Returns same data each time" },
+        { "title": "Dynamic", "value": "Use resource templates with {params}" }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "View Full Docs",
+      "url": "https://modelcontextprotocol.io/sdk/python#resources"
+    }
+  ]
+}
