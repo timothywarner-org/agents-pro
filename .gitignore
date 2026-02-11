@@ -138,3 +138,34 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 docs/~$warner-agents-pro-december-2025.pptx
+
+# Claude Code local config (agent-memory contains real infra details)
+.claude/agent-memory/
+.claude/settings.local.json
+
+# Certificates and keys
+*.pem
+*.key
+*.pfx
+*.p12
+*.cer
+
+# Credential and secret files
+credentials.json
+secrets.json
+secrets.yaml
+secrets.yml
+local.settings.json
+appsettings.Development.json
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+tmp*
+!tmp-*-readme.md
+
+# Zip archives
+*.zip
