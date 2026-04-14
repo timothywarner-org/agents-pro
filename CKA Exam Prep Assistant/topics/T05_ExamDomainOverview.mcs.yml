@@ -1,0 +1,29 @@
+mcs.metadata:
+  componentName: T05_ExamDomainOverview
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Exam Domain Overview
+    triggerQueries:
+      - what's on the CKA exam
+      - CKA domains
+      - exam weights
+      - cka blueprint
+      - what topics are on CKA
+  modelDescription: Explains the CKA v1.35 exam domain weights (Cluster Arch 25, Workloads 15, Services 20, Storage 10, Troubleshooting 30) and which topics each domain covers.
+
+  actions:
+    - kind: AnswerQuestionWithAI
+      id: answerAi_ed1a2b
+      variable: Topic.Answer
+      userInput: "Provide the official CKA v1.35 exam domain breakdown with exact weights and 2-3 sub-topics per domain. Format as a Markdown table with columns Domain | Weight | Key Sub-topics. Domains and weights are: Cluster Architecture, Installation & Configuration 25%; Workloads & Scheduling 15%; Services & Networking 20%; Storage 10%; Troubleshooting 30%. After the table, add a one-line note that weights sum to 100% and the exam is performance-based."
+
+    - kind: SendActivity
+      id: sendMessage_ed3c4d
+      activity: "{Topic.Answer}"
+
+    - kind: EndDialog
+      id: endDialog_ed5e6f
+      clearTopicQueue: true

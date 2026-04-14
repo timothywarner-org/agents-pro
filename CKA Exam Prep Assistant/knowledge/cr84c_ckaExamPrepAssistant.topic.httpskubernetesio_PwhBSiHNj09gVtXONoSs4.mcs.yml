@@ -1,0 +1,7 @@
+mcs.metadata:
+  componentName: https://kubernetes.io/
+  description: This knowledge source searches information on the web found in https://kubernetes.io/ website
+kind: KnowledgeSourceConfiguration
+source:
+  kind: PublicSiteSearchSource
+  site: https://kubernetes.io/

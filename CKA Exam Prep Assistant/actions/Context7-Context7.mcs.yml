@@ -1,0 +1,14 @@
+mcs.metadata:
+  componentName: Context7 - Context7
+kind: TaskDialog
+modelDisplayName: Context7
+modelDescription: Provides up-to-date, version-specific documentation and code examples for software libraries and frameworks. Use for accurate coding guidance with current APIs.
+action:
+  kind: InvokeExternalAgentTaskAction
+  connectionReference: cr84c_ckaExamPrepAssistant.shared_cr84c-5fcontext7-5f233b5edf43226d73.350bde56bf234752a9b8556f77688ca8
+  connectionProperties:
+    mode: Invoker
+
+  operationDetails:
+    kind: ModelContextProtocolMetadata
+    operationId: InvokeServer

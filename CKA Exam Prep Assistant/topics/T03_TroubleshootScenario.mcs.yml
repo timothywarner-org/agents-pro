@@ -1,0 +1,40 @@
+mcs.metadata:
+  componentName: T03_TroubleshootScenario
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Troubleshoot Scenario
+    triggerQueries:
+      - troubleshoot my pod
+      - CrashLoopBackOff
+      - my deployment is broken
+      - pod is pending
+      - help me debug kubernetes
+  modelDescription: Diagnoses a failing Kubernetes workload or cluster condition by asking one clarifying question, then grounding the answer in kubernetes.io with kubectl diagnostic commands.
+
+  actions:
+    - kind: Question
+      id: question_tr1a2b
+      variable: init:Topic.Symptom
+      prompt: "Which symptom are you seeing? Paste the exact error or pod status (e.g., CrashLoopBackOff, ImagePullBackOff, Pending, 0/1 Ready)."
+      entity: StringPrebuiltEntity
+      alwaysPrompt: true
+      interruptionPolicy:
+        allowInterruption: false
+
+    - kind: SearchAndSummarizeContent
+      id: searchContent_tr3c4d
+      variable: Topic.Answer
+      userInput: |-
+        =Concatenate("Troubleshooting kubernetes issue: ", Topic.Symptom, ". Provide kubectl diagnostic steps and likely root causes.")
+      webBrowsing: false
+
+    - kind: SendActivity
+      id: sendMessage_tr5e6f
+      activity: "{Topic.Answer}"
+
+    - kind: EndDialog
+      id: endDialog_tr7g8h
+      clearTopicQueue: true

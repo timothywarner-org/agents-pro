@@ -1,0 +1,62 @@
+mcs.metadata:
+  componentName: T01_PracticeQuestion
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Practice Question
+    triggerQueries:
+      - quiz me
+      - give me a practice question
+      - test me on Kubernetes
+      - CKA practice question
+      - ask me a CKA question
+  modelDescription: Generates a realistic CKA-style practice question (MCQ or scenario), waits for the user's answer, then grades and explains the correct solution.
+
+  actions:
+    - kind: SearchAndSummarizeContent
+      id: searchContent_q1a7xk
+      variable: Topic.Question
+      userInput: |-
+        =Concatenate("Generate ONE realistic CKA v1.35 exam practice question from the registered knowledge sources. Return either a multiple-choice question (stem + four options labeled A, B, C, D with exactly one correct answer) OR a hands-on scenario task. Prefix with the CKA domain tag in brackets, e.g. [Workloads & Scheduling]. Do NOT reveal the correct answer yet.")
+      additionalInstructions: |
+        Format strictly as:
+        [Domain Tag]
+        Question: <stem>
+        A) <option>
+        B) <option>
+        C) <option>
+        D) <option>
+        OR, for hands-on:
+        [Domain Tag]
+        Task: <imperative task description with success criteria>
+        Do not output the answer or explanation.
+      webBrowsing: false
+
+    - kind: SendActivity
+      id: sendMessage_p2b8yl
+      activity: "{Topic.Question}"
+
+    - kind: Question
+      id: question_r3c9zm
+      variable: init:Topic.UserAnswer
+      prompt: "What's your answer? (A/B/C/D or your kubectl/YAML)"
+      entity: StringPrebuiltEntity
+      alwaysPrompt: true
+      interruptionPolicy:
+        allowInterruption: false
+
+    - kind: AnswerQuestionWithAI
+      id: answerAi_s4d0an
+      variable: Topic.Grading
+      userInput: |-
+        =Concatenate("Grade this CKA practice question. Question: ", Topic.Question, " User's answer: ", Topic.UserAnswer, " State whether the user's answer is correct, give the correct answer (letter or canonical kubectl/YAML), and explain why in 3-5 sentences with references to kubectl commands or manifest fields.")
+
+    - kind: SendActivity
+      id: sendMessage_t5e1bo
+      activity: "{Topic.Grading}"
+
+    - kind: EndDialog
+      id: endDialog_u6f2cp
+      clearTopicQueue: true

@@ -1,0 +1,31 @@
+mcs.metadata:
+  componentName: T04_KubectlCommandHelp
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Kubectl Command Help
+    triggerQueries:
+      - how do I use kubectl rollout
+      - explain kubectl drain
+      - kubectl command help
+      - what does kubectl apply do
+      - kubectl flags for get
+  modelDescription: Looks up kubectl syntax, flags, and examples grounded in kubernetes.io documentation for a command the user names.
+
+  actions:
+    - kind: SearchAndSummarizeContent
+      id: searchContent_kc1a2b
+      variable: Topic.Answer
+      userInput: =System.Activity.Text
+      additionalInstructions: "Explain the kubectl command the user asked about. Include common flags, one typical example, and link to kubectl reference. Ground strictly in kubernetes.io documentation."
+      webBrowsing: false
+
+    - kind: SendActivity
+      id: sendMessage_kc3c4d
+      activity: "{Topic.Answer}"
+
+    - kind: EndDialog
+      id: endDialog_kc5e6f
+      clearTopicQueue: true

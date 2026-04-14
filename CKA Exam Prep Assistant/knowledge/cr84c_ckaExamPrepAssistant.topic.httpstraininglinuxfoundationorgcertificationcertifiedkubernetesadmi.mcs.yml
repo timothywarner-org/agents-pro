@@ -1,0 +1,7 @@
+mcs.metadata:
+  componentName: https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/
+  description: This knowledge source searches information on the web found in https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/ website
+kind: KnowledgeSourceConfiguration
+source:
+  kind: PublicSiteSearchSource
+  site: https://training.linuxfoundation.org/certification/certified-kubernetes-administrator-cka/

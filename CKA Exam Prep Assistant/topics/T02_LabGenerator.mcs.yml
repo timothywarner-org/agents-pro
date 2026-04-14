@@ -1,0 +1,100 @@
+mcs.metadata:
+  componentName: T02_LabGenerator
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Lab Generator
+    triggerQueries:
+      - build me a lab
+      - generate a CKA lab
+      - hands-on lab
+      - create a kubernetes lab
+      - I want practice hands-on
+  modelDescription: Creates a hands-on Kubernetes lab with objective, prerequisites, step-by-step kubectl commands, validation checks, and cleanup, based on a user-supplied topic and difficulty.
+
+  actions:
+    - kind: Question
+      id: question_la1m2n
+      variable: init:Topic.LabTopic
+      prompt: "What Kubernetes topic should the lab cover? (e.g., ConfigMaps, NetworkPolicies, Node Maintenance)"
+      entity: StringPrebuiltEntity
+      alwaysPrompt: true
+      interruptionPolicy:
+        allowInterruption: false
+
+    - kind: Question
+      id: question_lb3o4p
+      variable: init:Topic.Difficulty
+      prompt: "What difficulty? Choose Easy, Medium, or Hard."
+      entity: StringPrebuiltEntity
+      alwaysPrompt: true
+      interruptionPolicy:
+        allowInterruption: false
+
+    - kind: ConditionGroup
+      id: conditionGroup_la7q8r
+      conditions:
+        - id: conditionItem_la7q8rEasy
+          condition: =Lower(Trim(Topic.Difficulty)) = "easy" Or Lower(Trim(Topic.Difficulty)) = "beginner" Or Lower(Trim(Topic.Difficulty)) = "simple"
+          actions:
+            - kind: SetVariable
+              id: setVar_la7q8rEasy
+              variable: Topic.Difficulty
+              value: "Easy"
+        - id: conditionItem_la7q8rMedium
+          condition: =Lower(Trim(Topic.Difficulty)) = "medium" Or Lower(Trim(Topic.Difficulty)) = "intermediate" Or Lower(Trim(Topic.Difficulty)) = "moderate"
+          actions:
+            - kind: SetVariable
+              id: setVar_la7q8rMedium
+              variable: Topic.Difficulty
+              value: "Medium"
+        - id: conditionItem_la7q8rHard
+          condition: =Lower(Trim(Topic.Difficulty)) = "hard" Or Lower(Trim(Topic.Difficulty)) = "advanced" Or Lower(Trim(Topic.Difficulty)) = "difficult"
+          actions:
+            - kind: SetVariable
+              id: setVar_la7q8rHard
+              variable: Topic.Difficulty
+              value: "Hard"
+      elseActions:
+        - kind: SetVariable
+          id: setVar_la7q8rDefault
+          variable: Topic.Difficulty
+          value: "Medium"
+        - kind: SendActivity
+          id: sendMessage_la7q8rDefault
+          activity: "I didn't catch the difficulty — defaulting to Medium."
+
+    - kind: AnswerQuestionWithAI
+      id: answerAi_lc5q6r
+      variable: Topic.LabMarkdown
+      userInput: |-
+        =Concatenate("Generate a complete hands-on Kubernetes lab in Markdown for CKA v1.35 exam practice. Topic: ", Topic.LabTopic, ". Difficulty: ", Topic.Difficulty, ". Include sections: # Title, ## Objective, ## Prerequisites (cluster, kubectl, namespace), ## Step-by-Step Instructions (numbered, with kubectl commands in fenced code blocks and any YAML manifests inline), ## Validation (kubectl commands the learner runs to verify success with expected output), ## Cleanup (kubectl delete commands). Keep it fully self-contained and runnable on a standard kubeadm cluster.")
+
+    - kind: SendActivity
+      id: sendMessage_ld7s8t
+      activity: "{Topic.LabMarkdown}"
+
+    # ------------------------------------------------------------------
+    # PARKED: SharePoint CreateFile upload — future wiring.
+    # When the connector action + connection reference are added, the
+    # following TaskDialog-invocation shape should be inserted here:
+    #
+    #   - kind: InvokeConnectorTaskAction
+    #     id: uploadLab_<random>
+    #     connectionReference: shared_sharepointonline
+    #     operationId: CreateFile
+    #     inputs:
+    #       dataset: <SharePoint site URL>        # e.g. https://contoso.sharepoint.com/sites/cka
+    #       folderPath: /Shared Documents/CKA Labs
+    #       name: =Concatenate("CKA-Lab-", Topic.LabTopic, ".md")
+    #       body: =Topic.LabMarkdown
+    #
+    # This requires adding actions/ + connectionreferences.mcs.yml via
+    # the Copilot Studio portal, then committing the generated YAML.
+    # ------------------------------------------------------------------
+
+    - kind: EndDialog
+      id: endDialog_le9u0v
+      clearTopicQueue: true

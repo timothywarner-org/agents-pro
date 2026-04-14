@@ -1,0 +1,3 @@
+﻿connectionReferences:
+  - connectionReferenceLogicalName: cr84c_ckaExamPrepAssistant.shared_cr84c-5fcontext7-5f233b5edf43226d73.350bde56bf234752a9b8556f77688ca8
+    connectorId: /providers/Microsoft.PowerApps/apis/shared_cr84c-5fcontext7-5f233b5edf43226d73
