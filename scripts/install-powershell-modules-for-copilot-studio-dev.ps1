@@ -1,94 +1,117 @@
 #requires -Version 7.0
+#requires -RunAsAdministrator
 <#
 .SYNOPSIS
-  Grand unified Windows 11 setup for Copilot Studio / Microsoft 365 development.
+    Grand unified Windows 11 setup for Copilot Studio / Microsoft 365 development.
 
 .DESCRIPTION
-  Run this from an elevated PowerShell 7 session.
-  It will:
-    - verify elevation and Windows
-    - trust PSGallery
-    - install/update pwsh 7-friendly modules
-    - install/update Power Platform PowerShell modules in Windows PowerShell 5.1
-    - install/update Power Platform CLI (pac)
-    - verify commands/modules afterward
-    - print next-step connect commands
+    Bootstraps a Windows 11 workstation for Copilot Studio, Power Platform, and
+    Microsoft 365 Graph development. Designed to be idempotent — safe to re-run.
+
+    Phases:
+      1. Environment guardrails (elevation, Windows, PowerShell 7+)
+      2. TLS 1.2 for legacy gallery endpoints
+      3. NuGet provider + trusted PSGallery (both shells)
+      4. PowerShell 7 modules installed in parallel (Graph SDK split, Teams, PnP,
+         Exchange Online, Entra)
+      5. Windows PowerShell 5.1 modules (Microsoft.PowerApps.* — these still do
+         not support pwsh 7 per Microsoft docs)
+      6. Power Platform CLI (pac) via winget, with MSI fallback
+      7. Post-install verification + connect-command cheat sheet
 
 .NOTES
-  Why both shells?
-    Microsoft.PowerApps.Administration.PowerShell and Microsoft.PowerApps.PowerShell
-    still require Windows PowerShell 5.x per Microsoft docs.
+    Author : Tim Warner
+    Why both shells?
+        Microsoft.PowerApps.Administration.PowerShell and
+        Microsoft.PowerApps.PowerShell are authored against Windows PowerShell
+        5.x and load .NET Framework assemblies that do not resolve cleanly under
+        pwsh 7. Microsoft's guidance is to keep them on 5.1.
+
+.EXAMPLE
+    # From an elevated PowerShell 7 window:
+    pwsh -File .\install-powershell-modules-for-copilot-studio-dev.ps1
+
+.LINK
+    https://learn.microsoft.com/power-platform/admin/powershell-getting-started
+    https://learn.microsoft.com/power-platform/developer/cli/introduction
 #>
+
+[CmdletBinding()]
+param()
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-# ----------------------------
-# Utility / logging helpers
-# ----------------------------
-function Write-Phase {
-    param([Parameter(Mandatory)][string]$Message)
-    Write-Host "`n=== $Message ===" -ForegroundColor Cyan
-}
+# ---------------------------------------------------------------------------
+# Constants — single source of truth for module lists so install & verify
+# phases cannot drift apart.
+# ---------------------------------------------------------------------------
+$script:PwshModules = @(
+    'Microsoft.Graph.Authentication'
+    'Microsoft.Graph.Users'
+    'Microsoft.Graph.Sites'
+    'Microsoft.Graph.Groups'
+    'Microsoft.Graph.Teams'
+    'Microsoft.Graph.Identity.DirectoryManagement'
+    'MicrosoftTeams'
+    'PnP.PowerShell'
+    'ExchangeOnlineManagement'
+    'Microsoft.Entra'
+)
 
-function Write-Info {
-    param([Parameter(Mandatory)][string]$Message)
-    Write-Host "[INFO] $Message" -ForegroundColor Gray
-}
+$script:WinPsModules = @(
+    'Microsoft.PowerApps.Administration.PowerShell'
+    'Microsoft.PowerApps.PowerShell'
+)
 
-function Write-Ok {
-    param([Parameter(Mandatory)][string]$Message)
-    Write-Host "[ OK ] $Message" -ForegroundColor Green
-}
+# ---------------------------------------------------------------------------
+# Logging helpers — colored, prefixed, and tee-able if the caller redirects.
+# ---------------------------------------------------------------------------
+function Write-Phase { param([Parameter(Mandatory)][string]$Message) Write-Host "`n=== $Message ===" -ForegroundColor Cyan }
+function Write-Info  { param([Parameter(Mandatory)][string]$Message) Write-Host "[INFO] $Message" -ForegroundColor Gray }
+function Write-Ok    { param([Parameter(Mandatory)][string]$Message) Write-Host "[ OK ] $Message" -ForegroundColor Green }
+function Write-WarnEx{ param([Parameter(Mandatory)][string]$Message) Write-Host "[WARN] $Message" -ForegroundColor Yellow }
+function Write-Fail  { param([Parameter(Mandatory)][string]$Message) Write-Host "[FAIL] $Message" -ForegroundColor Red }
 
-function Write-WarnEx {
-    param([Parameter(Mandatory)][string]$Message)
-    Write-Host "[WARN] $Message" -ForegroundColor Yellow
-}
-
-function Write-Fail {
-    param([Parameter(Mandatory)][string]$Message)
-    Write-Host "[FAIL] $Message" -ForegroundColor Red
-}
-
+# ---------------------------------------------------------------------------
+# Environment guardrails
+# ---------------------------------------------------------------------------
 function Test-IsAdministrator {
     $identity  = [Security.Principal.WindowsIdentity]::GetCurrent()
     $principal = [Security.Principal.WindowsPrincipal]::new($identity)
     return $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
-function Assert-Environment {
-    if (-not $IsWindows) {
-        throw "This script is Windows-only."
-    }
-
-    if (-not (Test-IsAdministrator)) {
-        throw "Run this from an elevated PowerShell 7 session."
-    }
-
-    if ($PSVersionTable.PSVersion.Major -lt 7) {
-        throw "Run this script in PowerShell 7 or later."
-    }
-
-    Write-Ok "Environment checks passed."
+function Confirm-Environment {
+    # #requires -RunAsAdministrator handles elevation on pwsh 7+, but we double
+    # check so the failure message is informative rather than a cryptic stop.
+    if (-not $IsWindows)            { throw "This script is Windows-only." }
+    if (-not (Test-IsAdministrator)){ throw "Run this from an elevated PowerShell 7 session." }
+    if ($PSVersionTable.PSVersion.Major -lt 7) { throw "Run this script in PowerShell 7 or later." }
+    Write-Ok "Environment checks passed (pwsh $($PSVersionTable.PSVersion))."
 }
 
-function Ensure-Tls12 {
+function Set-Tls12 {
+    # Some module manifests and the PSGallery SSL endpoints still negotiate
+    # poorly on default SChannel when TLS 1.0/1.1 are disabled. Explicit is
+    # cheaper than debugging a one-off SSL handshake failure.
     try {
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
         Write-Ok "TLS 1.2 enabled for current session."
     }
     catch {
-        Write-WarnEx "Could not explicitly set TLS 1.2. Continuing."
+        Write-WarnEx "Could not explicitly set TLS 1.2: $($_.Exception.Message). Continuing."
     }
 }
 
-function Ensure-PackageManagementPrereqs {
+# ---------------------------------------------------------------------------
+# Package management prerequisites
+# ---------------------------------------------------------------------------
+function Initialize-PackageManagement {
     Write-Phase "Package management prerequisites"
 
     try {
-        $nuget = Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction SilentlyContinue
-        if (-not $nuget) {
+        if (-not (Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction SilentlyContinue)) {
             Write-Info "Installing NuGet package provider..."
             Install-PackageProvider -Name NuGet -Force -Scope AllUsers | Out-Null
         }
@@ -113,181 +136,201 @@ function Ensure-PackageManagementPrereqs {
     }
 }
 
-function Get-InstalledModuleVersion {
-    param([Parameter(Mandatory)][string]$Name)
+# ---------------------------------------------------------------------------
+# PowerShell 7 module installer — parallelized
+# ---------------------------------------------------------------------------
+function Install-PwshModules {
+    param([Parameter(Mandatory)][string[]]$ModuleNames)
 
-    $m = Get-InstalledModule -Name $Name -ErrorAction SilentlyContinue
-    if ($m) { return $m.Version.ToString() }
-    return $null
-}
+    Write-Phase "PowerShell 7 module install/update (parallel)"
 
-function Install-OrUpdatePwshModule {
-    param(
-        [Parameter(Mandatory)][string]$Name
-    )
+    # ForEach -Parallel spins a runspace per module. PowerShellGet is thread
+    # safe for CurrentUser-scoped installs against distinct modules, so we
+    # get a ~Nx speedup (bounded by ThrottleLimit) without risking collisions.
+    $results = $ModuleNames | ForEach-Object -ThrottleLimit 5 -Parallel {
+        $name = $_
+        $out  = [pscustomobject]@{ Name = $name; Status = ''; Message = '' }
 
-    Write-Info "Ensuring pwsh module: $Name"
-
-    try {
-        $installedVersion = Get-InstalledModule -Name $Name -ErrorAction SilentlyContinue
-        $galleryVersion   = Find-Module -Name $Name -Repository PSGallery -ErrorAction Stop
-
-        if (-not $installedVersion) {
-            Install-Module -Name $Name -Scope CurrentUser -Repository PSGallery -Force -AllowClobber -SkipPublisherCheck
-            Write-Ok "$Name installed ($($galleryVersion.Version))."
-            return
-        }
-
-        if ([version]$installedVersion.Version -lt [version]$galleryVersion.Version) {
-            Update-Module -Name $Name -Force -ErrorAction Stop
-            Write-Ok "$Name updated from $($installedVersion.Version) to $($galleryVersion.Version)."
-        }
-        else {
-            Write-Ok "$Name already current ($($installedVersion.Version))."
-        }
-    }
-    catch {
-        Write-WarnEx "Normal install/update path failed for $Name. Trying repair install."
         try {
-            Install-Module -Name $Name -Scope CurrentUser -Repository PSGallery -Force -AllowClobber -SkipPublisherCheck -ErrorAction Stop
-            Write-Ok "$Name repaired/reinstalled."
+            $installed = Get-InstalledModule -Name $name -ErrorAction SilentlyContinue
+            $gallery   = Find-Module -Name $name -Repository PSGallery -ErrorAction Stop
+
+            if (-not $installed) {
+                Install-Module -Name $name -Scope CurrentUser -Repository PSGallery `
+                    -Force -AllowClobber -SkipPublisherCheck -ErrorAction Stop
+                $out.Status  = 'Installed'
+                $out.Message = "$name installed ($($gallery.Version))."
+            }
+            elseif ([version]$installed.Version -lt [version]$gallery.Version) {
+                Update-Module -Name $name -Force -ErrorAction Stop
+                $out.Status  = 'Updated'
+                $out.Message = "$name updated from $($installed.Version) to $($gallery.Version)."
+            }
+            else {
+                $out.Status  = 'Current'
+                $out.Message = "$name already current ($($installed.Version))."
+            }
         }
         catch {
-            throw "Failed to install/update $Name. $($_.Exception.Message)"
+            # Repair pass — a partial install from a previous run can poison
+            # Get-InstalledModule. Force reinstall with -AllowClobber resolves.
+            try {
+                Install-Module -Name $name -Scope CurrentUser -Repository PSGallery `
+                    -Force -AllowClobber -SkipPublisherCheck -ErrorAction Stop
+                $out.Status  = 'Repaired'
+                $out.Message = "$name repaired/reinstalled."
+            }
+            catch {
+                $out.Status  = 'Failed'
+                $out.Message = "$name failed: $($_.Exception.Message)"
+            }
+        }
+        $out
+    }
+
+    foreach ($r in $results) {
+        switch ($r.Status) {
+            'Failed' { Write-Fail $r.Message }
+            default  { Write-Ok   $r.Message }
         }
     }
-}
 
-function Assert-CommandPresent {
-    param([Parameter(Mandatory)][string]$Name)
-
-    if (-not (Get-Command $Name -ErrorAction SilentlyContinue)) {
-        throw "Required command not found after install: $Name"
+    if ($results | Where-Object Status -eq 'Failed') {
+        throw "One or more pwsh 7 modules failed to install. See [FAIL] lines above."
     }
 }
 
+# ---------------------------------------------------------------------------
+# Windows PowerShell 5.1 module installer
+# ---------------------------------------------------------------------------
 function Get-WindowsPowerShellPath {
     $path = Join-Path $env:WINDIR 'System32\WindowsPowerShell\v1.0\powershell.exe'
-    if (-not (Test-Path $path)) {
-        throw "Windows PowerShell 5.1 executable not found at: $path"
-    }
+    if (-not (Test-Path $path)) { throw "Windows PowerShell 5.1 executable not found at: $path" }
     return $path
 }
 
-function Install-OrUpdateWinPsModules {
-    param(
-        [Parameter(Mandatory)][string[]]$ModuleNames
-    )
+function Install-WinPsModules {
+    param([Parameter(Mandatory)][string[]]$ModuleNames)
 
     Write-Phase "Windows PowerShell 5.1 module setup"
 
     $winps = Get-WindowsPowerShellPath
 
-    $scriptBlock = @'
-param([string[]]$ModuleNames)
+    # Inline the module list into the child script rather than rely on
+    # -EncodedCommand argument passing (which is NOT supported — the prior
+    # version silently ran against an empty list). We bake the literal array
+    # into the script text so the child process is fully self-contained.
+    $moduleLiteral = ($ModuleNames | ForEach-Object { "'$($_.Replace("'","''"))'" }) -join ','
 
-$ErrorActionPreference = "Stop"
+    $scriptBlock = @"
+`$ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
-function Write-HostInfo([string]$m) { Write-Host "[WinPS] $m" -ForegroundColor Gray }
-function Write-HostOk([string]$m)   { Write-Host "[WinPS] $m" -ForegroundColor Green }
+function Write-HostInfo(`$m) { Write-Host "[WinPS] `$m" -ForegroundColor Gray  }
+function Write-HostOk  (`$m) { Write-Host "[WinPS] `$m" -ForegroundColor Green }
+function Write-HostFail(`$m) { Write-Host "[WinPS] `$m" -ForegroundColor Red   }
 
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-$nuget = Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction SilentlyContinue
-if (-not $nuget) {
+if (-not (Get-PackageProvider -Name NuGet -ListAvailable -ErrorAction SilentlyContinue)) {
     Install-PackageProvider -Name NuGet -Force -Scope AllUsers | Out-Null
 }
 
-$repo = Get-PSRepository -Name PSGallery -ErrorAction Stop
-if ($repo.InstallationPolicy -ne 'Trusted') {
+`$repo = Get-PSRepository -Name PSGallery -ErrorAction Stop
+if (`$repo.InstallationPolicy -ne 'Trusted') {
     Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 }
 
-foreach ($name in $ModuleNames) {
-    Write-HostInfo "Ensuring module: $name"
-    $installed = Get-InstalledModule -Name $name -ErrorAction SilentlyContinue
-    $gallery   = Find-Module -Name $name -Repository PSGallery -ErrorAction Stop
+`$modules = @($moduleLiteral)
+`$failed  = @()
 
-    if (-not $installed) {
-        Install-Module -Name $name -Scope CurrentUser -Repository PSGallery -Force -AllowClobber -SkipPublisherCheck
-        Write-HostOk "$name installed ($($gallery.Version))."
-        continue
-    }
+foreach (`$name in `$modules) {
+    try {
+        Write-HostInfo "Ensuring module: `$name"
+        `$installed = Get-InstalledModule -Name `$name -ErrorAction SilentlyContinue
+        `$gallery   = Find-Module      -Name `$name -Repository PSGallery -ErrorAction Stop
 
-    if ([version]$installed.Version -lt [version]$gallery.Version) {
-        Update-Module -Name $name -Force
-        Write-HostOk "$name updated from $($installed.Version) to $($gallery.Version))."
+        if (-not `$installed) {
+            Install-Module -Name `$name -Scope CurrentUser -Repository PSGallery ``
+                -Force -AllowClobber -SkipPublisherCheck -ErrorAction Stop
+            Write-HostOk "`$name installed (`$(`$gallery.Version))."
+        }
+        elseif ([version]`$installed.Version -lt [version]`$gallery.Version) {
+            Update-Module -Name `$name -Force -ErrorAction Stop
+            Write-HostOk "`$name updated from `$(`$installed.Version) to `$(`$gallery.Version)."
+        }
+        else {
+            Write-HostOk "`$name already current (`$(`$installed.Version))."
+        }
     }
-    else {
-        Write-HostOk "$name already current ($($installed.Version))."
+    catch {
+        Write-HostFail "`$name failed: `$(`$_.Exception.Message)"
+        `$failed += `$name
     }
 }
-'@
+
+if (`$failed.Count -gt 0) { exit 2 }
+exit 0
+"@
 
     $encoded = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($scriptBlock))
-    $moduleArg = ($ModuleNames | ForEach-Object { "'$_'" }) -join ','
 
-    $output = & $winps -NoProfile -ExecutionPolicy Bypass -EncodedCommand $encoded -ModuleNames $ModuleNames 2>&1
+    & $winps -NoProfile -ExecutionPolicy Bypass -EncodedCommand $encoded 2>&1 | ForEach-Object { Write-Host $_ }
     $exitCode = $LASTEXITCODE
-
-    $output | ForEach-Object { Write-Host $_ }
 
     if ($exitCode -ne 0) {
         throw "Windows PowerShell module install/update failed with exit code $exitCode."
     }
-
     Write-Ok "Windows PowerShell 5.1 module phase completed."
 }
 
+# ---------------------------------------------------------------------------
+# Power Platform CLI (pac)
+# ---------------------------------------------------------------------------
 function Find-Winget {
+    # Get-Command resolves PATH correctly; only fall back to known install
+    # locations that are themselves executables (not parent directories).
     $cmd = Get-Command winget.exe -ErrorAction SilentlyContinue
     if ($cmd) { return $cmd.Source }
 
-    $possible = @(
-        "$env:LOCALAPPDATA\Microsoft\WindowsApps\winget.exe",
-        "$env:ProgramFiles\WindowsApps"
-    )
-
-    foreach ($p in $possible) {
-        if (Test-Path $p) { return $p }
-    }
+    $candidate = Join-Path $env:LOCALAPPDATA 'Microsoft\WindowsApps\winget.exe'
+    if (Test-Path $candidate) { return $candidate }
 
     return $null
 }
 
-function Ensure-PacCli {
+function Update-PathFromMachineAndUser {
+    # Refresh PATH in-process after an installer mutates the Machine/User
+    # environment blocks — otherwise the newly installed command won't be
+    # discoverable until the user opens a new shell.
+    $env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine') + ';' +
+                [System.Environment]::GetEnvironmentVariable('Path','User')
+}
+
+function Install-PacCli {
     Write-Phase "Power Platform CLI (pac)"
 
     $winget = Find-Winget
-    $pacCmd = Get-Command pac -ErrorAction SilentlyContinue
 
-    if ($pacCmd) {
-        Write-Info "pac already present at $($pacCmd.Source). Attempting update via 'pac install latest'."
-        try {
-            & pac install latest | Out-Host
-            Write-Ok "pac updated."
-            return
-        }
-        catch {
-            Write-WarnEx "pac update failed. Will try WinGet/MSI path."
-        }
-    }
-
+    # Preferred path: winget install-or-upgrade. `pac install latest` from the
+    # previous version of this script is not a real pac command.
     if ($winget) {
-        Write-Info "Installing Power Platform CLI via WinGet."
+        Write-Info "Installing/upgrading Power Platform CLI via WinGet."
         try {
-            & winget install --id Microsoft.PowerPlatformCLI --exact --accept-source-agreements --accept-package-agreements --silent
-            if ($LASTEXITCODE -eq 0) {
-                $env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [System.Environment]::GetEnvironmentVariable('Path','User')
-                if (Get-Command pac -ErrorAction SilentlyContinue) {
-                    Write-Ok "pac installed via WinGet."
-                    return
-                }
+            $wingetArgs = @(
+                'install', '--id', 'Microsoft.PowerPlatformCLI',
+                '--exact', '--accept-source-agreements', '--accept-package-agreements', '--silent'
+            )
+            & $winget @wingetArgs
+            # winget returns 0 on install and a non-zero "no available upgrade"
+            # code (e.g. 0x8A15002B) when already current. Treat "command exists
+            # after the call" as the real success signal.
+            Update-PathFromMachineAndUser
+            if (Get-Command pac -ErrorAction SilentlyContinue) {
+                Write-Ok "pac available via WinGet."
+                return
             }
-            else {
-                Write-WarnEx "WinGet install returned exit code $LASTEXITCODE."
-            }
+            Write-WarnEx "WinGet finished (exit $LASTEXITCODE) but pac still not on PATH. Falling back to MSI."
         }
         catch {
             Write-WarnEx "WinGet install path failed: $($_.Exception.Message)"
@@ -297,24 +340,24 @@ function Ensure-PacCli {
         Write-WarnEx "winget.exe not found. Falling back to Microsoft MSI download."
     }
 
+    # MSI fallback — aka.ms/PowerAppsCLI currently 302s to the signed MSI.
     try {
-        $tempDir = Join-Path $env:TEMP "pac-cli-setup"
+        $tempDir = Join-Path $env:TEMP 'pac-cli-setup'
         New-Item -ItemType Directory -Force -Path $tempDir | Out-Null
-        $msiPath = Join-Path $tempDir "powerapps-cli-1.0.msi"
+        $msiPath = Join-Path $tempDir 'powerapps-cli.msi'
 
-        # Microsoft docs currently reference this MSI filename for Windows installation.
-        $downloadUrl = "https://aka.ms/PowerAppsCLI"
+        $downloadUrl = 'https://aka.ms/PowerAppsCLI'
         Write-Info "Downloading pac MSI from $downloadUrl"
         Invoke-WebRequest -Uri $downloadUrl -OutFile $msiPath -UseBasicParsing
 
         Write-Info "Installing pac MSI silently."
         $proc = Start-Process msiexec.exe -ArgumentList "/i `"$msiPath`" /qn /norestart" -Wait -PassThru
-        if ($proc.ExitCode -ne 0) {
-            throw "msiexec failed with exit code $($proc.ExitCode)"
-        }
+        if ($proc.ExitCode -ne 0) { throw "msiexec failed with exit code $($proc.ExitCode)" }
 
-        $env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [System.Environment]::GetEnvironmentVariable('Path','User')
-        Assert-CommandPresent -Name 'pac'
+        Update-PathFromMachineAndUser
+        if (-not (Get-Command pac -ErrorAction SilentlyContinue)) {
+            throw "pac not found on PATH after MSI install. Open a new shell and re-run."
+        }
         Write-Ok "pac installed via MSI."
     }
     catch {
@@ -322,30 +365,18 @@ function Ensure-PacCli {
     }
 }
 
+# ---------------------------------------------------------------------------
+# Verification
+# ---------------------------------------------------------------------------
 function Test-ModuleAvailable {
-    param(
-        [Parameter(Mandatory)][string]$Name
-    )
+    param([Parameter(Mandatory)][string]$Name)
     return [bool](Get-Module -ListAvailable -Name $Name -ErrorAction SilentlyContinue)
 }
 
-function Verify-Installs {
+function Test-Installs {
     Write-Phase "Verification"
 
-    $pwshModules = @(
-        'Microsoft.Graph.Authentication',
-        'Microsoft.Graph.Users',
-        'Microsoft.Graph.Sites',
-        'Microsoft.Graph.Groups',
-        'Microsoft.Graph.Teams',
-        'Microsoft.Graph.Identity.DirectoryManagement',
-        'MicrosoftTeams',
-        'PnP.PowerShell',
-        'ExchangeOnlineManagement',
-        'Microsoft.Entra'
-    )
-
-    foreach ($m in $pwshModules) {
+    foreach ($m in $script:PwshModules) {
         if (Test-ModuleAvailable -Name $m) {
             $ver = (Get-Module -ListAvailable -Name $m | Sort-Object Version -Descending | Select-Object -First 1).Version
             Write-Ok "$m available ($ver)"
@@ -355,53 +386,44 @@ function Verify-Installs {
         }
     }
 
+    # Probe WinPS 5.1 for the Power Platform modules. Pipe-delimited output is
+    # easier to parse than Write-Host text.
     $winps = Get-WindowsPowerShellPath
-    $checkScript = @'
-$mods = @(
-  "Microsoft.PowerApps.Administration.PowerShell",
-  "Microsoft.PowerApps.PowerShell"
-)
-
-foreach ($m in $mods) {
-    $found = Get-Module -ListAvailable -Name $m -ErrorAction SilentlyContinue |
-             Sort-Object Version -Descending |
-             Select-Object -First 1
-    if ($found) {
-        Write-Output "$m|$($found.Version)"
-    }
-    else {
-        Write-Output "$m|MISSING"
-    }
+    $moduleLiteral = ($script:WinPsModules | ForEach-Object { "'$($_.Replace("'","''"))'" }) -join ','
+    $checkScript = @"
+`$mods = @($moduleLiteral)
+foreach (`$m in `$mods) {
+    `$found = Get-Module -ListAvailable -Name `$m -ErrorAction SilentlyContinue |
+             Sort-Object Version -Descending | Select-Object -First 1
+    if (`$found) { Write-Output "`$m|`$(`$found.Version)" }
+    else         { Write-Output "`$m|MISSING" }
 }
-'@
+"@
     $encoded = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($checkScript))
     $results = & $winps -NoProfile -ExecutionPolicy Bypass -EncodedCommand $encoded 2>$null
 
     foreach ($line in $results) {
         $parts = $line -split '\|', 2
-        if ($parts.Count -eq 2) {
-            if ($parts[1] -eq 'MISSING') {
-                Write-Fail "$($parts[0]) missing in Windows PowerShell 5.1"
-            }
-            else {
-                Write-Ok "$($parts[0]) available in Windows PowerShell 5.1 ($($parts[1]))"
-            }
-        }
+        if ($parts.Count -ne 2) { continue }
+        if ($parts[1] -eq 'MISSING') { Write-Fail "$($parts[0]) missing in Windows PowerShell 5.1" }
+        else                         { Write-Ok   "$($parts[0]) available in Windows PowerShell 5.1 ($($parts[1]))" }
     }
 
     if (Get-Command pac -ErrorAction SilentlyContinue) {
-        $pacVersion = (& pac help 2>$null | Select-Object -First 1)
+        $pacVersion = (& pac --version 2>$null | Select-Object -First 1)
         Write-Ok "pac available"
-        if ($pacVersion) { Write-Info $pacVersion }
+        if ($pacVersion) { Write-Info "pac version: $pacVersion" }
     }
     else {
         Write-Fail "pac missing"
     }
 }
 
-function Print-NextSteps {
+# ---------------------------------------------------------------------------
+# Next-step cheat sheet
+# ---------------------------------------------------------------------------
+function Show-NextSteps {
     Write-Phase "Next steps"
-
     @'
 # Run these interactively after setup.
 
@@ -412,10 +434,21 @@ Connect-MgGraph -Scopes "User.Read.All","Sites.Read.All","Group.Read.All","Direc
 Connect-MicrosoftTeams
 
 # SharePoint Online via PnP
-Connect-PnPOnline -Url "https://<tenant>.sharepoint.com" -Interactive
+# PnP.PowerShell 2.x REQUIRES your own Entra app registration — the built-in
+# multi-tenant app was retired. One-time setup (admin consent required):
+#   Register-PnPEntraIDAppForInteractiveLogin `
+#       -ApplicationName "PnP PowerShell CLI" `
+#       -Tenant "<tenant>.onmicrosoft.com" `
+#       -Interactive
+# Then connect with the ClientId it prints:
+Connect-PnPOnline -Url "https://<tenant>.sharepoint.com" -Interactive -ClientId "<app-id>"
 
 # Exchange Online
 Connect-ExchangeOnline
+# If you hit an MSAL RuntimeBroker NullReferenceException on pwsh 7, the WAM
+# broker failed to init. Use device code or browser auth instead:
+#   Connect-ExchangeOnline -Device
+#   Connect-ExchangeOnline -UseWebLogin
 
 # Entra
 Connect-Entra -Scopes "User.Read.All","Application.Read.All","Directory.Read.All"
@@ -428,47 +461,27 @@ pac auth create --name default
 '@ | Write-Host -ForegroundColor White
 }
 
-# ----------------------------
+# ---------------------------------------------------------------------------
 # Main
-# ----------------------------
+# ---------------------------------------------------------------------------
 try {
+    $sw = [Diagnostics.Stopwatch]::StartNew()
+
     Write-Phase "Copilot Studio / M365 Dev Bootstrap"
-    Assert-Environment
-    Ensure-Tls12
-    Ensure-PackageManagementPrereqs
+    Confirm-Environment
+    Set-Tls12
+    Initialize-PackageManagement
 
-    Write-Phase "Install/update PowerShell 7 modules"
+    Install-PwshModules  -ModuleNames $script:PwshModules
+    Install-WinPsModules -ModuleNames $script:WinPsModules
 
-    # Lean Graph install instead of full monolith.
-    $pwshModules = @(
-        'Microsoft.Graph.Authentication',
-        'Microsoft.Graph.Users',
-        'Microsoft.Graph.Sites',
-        'Microsoft.Graph.Groups',
-        'Microsoft.Graph.Teams',
-        'Microsoft.Graph.Identity.DirectoryManagement',
-        'MicrosoftTeams',
-        'PnP.PowerShell',
-        'ExchangeOnlineManagement',
-        'Microsoft.Entra'
-    )
+    Install-PacCli
+    Test-Installs
+    Show-NextSteps
 
-    foreach ($module in $pwshModules) {
-        Install-OrUpdatePwshModule -Name $module
-    }
-
-    # Power Platform modules still require Windows PowerShell 5.x.
-    Install-OrUpdateWinPsModules -ModuleNames @(
-        'Microsoft.PowerApps.Administration.PowerShell',
-        'Microsoft.PowerApps.PowerShell'
-    )
-
-    Ensure-PacCli
-    Verify-Installs
-    Print-NextSteps
-
+    $sw.Stop()
     Write-Phase "Done"
-    Write-Ok "Bootstrap completed."
+    Write-Ok "Bootstrap completed in $([int]$sw.Elapsed.TotalSeconds)s."
 }
 catch {
     Write-Fail $_.Exception.Message
