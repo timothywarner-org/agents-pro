@@ -1,7 +1,7 @@
 # Power Platform Well-Architected Framework (WAF) for Copilot Studio Agents  
 **Applies to:** Customer Service Assistant · Employee Onboarding Agent · Document Processor Agent  
 **Goal:** Teach “how Microsoft wants you to build this” and still ship something that works on Monday.  
-**Last updated:** 2025-12-14  
+**Last updated:** 2026-06-01  
 
 ---
 
@@ -63,24 +63,38 @@ You want learners to build **stable** foundations, and also understand what’s 
 ### Stable building blocks (use freely in class)
 - **Generative orchestration** (default for new agents) and how it chooses tools/topics/knowledge.  
   https://learn.microsoft.com/microsoft-copilot-studio/advanced-generative-actions  
+- **Model selection (GA).** GPT-4.1 (default), **GPT-5 Chat (GA)**, and **Claude Sonnet 4.5 / 4.6 and Opus 4.6 (GA)**. Microsoft recommends **Claude Sonnet 4.5** as the orchestration model over GPT-4.1; Claude models are external and need tenant admin approval.  
+  https://learn.microsoft.com/microsoft-copilot-studio/authoring-select-agent-model  
 - **Event triggers** (autonomous reactions) for agents with generative orchestration enabled.  
   https://learn.microsoft.com/microsoft-copilot-studio/authoring-trigger-event  
 - **Agent flows** (Copilot Studio-built flows) to extend capabilities.  
   https://learn.microsoft.com/microsoft-copilot-studio/advanced-flow  
-- **Knowledge file uploads** (MD/HTML/CSV/JSON/YAML/PDF/etc).  
+- **Knowledge file uploads** (MD/HTML/CSV/JSON/YAML/PDF/etc), plus **Azure AI Search** and **Bing Custom Search** sources.  
   https://learn.microsoft.com/microsoft-copilot-studio/knowledge-add-file-upload  
+- **MCP tools (Streamable HTTP)** via the onboarding wizard; SSE retired after Aug 2025.  
+  https://learn.microsoft.com/microsoft-copilot-studio/mcp-add-existing-server-to-agent  
+- **Multi-agent (GA): child agents, connected agents, and the A2A protocol.** Foundry, Fabric, and M365 SDK connections are preview.  
+  https://learn.microsoft.com/microsoft-copilot-studio/authoring-add-other-agents  
+- **Native agent evaluations (GA)** - single-response test sets, graders, activity maps, version compare.  
+  https://learn.microsoft.com/microsoft-copilot-studio/analytics-agent-evaluation-intro  
 - **Analytics** for conversational and autonomous agents.  
   https://learn.microsoft.com/microsoft-copilot-studio/analytics-overview  
+- **VS Code extension (GA)** - clone/edit agent YAML, Git/PR, deploy.  
+  https://learn.microsoft.com/microsoft-copilot-studio/visual-studio-code-extension-overview  
 - **Solutions + ALM** (export/import agents via solutions).  
   https://learn.microsoft.com/microsoft-copilot-studio/authoring-solutions-import-export  
 - **DLP data policies for Copilot Studio** (connector guardrails).  
   https://learn.microsoft.com/microsoft-copilot-studio/admin-data-loss-prevention  
 
-### Forward-looking capabilities (teach as “handle with oven mitts”)
-- **(Preview) GPT‑5 models** in Copilot Studio (experiment, don’t bet the farm).  
-  https://learn.microsoft.com/microsoft-copilot-studio/whats-new  
-- **Prerelease: REST API tools** via OpenAPI specs (subject to change).  
+### Forward-looking capabilities (teach as “handle with oven mitts” - all **preview/experimental**)
+- **(Preview) GPT‑5 Reasoning and GPT‑5 Auto** models (note: GPT‑5 *Chat* is already GA - see Stable list above). GPT‑5.5 Reasoning and Claude Opus 4.7 are experimental.  
+  https://learn.microsoft.com/microsoft-copilot-studio/authoring-select-agent-model  
+- **(Preview) REST API tools** via OpenAPI specs (subject to change).  
   https://learn.microsoft.com/microsoft-copilot-studio/agent-extend-action-rest-api  
+- **(Preview) Multi-turn (full-conversation) agent evaluation** (GA projected Jun 2026).  
+  https://learn.microsoft.com/microsoft-copilot-studio/analytics-agent-evaluation-multi-turn  
+- **(Preview) Connected Foundry / Fabric Data / M365 Agents SDK agents** and **(preview) real-time voice agents**.  
+  https://learn.microsoft.com/microsoft-copilot-studio/authoring-add-other-agents  
 
 ---
 
@@ -97,7 +111,7 @@ Reference: https://learn.microsoft.com/power-platform/well-architected/pillars
 
 ---
 
-## Pillar 1 — Reliability (your agent keeps its promises)
+## Pillar 1 - Reliability (your agent keeps its promises)
 
 ### What reliability means for agents
 - The agent **does not silently fail** when connectors, flows, or knowledge sources wobble.  
@@ -131,7 +145,7 @@ Reference: https://learn.microsoft.com/power-platform/well-architected/pillars
 
 ---
 
-## Pillar 2 — Security (your agent doesn’t leak your org into the sun)
+## Pillar 2 - Security (your agent doesn’t leak your org into the sun)
 
 ### What security means for Copilot Studio workloads
 - Your agent follows **least privilege** for connector auth and data access.  
@@ -165,7 +179,7 @@ Reference: https://learn.microsoft.com/power-platform/well-architected/pillars
 
 ---
 
-## Pillar 3 — Operational Excellence (you can operate what you build)
+## Pillar 3 - Operational Excellence (you can operate what you build)
 
 ### What ops excellence means for agents
 - You can **test**, **deploy**, **observe**, and **roll back** without panic.  
@@ -205,7 +219,7 @@ Reference: https://learn.microsoft.com/power-platform/well-architected/pillars
 
 ---
 
-## Pillar 4 — Performance Efficiency (fast enough, cheap enough, predictable enough)
+## Pillar 4 - Performance Efficiency (fast enough, cheap enough, predictable enough)
 
 ### What performance means for agents
 - The agent answers quickly.  
@@ -234,7 +248,7 @@ Reference: https://learn.microsoft.com/power-platform/well-architected/pillars
 
 ---
 
-## Pillar 5 — Experience Optimization (humans feel in control)
+## Pillar 5 - Experience Optimization (humans feel in control)
 
 ### What “experience” means for agents
 - Users know what the agent can do.  
@@ -268,7 +282,7 @@ Reference: https://learn.microsoft.com/power-platform/well-architected/pillars
 
 # Apply WAF to each of your three agents (scorecards + improvements)
 
-## Agent A — Customer Service Assistant (WAF scorecard)
+## Agent A - Customer Service Assistant (WAF scorecard)
 **Reliability**
 - Add correlation IDs for inbound email triage events.  
 - Add explicit escalation topic + SLA handoff.  
@@ -289,7 +303,7 @@ Reference: https://learn.microsoft.com/power-platform/well-architected/pillars
 - Always cite policy section titles (not hallucinated policy).  
 - Confirm identity before discussing account details.
 
-## Agent B — Employee Onboarding Agent (WAF scorecard)
+## Agent B - Employee Onboarding Agent (WAF scorecard)
 **Reliability**
 - Use a checklist-driven flow for onboarding steps.  
 - Add “missing info” prompts for manager, start date, department.  
@@ -310,7 +324,7 @@ Reference: https://learn.microsoft.com/power-platform/well-architected/pillars
 - Provide a “Day 1 in 5 bullets” quick response.  
 - Offer an explicit “talk to a human” path for exceptions.
 
-## Agent C — Document Processor Agent (WAF scorecard)
+## Agent C - Document Processor Agent (WAF scorecard)
 **Reliability**
 - Idempotency is mandatory.  
 - Human review queue for low-confidence classification.  
@@ -337,17 +351,17 @@ Reference: https://learn.microsoft.com/power-platform/well-architected/pillars
 
 # Forward-thinking module (optional, but fun and useful)
 
-## Preview: GPT‑5 models in Copilot Studio
-**Teach it as an experiment track.**  
-Make learners compare answer quality, latency, and safety behaviors between the default model and GPT‑5 (preview).  
-Reference: https://learn.microsoft.com/microsoft-copilot-studio/whats-new  
+## GA model comparison (no longer a preview gamble)
+**Teach it as a real production decision.**  
+Have learners compare answer quality, latency, and safety behaviors across the **default GPT‑4.1**, **GPT‑5 Chat (GA)**, and **Claude Sonnet 4.5 (GA, Microsoft-recommended orchestrator)**. The teaching point: the default is not always the best choice, and switching the orchestration model is a one-click, production-safe change.  
+Reference: https://learn.microsoft.com/microsoft-copilot-studio/authoring-select-agent-model  
 
-## Prerelease: REST API tools (OpenAPI)
+## Preview: REST API tools (OpenAPI)
 **Teach it as a controlled extension mechanism.**  
-Make learners add one small tool that returns deterministic data, like “company holiday list.”  
+Make learners add one small tool that returns deterministic data, like “company holiday list,” from the **Tools page** (Tools > Add a tool > REST API). Upload an OpenAPI **v2** spec (v3 auto-downgrades). Still preview.  
 Reference: https://learn.microsoft.com/microsoft-copilot-studio/agent-extend-action-rest-api  
 
-**Rule:** Every preview/prerelease feature gets:
+**Rule:** Every preview/experimental feature gets:
 - A rollback plan.  
 - A test plan.  
 - A “this might change” warning in the learner lab.
