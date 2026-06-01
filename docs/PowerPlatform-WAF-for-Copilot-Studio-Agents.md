@@ -63,20 +63,22 @@ You want learners to build **stable** foundations, and also understand what’s 
 ### Stable building blocks (use freely in class)
 - **Generative orchestration** (default for new agents) and how it chooses tools/topics/knowledge.  
   https://learn.microsoft.com/microsoft-copilot-studio/advanced-generative-actions  
-- **Model selection (GA).** GPT-4.1 (default), **GPT-5 Chat (GA)**, and **Claude Sonnet 4.5 / 4.6 and Opus 4.6 (GA)**. Microsoft recommends **Claude Sonnet 4.5** as the orchestration model over GPT-4.1; Claude models are external and need tenant admin approval.  
+- **Model selection (GA).** GPT-4.1 remains the platform **Default** model. **GPT-5 Chat (GA)**, **Claude Sonnet 4.5 / 4.6 (GA)**, and **Claude Opus 4.6 Deep (GA)** are all generally available (excluding GCC). Claude models are external and need tenant admin approval.  
   https://learn.microsoft.com/microsoft-copilot-studio/authoring-select-agent-model  
+- **Orchestration model guidance.** For the orchestration model, Microsoft advises **not** using GPT-4.1 and recommends **Claude Sonnet 4.5** with **GPT-5 Chat** as the fallback. This guidance lives in the Dynamics 365 finance and operations MCP build doc, not the model-selection page.  
+  https://learn.microsoft.com/dynamics365/fin-ops-core/dev-itpro/copilot/build-agent-mcp  
 - **Event triggers** (autonomous reactions) for agents with generative orchestration enabled.  
   https://learn.microsoft.com/microsoft-copilot-studio/authoring-trigger-event  
 - **Agent flows** (Copilot Studio-built flows) to extend capabilities.  
   https://learn.microsoft.com/microsoft-copilot-studio/advanced-flow  
 - **Knowledge file uploads** (MD/HTML/CSV/JSON/YAML/PDF/etc), plus **Azure AI Search** and **Bing Custom Search** sources.  
   https://learn.microsoft.com/microsoft-copilot-studio/knowledge-add-file-upload  
-- **MCP tools (Streamable HTTP)** via the onboarding wizard; SSE retired after Aug 2025.  
+- **MCP tools (Streamable HTTP only)** via the onboarding wizard (Tools > Add a tool > New tool > Model Context Protocol), with None / API key / OAuth 2.0 auth. SSE transport is deprecated and no longer supported after August 2025.  
   https://learn.microsoft.com/microsoft-copilot-studio/mcp-add-existing-server-to-agent  
-- **Multi-agent (GA): child agents, connected agents, and the A2A protocol.** Foundry, Fabric, and M365 SDK connections are preview.  
+- **Multi-agent (GA): child agents, connected (in-environment Copilot Studio) agents, and the agent-to-agent (A2A) protocol** (A2A reached GA in April 2026). External connections are **preview**: Microsoft Foundry agents, Fabric Data agents, and agents built with the Microsoft 365 Agents SDK.  
   https://learn.microsoft.com/microsoft-copilot-studio/authoring-add-other-agents  
-- **Native agent evaluations (GA)** - single-response test sets, graders, activity maps, version compare.  
-  https://learn.microsoft.com/microsoft-copilot-studio/analytics-agent-evaluation-intro  
+- **Native agent evaluations (GA as of March 2026)** - single-response evaluations using customizable test sets. Multi-turn conversation tests remain in preview (see Forward-looking list).  
+  https://learn.microsoft.com/microsoft-copilot-studio/whats-new  
 - **Analytics** for conversational and autonomous agents.  
   https://learn.microsoft.com/microsoft-copilot-studio/analytics-overview  
 - **VS Code extension (GA)** - clone/edit agent YAML, Git/PR, deploy.  
@@ -87,12 +89,14 @@ You want learners to build **stable** foundations, and also understand what’s 
   https://learn.microsoft.com/microsoft-copilot-studio/admin-data-loss-prevention  
 
 ### Forward-looking capabilities (teach as “handle with oven mitts” - all **preview/experimental**)
-- **(Preview) GPT‑5 Reasoning and GPT‑5 Auto** models (note: GPT‑5 *Chat* is already GA - see Stable list above). GPT‑5.5 Reasoning and Claude Opus 4.7 are experimental.  
+- **(Preview) GPT-5 Reasoning (Deep) and GPT-5 Auto** models (note: GPT-5 *Chat* is already GA - see Stable list above).  
   https://learn.microsoft.com/microsoft-copilot-studio/authoring-select-agent-model  
+- **(Experimental) GPT-5.3 Chat, GPT-5.4 Reasoning, GPT-5.5 Reasoning (Deep), and Claude Opus 4.7 (Deep)** - early access environment, US only. There is no GA or generic "GPT-5.5"; the GPT-5.x line is experimental, and the April 2026 What's New entry announced GPT-5.5 Reasoning (Deep) as an experimental model.  
+  https://learn.microsoft.com/microsoft-copilot-studio/whats-new  
 - **(Preview) REST API tools** via OpenAPI specs (subject to change).  
   https://learn.microsoft.com/microsoft-copilot-studio/agent-extend-action-rest-api  
-- **(Preview) Multi-turn (full-conversation) agent evaluation** (GA projected Jun 2026).  
-  https://learn.microsoft.com/microsoft-copilot-studio/analytics-agent-evaluation-multi-turn  
+- **(Preview) Multi-turn (full-conversation) agent evaluation tests** (introduced March 2026; still in preview). Note: single-response agent evaluations reached GA in March 2026 - see the Stable list above.  
+  https://learn.microsoft.com/microsoft-copilot-studio/whats-new  
 - **(Preview) Connected Foundry / Fabric Data / M365 Agents SDK agents** and **(preview) real-time voice agents**.  
   https://learn.microsoft.com/microsoft-copilot-studio/authoring-add-other-agents  
 
@@ -353,12 +357,13 @@ Reference: https://learn.microsoft.com/power-platform/well-architected/pillars
 
 ## GA model comparison (no longer a preview gamble)
 **Teach it as a real production decision.**  
-Have learners compare answer quality, latency, and safety behaviors across the **default GPT‑4.1**, **GPT‑5 Chat (GA)**, and **Claude Sonnet 4.5 (GA, Microsoft-recommended orchestrator)**. The teaching point: the default is not always the best choice, and switching the orchestration model is a one-click, production-safe change.  
-Reference: https://learn.microsoft.com/microsoft-copilot-studio/authoring-select-agent-model  
+Have learners compare answer quality, latency, and safety behaviors across the **Default GPT-4.1**, **GPT-5 Chat (GA)**, and **Claude Sonnet 4.5 (GA)**. The teaching point: the Default is not always the best choice, and switching the orchestration model is a one-click, production-safe change. For the orchestration role specifically, Microsoft recommends **Claude Sonnet 4.5** (GPT-5 Chat as fallback) and advises against GPT-4.1, per the Dynamics 365 finance and operations MCP guidance.  
+Reference (model list): https://learn.microsoft.com/microsoft-copilot-studio/authoring-select-agent-model  
+Reference (orchestration guidance): https://learn.microsoft.com/dynamics365/fin-ops-core/dev-itpro/copilot/build-agent-mcp  
 
 ## Preview: REST API tools (OpenAPI)
 **Teach it as a controlled extension mechanism.**  
-Make learners add one small tool that returns deterministic data, like “company holiday list,” from the **Tools page** (Tools > Add a tool > REST API). Upload an OpenAPI **v2** spec (v3 auto-downgrades). Still preview.  
+Make learners add one small tool that returns deterministic data, like a “company holiday list,” from the **Tools page**. Upload an OpenAPI **v2** spec (a v3 spec is auto-downgraded to v2). This feature is still **preview** (prerelease documentation).  
 Reference: https://learn.microsoft.com/microsoft-copilot-studio/agent-extend-action-rest-api  
 
 **Rule:** Every preview/experimental feature gets:
@@ -419,7 +424,12 @@ Reference: https://learn.microsoft.com/power-platform/well-architected/implement
 - https://learn.microsoft.com/microsoft-copilot-studio/guidance/defining-chatbot-topics  
 - https://learn.microsoft.com/microsoft-copilot-studio/guidance/topics-overview  
 - https://learn.microsoft.com/microsoft-copilot-studio/whats-new  
+- https://learn.microsoft.com/microsoft-copilot-studio/authoring-select-agent-model  
+- https://learn.microsoft.com/microsoft-copilot-studio/mcp-add-existing-server-to-agent  
+- https://learn.microsoft.com/microsoft-copilot-studio/authoring-add-other-agents  
+- https://learn.microsoft.com/microsoft-copilot-studio/visual-studio-code-extension-overview  
 - https://learn.microsoft.com/microsoft-copilot-studio/agent-extend-action-rest-api  
+- https://learn.microsoft.com/dynamics365/fin-ops-core/dev-itpro/copilot/build-agent-mcp  
 - https://learn.microsoft.com/power-platform/alm/environment-strategy-alm  
 - https://learn.microsoft.com/power-platform/alm/pipelines  
 - https://learn.microsoft.com/power-platform/guidance/adoption/environment-strategy  

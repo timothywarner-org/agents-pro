@@ -1,6 +1,6 @@
 # Document Processor Agent
 
-**Course Segment:** Hour 4 — Autonomous Agents & Event Triggers
+**Course Segment:** Hour 4 - Autonomous Agents and Event Triggers
 **Difficulty:** Advanced
 **Estimated Build Time:** 45-50 minutes
 

@@ -1,6 +1,6 @@
 # Customer Service Assistant Agent
 
-**Course Segment:** Hour 2 — Building Your First Knowledge-Powered Agent
+**Course Segment:** Hour 2 - Building Your First Knowledge-Powered Agent
 **Difficulty:** Beginner
 **Estimated Build Time:** 45-50 minutes
 
@@ -127,7 +127,7 @@ Copilot Studio automatically creates:
    - Required scopes: `Sites.Read.All`, `Files.Read.All`
 6. Click **Add**
 
-> **Best Practice:** For better search results, Microsoft recommends a Microsoft 365 Copilot license in the same tenant as your agent. See [SharePoint knowledge source documentation](https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-add-sharepoint).
+> **Best Practice:** For better search results, Microsoft recommends a Microsoft 365 Copilot license in the same tenant as your agent. See [SharePoint knowledge source documentation](https://learn.microsoft.com/microsoft-copilot-studio/knowledge-add-sharepoint).
 
 #### Step 2.2: Add Website Knowledge
 1. Click **+ Add knowledge** again
@@ -147,7 +147,7 @@ Copilot Studio automatically creates:
 3. Set content moderation to **High** (recommended for customer-facing agents)
 4. Disable **AI General Knowledge** to restrict answers to configured sources only
 
-> **Important:** Sources defined in generative answers nodes override agent-level knowledge sources. Configure specific sources for best results. See [Generative Answers FAQ](https://learn.microsoft.com/en-us/microsoft-copilot-studio/faqs-generative-answers).
+> **Important:** Sources defined in generative answers nodes override agent-level knowledge sources. Configure specific sources for best results. See [Generative Answers FAQ](https://learn.microsoft.com/microsoft-copilot-studio/faqs-generative-answers).
 
 ---
 
@@ -255,7 +255,7 @@ flowchart TD
 2. Review any overlap warnings
 3. Refine trigger phrases to reduce ambiguity
 
-> **Best Practice:** Use Copilot Studio's topic overlap detection to discover and resolve conflicting triggers. Create disambiguation topics when necessary. See [Topic Authoring Best Practices](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/topic-authoring-best-practices).
+> **Best Practice:** Use Copilot Studio's topic overlap detection to discover and resolve conflicting triggers. Create disambiguation topics when necessary. See [Topic Authoring Best Practices](https://learn.microsoft.com/microsoft-copilot-studio/guidance/topic-authoring-best-practices).
 
 #### Step 4.3: Conversation Logging
 1. Enable conversation logging in **Settings** > **Security**
@@ -345,10 +345,10 @@ Agent: You're welcome! Feel free to reach out anytime if you have
 
 ## Additional Resources
 
-- [Knowledge Sources Summary](https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio)
-- [Topics in Copilot Studio](https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/topics-overview)
-- [Generative Answers Node](https://learn.microsoft.com/en-us/microsoft-copilot-studio/nlu-boost-node)
-- [Copilot Studio Agent Academy](https://learn.microsoft.com/en-us/microsoft-copilot-studio)
+- [Knowledge Sources Summary](https://learn.microsoft.com/microsoft-copilot-studio/knowledge-copilot-studio)
+- [Topics in Copilot Studio](https://learn.microsoft.com/microsoft-copilot-studio/guidance/topics-overview)
+- [Generative Answers Node](https://learn.microsoft.com/microsoft-copilot-studio/nlu-boost-node)
+- [Copilot Studio Agent Academy](https://learn.microsoft.com/microsoft-copilot-studio)
 
 ---
 

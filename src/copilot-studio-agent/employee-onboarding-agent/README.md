@@ -1,6 +1,6 @@
 # Employee Onboarding Agent
 
-**Course Segment:** Hour 3 — Actions, Flows & Approvals
+**Course Segment:** Hour 2 - Actions, Flows & Approvals
 **Difficulty:** Intermediate
 **Estimated Build Time:** 45-50 minutes
 
@@ -102,7 +102,7 @@ progress through onboarding tasks.
    - **Scopes:** `User.Read`, `profile`, `openid`
 4. Enable **Require users to sign in**
 
-> **Important:** Authentication enables personalized experiences and access to user profile data. See [End-user authentication](https://learn.microsoft.com/en-us/microsoft-copilot-studio/advanced-end-user-authentication).
+> **Important:** Authentication enables personalized experiences and access to user profile data. See [End-user authentication](https://learn.microsoft.com/microsoft-copilot-studio/advanced-end-user-authentication).
 
 ---
 
@@ -294,9 +294,9 @@ User:  Power User Laptop
 
 Agent: Got it! I've submitted your IT request:
 
-       Ticket #: IT-2025-1234
+       Ticket #: IT-2026-1234
        Device: Dell Precision 5570
-       Expected delivery: December 15, 2025
+       Expected delivery: June 15, 2026
 
        You'll receive an email when your equipment is ready for pickup.
 
@@ -319,6 +319,6 @@ Agent: Got it! I've submitted your IT request:
 
 ## Additional Resources
 
-- [Agent Flows Overview](https://learn.microsoft.com/en-us/microsoft-copilot-studio/flows-overview)
-- [End-User Authentication](https://learn.microsoft.com/en-us/microsoft-copilot-studio/advanced-end-user-authentication)
-- [Approvals Connector](https://learn.microsoft.com/en-us/connectors/approvals/)
+- [Agent Flows Overview](https://learn.microsoft.com/microsoft-copilot-studio/flows-overview)
+- [End-User Authentication](https://learn.microsoft.com/microsoft-copilot-studio/advanced-end-user-authentication)
+- [Approvals Connector](https://learn.microsoft.com/connectors/approvals/)

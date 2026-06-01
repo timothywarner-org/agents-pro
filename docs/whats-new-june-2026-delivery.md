@@ -52,7 +52,7 @@ Ref: <https://learn.microsoft.com/microsoft-copilot-studio/authoring-select-agen
 5. **VS Code extension.** **GA**: clone agent, edit `.mcs.yml`, Git/PR, deploy; Claude Code and GitHub Copilot named as authoring agents. <https://learn.microsoft.com/microsoft-copilot-studio/visual-studio-code-extension-overview>
 6. **REST API tools.** Still **Preview**, now a first-class Tools-page type (Prompt / Agent flow / Computer use / Custom connector / MCP / REST API); OpenAPI v2 (v3 auto-downgrades). <https://learn.microsoft.com/microsoft-copilot-studio/agent-extend-action-rest-api>
 7. **Knowledge sources.** Added **Azure AI Search** (vector + semantic ranker, VNet), **Bing Custom Search** (agent-level, overrides public sites), **Web Search** (Bing grounding), and the **`OnKnowledgeRequested`** custom-knowledge trigger (YAML only). Generative mode: 25 websites / 25 SharePoint URLs. <https://learn.microsoft.com/microsoft-copilot-studio/knowledge-copilot-studio>
-8. **Deck filename.** The current deck is `warner-agents-pro-april-2026.pptx` (not the old February name).
+8. **Deck filename.** The current deck is `warner-agents-pro-june-2026.pptx` (not the old February or April names).
 
 ---
 
@@ -69,4 +69,4 @@ One vocabulary across all materials. **GA** means production-ready. **Preview** 
 | Single-response evaluations | Real-time voice agents | |
 | VS Code extension | | |
 
-> **Workload note:** the WAF teaching doc uses a **different agent set** (Customer Service, Onboarding, Document Processor) than this course's single **CKA Study Assistant**. Do not blur them. They are separate teaching workloads that share the same WAF lens.
+> **Workload note:** the WAF teaching doc uses a **different agent set** (Customer Service, Onboarding, Document Processor) than this course's single **AZ-900 Cert-Prep Assistant**. Do not blur them. They are separate teaching workloads that share the same WAF lens.
