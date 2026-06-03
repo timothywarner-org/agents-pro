@@ -1,0 +1,40 @@
+mcs.metadata:
+  componentName: T03_TransparencyNote
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Transparency Note
+    triggerQueries:
+      - draft a transparency note
+      - write a transparency note
+      - transparency note template
+      - document my AI system
+      - RAI transparency note
+      - create transparency documentation
+  modelDescription: Drafts a Microsoft-style Transparency Note for an AI system.
+
+  actions:
+    - kind: Question
+      id: question_t1a7xk
+      variable: init:Topic.SystemName
+      prompt: Which AI system should I document?
+      entity: StringPrebuiltEntity
+      alwaysPrompt: true
+      interruptionPolicy:
+        allowInterruption: false
+
+    - kind: AnswerQuestionWithAI
+      id: answerAi_t2b8yl
+      variable: Topic.Note
+      userInput: |-
+        =Concatenate("Draft a Microsoft-style Transparency Note for the AI system named: ", Topic.SystemName, ". Follow Microsoft's canonical Transparency Note section pattern in this exact order: 'What is a Transparency Note' -> 'System overview & capabilities' -> 'Intended uses (and explicitly unsupported uses)' -> 'Limitations' -> 'Evaluation methods & results' -> 'Responsible deployment guidance'. Use Markdown headings for each section. Where details are unknown, insert clearly marked placeholders for the author to complete. End with the source in angle brackets: <https://learn.microsoft.com/azure/ai-foundry/responsible-ai/openai/transparency-note>.")
+
+    - kind: SendActivity
+      id: sendMessage_t3c9zm
+      activity: "{Topic.Note}"
+
+    - kind: EndDialog
+      id: endDialog_t4d0an
+      clearTopicQueue: true

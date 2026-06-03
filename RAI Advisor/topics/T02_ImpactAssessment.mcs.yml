@@ -1,0 +1,70 @@
+mcs.metadata:
+  componentName: T02_ImpactAssessment
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Impact Assessment
+    triggerQueries:
+      - run an impact assessment
+      - responsible AI impact assessment
+      - assess my AI system
+      - RAI impact assessment
+      - evaluate my system for responsible AI
+      - create an impact assessment
+  modelDescription: Collects a system description and produces a Responsible AI Impact Assessment, then returns a link to the generated document.
+
+  actions:
+    - kind: SendActivity
+      id: sendMessage_intro
+      activity: I'll run a Responsible AI Impact Assessment. I need three quick details.
+
+    - kind: Question
+      id: question_systemName
+      variable: init:Topic.SystemName
+      prompt: "What's the **name** of the AI system?"
+      entity: StringPrebuiltEntity
+      alwaysPrompt: true
+      interruptionPolicy:
+        allowInterruption: false
+
+    - kind: Question
+      id: question_systemDescription
+      variable: init:Topic.SystemDescription
+      prompt: "Briefly **describe** what it does and who uses it."
+      entity: StringPrebuiltEntity
+      alwaysPrompt: true
+      interruptionPolicy:
+        allowInterruption: false
+
+    - kind: Question
+      id: question_intendedUse
+      variable: init:Topic.IntendedUse
+      prompt: "What's the **intended use** and what uses are out of scope?"
+      entity: StringPrebuiltEntity
+      alwaysPrompt: true
+      interruptionPolicy:
+        allowInterruption: false
+
+    # PLACEHOLDER for the Impact Assessment Power Automate flow. Once the SharePoint flow
+    # connection is provisioned, replace this AnswerQuestionWithAI node with the
+    # flow-invocation action (see docs/impact-assessment-workflow-guide.md). The agent's
+    # system prompt already describes the flow-based behavior.
+    - kind: AnswerQuestionWithAI
+      id: answerAi_assessment
+      variable: Topic.Assessment
+      userInput: |-
+        =Concatenate("Produce a structured Responsible AI Impact Assessment for the following system. System name: ", Topic.SystemName, ". System description: ", Topic.SystemDescription, ". Intended use and out-of-scope uses: ", Topic.IntendedUse, ". Organize the assessment by Microsoft's SIX Responsible AI principles (Fairness; Reliability & Safety; Privacy & Security; Inclusiveness; Transparency; Accountability), and map each section to the relevant goals of the Microsoft Responsible AI Standard v2, which has SEVENTEEN goals total (never say 14). Include a risk + mitigation table with columns 'Risk | Severity | Mitigation', and a dedicated 'Human oversight' section describing how a person stays accountable for the system. Use Markdown headings throughout. End with the source in angle brackets: <https://www.microsoft.com/ai/principles-and-approach>.")
+
+    - kind: SendActivity
+      id: sendMessage_assessment
+      activity: "{Topic.Assessment}"
+
+    - kind: SendActivity
+      id: sendMessage_flowNote
+      activity: Once your admin attaches the Impact Assessment flow, I'll save this straight to SharePoint and hand you a link.
+
+    - kind: EndDialog
+      id: endDialog_impact
+      clearTopicQueue: true

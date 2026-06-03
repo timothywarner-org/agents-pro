@@ -1,0 +1,36 @@
+<svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RAI Advisor Teams and Microsoft 365 store icon: shield with balance scales on a blue rounded square">
+  <title>RAI Advisor store icon</title>
+  <desc>Teams/M365 color store icon. A white shield with balance scales on a Microsoft-blue rounded square. Shape-driven and colorblind-safe.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2B88D8"/>
+      <stop offset="1" stop-color="#0F548C"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Teams store icons sit on a solid rounded-square tile -->
+  <rect x="0" y="0" width="192" height="192" rx="36" fill="url(#bg)"/>
+
+  <!-- White shield, simplified for small size -->
+  <path d="M96 30
+           L156 52
+           V100
+           C156 138 130 168 96 180
+           C62 168 36 138 36 100
+           V52 Z"
+        fill="#FFFFFF"/>
+
+  <!-- Blue scales inside the white shield for contrast -->
+  <g stroke="#0F548C" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <line x1="96" y1="62" x2="96" y2="134"/>
+    <line x1="78" y1="134" x2="114" y2="134"/>
+    <line x1="60" y1="80" x2="132" y2="80"/>
+    <circle cx="96" cy="70" r="7" fill="#0F548C" stroke="none"/>
+    <line x1="60" y1="80" x2="49" y2="104"/>
+    <line x1="60" y1="80" x2="71" y2="104"/>
+    <line x1="132" y1="80" x2="121" y2="104"/>
+    <line x1="132" y1="80" x2="143" y2="104"/>
+  </g>
+  <path d="M45 104 H75 A15 15 0 0 1 45 104 Z" fill="#0F548C"/>
+  <path d="M117 104 H147 A15 15 0 0 1 117 104 Z" fill="#0F548C"/>
+</svg>

@@ -1,0 +1,32 @@
+displayName: RAI Advisor
+schemaName: cr84c_raiAdvisor
+accessControlPolicy: GroupMembership
+authenticationMode: Integrated
+authenticationTrigger: Always
+configuration:
+  channels:
+    - channelId: MsTeams
+
+    - channelId: Microsoft365Copilot
+
+  settings:
+    GenerativeActionsEnabled: true
+
+  isAgentConnectable: true
+  publishOnImport: true
+  gPTSettings:
+    defaultSchemaName: cr84c_raiAdvisor.gpt.default
+
+  isLightweightBot: false
+  aISettings:
+    useModelKnowledge: true
+    isFileAnalysisEnabled: true
+    isSemanticSearchEnabled: true
+    contentModeration: High
+    optInUseLatestModels: false
+
+  recognizer:
+    kind: GenerativeAIRecognizer
+
+template: default-2.1.0
+language: 1033

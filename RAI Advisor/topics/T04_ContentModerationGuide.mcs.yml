@@ -1,0 +1,38 @@
+mcs.metadata:
+  componentName: T04_ContentModerationGuide
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Content Moderation Guide
+    triggerQueries:
+      - how do I configure content moderation
+      - content moderation settings
+      - moderation slider
+      - why are my answers being blocked
+      - responsible AI filtering
+      - set content moderation
+  modelDescription: Explains how to configure content moderation in Copilot Studio at the agent, topic, and prompt scopes, and how to diagnose blocked answers.
+
+  actions:
+    - kind: AnswerQuestionWithAI
+      id: answerAi_m1a7xk
+      variable: Topic.Answer
+      userInput: |-
+        Explain how content moderation is configured in Copilot Studio using ONLY these facts (do not drift or invent):
+        Content moderation has THREE scopes.
+        (1) Agent level (Generative AI settings page): scale Lowest -> Highest, default High.
+        (2) Topic level (on a generative answers node): scale Lowest -> Highest, default High; topic level takes precedence over agent level at runtime.
+        (3) Per-prompt slider (prompt builder): scale Low / Moderate / High, default Moderate, available ONLY for managed models (greyed out for Anthropic / Azure AI Foundry models); this per-prompt control went GA on February 11, 2026.
+        Present these three scopes as a Markdown table with columns "Scope | Scale | Default | Notes".
+        Then add a paragraph titled "Diagnosing blocked answers": when generative answers silently disappear there is NO user-facing "blocked" message — moderation events are only visible via Application Insights telemetry using KQL. Fix by lowering the moderation level or filing a support case.
+        End with the sources in angle brackets: <https://learn.microsoft.com/microsoft-copilot-studio/knowledge-copilot-studio#content-moderation> and <https://learn.microsoft.com/microsoft-copilot-studio/responsible-ai-overview>.
+
+    - kind: SendActivity
+      id: sendMessage_m2b8yl
+      activity: "{Topic.Answer}"
+
+    - kind: EndDialog
+      id: endDialog_m3c9zm
+      clearTopicQueue: true

@@ -55,6 +55,9 @@ agents-pro/
 │   ├── prompts/                        # Copilot prompt templates
 │   └── instructions/                   # Copilot coding instructions
 │
+├── CKA Exam Prep Assistant/            # Deployable Copilot Studio agent (.mcs.yml)
+├── RAI Advisor/                        # Deployable Responsible AI agent (.mcs.yml + workflow + icons)
+│
 ├── agents-playground/                  # Sandbox workspace + experiments
 ├── docs/                               # Course plan, WAF notes, research
 ├── images/                             # Course images and assets
@@ -115,6 +118,11 @@ git lfs pull
 - Antigrav low-code agent builder
 - Claude Code and GitHub Copilot as agentic coding assistants
 - Hands-on: build and publish a Copilot Studio agent to Teams
+
+**Flagship demo agents** (deployable `.mcs.yml`, openable in the Copilot Studio VS Code extension):
+
+- `CKA Exam Prep Assistant/` -- Kubernetes exam prep (practice questions, labs, troubleshooting)
+- `RAI Advisor/` -- Microsoft Responsible AI principles and how to operationalize them (Impact Assessments, Transparency Notes, content moderation, harm evaluation), with a repeatable SharePoint-backed Impact Assessment workflow
 
 **Skills:** Copilot Studio authoring, Power Automate integration, low-code agent patterns
 

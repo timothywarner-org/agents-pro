@@ -1,0 +1,7 @@
+mcs.metadata:
+  componentName: Azure AI Foundry Responsible AI
+  description: Searches Azure AI Foundry responsible-use, guardrails, and evaluation guidance.
+kind: KnowledgeSourceConfiguration
+source:
+  kind: PublicSiteSearchSource
+  site: https://learn.microsoft.com/azure/foundry/responsible-use-of-ai-overview

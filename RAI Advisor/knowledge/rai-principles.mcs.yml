@@ -1,0 +1,7 @@
+mcs.metadata:
+  componentName: Microsoft Responsible AI
+  description: Searches Microsoft's Responsible AI principles and approach.
+kind: KnowledgeSourceConfiguration
+source:
+  kind: PublicSiteSearchSource
+  site: https://www.microsoft.com/ai/responsible-ai

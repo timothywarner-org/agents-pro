@@ -1,0 +1,39 @@
+mcs.metadata:
+  componentName: T01_PrinciplesExplainer
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Principles Explainer
+    triggerQueries:
+      - what are the responsible AI principles
+      - explain Microsoft RAI principles
+      - the six principles
+      - fairness reliability privacy
+      - responsible AI overview
+      - RAI principles
+  modelDescription: Explains Microsoft's six Responsible AI principles with their exact definitions and the foundational-principles framing.
+
+  actions:
+    - kind: AnswerQuestionWithAI
+      id: answerAi_p1a7xk
+      variable: Topic.Answer
+      userInput: |-
+        Output the SIX Microsoft Responsible AI principles as a Markdown table with columns "Principle | What it means", using Microsoft's exact one-line definitions:
+        Fairness = "AI systems should treat all people fairly.";
+        Reliability & Safety = "AI systems should perform reliably and safely.";
+        Privacy & Security = "AI systems should be secure and respect privacy.";
+        Inclusiveness = "AI systems should empower everyone and engage all people, regardless of their backgrounds.";
+        Transparency = "AI systems should be understandable.";
+        Accountability = "People should be accountable for AI systems."
+        After the table, add two notes: (1) Microsoft frequently highlights Transparency and Accountability as cross-cutting principles that reinforce the other four; (2) these are SIX principles, not eight — "Reliability & Safety" and "Privacy & Security" are each a single principle.
+        End with the source URL in angle brackets: <https://www.microsoft.com/ai/principles-and-approach>.
+
+    - kind: SendActivity
+      id: sendMessage_p2b8yl
+      activity: "{Topic.Answer}"
+
+    - kind: EndDialog
+      id: endDialog_p3c9zm
+      clearTopicQueue: true

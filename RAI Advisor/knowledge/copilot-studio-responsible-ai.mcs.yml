@@ -1,0 +1,7 @@
+mcs.metadata:
+  componentName: Copilot Studio Responsible AI
+  description: Searches the Copilot Studio Responsible AI and content moderation guidance.
+kind: KnowledgeSourceConfiguration
+source:
+  kind: PublicSiteSearchSource
+  site: https://learn.microsoft.com/microsoft-copilot-studio/responsible-ai-overview

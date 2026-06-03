@@ -1,0 +1,55 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RAI Advisor: a shield with balance scales representing responsible AI governance">
+  <title>RAI Advisor icon</title>
+  <desc>A Microsoft-blue shield containing balance scales, signifying responsible AI principles of fairness, accountability, and safety. Shape-driven and colorblind-safe.</desc>
+  <defs>
+    <linearGradient id="shieldFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2B88D8"/>
+      <stop offset="1" stop-color="#0F548C"/>
+    </linearGradient>
+    <linearGradient id="shieldEdge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#50A6F0"/>
+      <stop offset="1" stop-color="#0A3D6B"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Shield body: clear silhouette so it reads at 32px -->
+  <path d="M256 40
+           L432 104
+           V250
+           C432 360 352 446 256 480
+           C160 446 80 360 80 250
+           V104 Z"
+        fill="url(#shieldFill)" stroke="url(#shieldEdge)" stroke-width="14" stroke-linejoin="round"/>
+
+  <!-- Inner bevel ring for depth, shape not color -->
+  <path d="M256 78
+           L400 130
+           V250
+           C400 344 334 418 256 448
+           C178 418 112 344 112 250
+           V130 Z"
+        fill="none" stroke="#9FD0FF" stroke-width="6" opacity="0.55"/>
+
+  <!-- Balance scales: white, high contrast against blue -->
+  <g stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- central post -->
+    <line x1="256" y1="150" x2="256" y2="330"/>
+    <!-- base -->
+    <line x1="212" y1="330" x2="300" y2="330"/>
+    <!-- top pivot beam -->
+    <line x1="160" y1="186" x2="352" y2="186"/>
+    <!-- pivot knob -->
+    <circle cx="256" cy="166" r="14" fill="#FFFFFF" stroke="none"/>
+    <!-- left hangers -->
+    <line x1="160" y1="186" x2="132" y2="248"/>
+    <line x1="160" y1="186" x2="188" y2="248"/>
+    <!-- right hangers -->
+    <line x1="352" y1="186" x2="324" y2="248"/>
+    <line x1="352" y1="186" x2="380" y2="248"/>
+  </g>
+
+  <!-- Left pan -->
+  <path d="M124 248 H196 A36 36 0 0 1 124 248 Z" fill="#FFFFFF"/>
+  <!-- Right pan -->
+  <path d="M316 248 H388 A36 36 0 0 1 316 248 Z" fill="#FFFFFF"/>
+</svg>

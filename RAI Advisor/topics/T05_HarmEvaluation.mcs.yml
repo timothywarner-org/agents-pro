@@ -1,0 +1,35 @@
+mcs.metadata:
+  componentName: T05_HarmEvaluation
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Harm Evaluation
+    triggerQueries:
+      - how do I evaluate my agent for harms
+      - harm evaluation
+      - red team my agent
+      - responsible AI evaluation
+      - test my agent for safety
+      - discover protect govern
+  modelDescription: Walks through Microsoft's Discover -> Protect -> Govern pattern for evaluating an agent for harms.
+
+  actions:
+    - kind: AnswerQuestionWithAI
+      id: answerAi_h1a7xk
+      variable: Topic.Answer
+      userInput: |-
+        Explain Microsoft's three-phase Discover -> Protect -> Govern pattern for evaluating an AI agent for harms. Use a Markdown heading for each phase.
+        DISCOVER: red-team / adversarial prompts; run safety evaluators — violence, sexual, self_harm, hate_unfairness, indirect_attack, protected_material — via the Azure AI Evaluation SDK against a JSONL test set; compute a defect rate.
+        PROTECT: apply Guardrails / content filters at four intervention points: user input, tool call, tool response, output; tune severity thresholds.
+        GOVERN: wire evaluations into CI/CD; enable monitoring + tracing via App Insights / OpenTelemetry; set alerts; re-evaluate on changes.
+        End with the source in angle brackets: <https://learn.microsoft.com/azure/foundry/responsible-use-of-ai-overview>.
+
+    - kind: SendActivity
+      id: sendMessage_h2b8yl
+      activity: "{Topic.Answer}"
+
+    - kind: EndDialog
+      id: endDialog_h3c9zm
+      clearTopicQueue: true

@@ -27,6 +27,17 @@ This repo contains **two generations** of course material:
 
 2. **`agents2/`** -- Archived snapshot of the predecessor repo (`timothywarner-org/agents2`), cloned without git history. Contains a working Python agent pipeline (`agents2/oreilly-agent-mvp/`), Claude Code skill definitions, Copilot Studio adaptive cards, per-hour teaching guides, and research docs. Treat as a reference library, not active development.
 
+### Deployable `.mcs.yml` agents (top-level folders)
+
+Distinct from the blueprint tree above, two top-level folders hold **real, deployable Copilot Studio agents** in the current `.mcs.yml` format (the schema the Copilot Studio VS Code extension reads, and a real Dataverse export shape). These import and run, not just document:
+
+| Agent folder | Focus | Custom topics |
+|-------------|-------|--------------|
+| `CKA Exam Prep Assistant/` | Kubernetes CKA exam prep | Practice questions, lab generator, troubleshooting, kubectl help, exam domains |
+| `RAI Advisor/` | Microsoft Responsible AI principles and how to operationalize them | Principles explainer, Impact Assessment, Transparency Note, content moderation, harm evaluation |
+
+`RAI Advisor/` is the schema sibling of the CKA agent (same `cr84c` publisher prefix). It ships an XML system prompt, two icons (agent avatar + Teams/M365 store icon), and a repeatable Impact Assessment workflow (`docs/` bootstrap prompt + click-by-click guide). The agent's grounding carries verified RAI facts -- notably the Responsible AI Standard v2 has **17 goals, not 14**, and the per-prompt content-moderation slider went GA February 11, 2026. When editing any `.mcs.yml` here, delegate to the `@copilot-studio:*` sub-agents (the SessionStart hook requires it).
+
 ## Content Architecture
 
 ### Copilot Studio Agents (src/copilot-studio-agent/)

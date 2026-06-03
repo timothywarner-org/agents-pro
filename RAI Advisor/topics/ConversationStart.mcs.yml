@@ -1,0 +1,15 @@
+mcs.metadata:
+  componentName: Conversation Start
+  description: This system topic triggers when the agent receives an Activity indicating the beginning of a new conversation. If you do not want the agent to initiate the conversation, disable this topic.
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnConversationStart
+  id: main
+  actions:
+    - kind: SendActivity
+      id: sendMessage_M0LuhV
+      activity:
+        text:
+          - Hello, I'm {System.Bot.Name}. I help you understand and apply Microsoft's Responsible AI principles. How can I help?
+        speak:
+          - Hello and thank you for contacting {System.Bot.Name}, powered by generative AI. I help you understand and apply Microsoft's Responsible AI principles. How may I help you today?
