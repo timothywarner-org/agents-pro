@@ -17,7 +17,7 @@ O'Reilly Live Learning course repo for "How to Create AI Agents Like a Pro" -- a
 | 3 | Code-First Agents | Azure AI Foundry, Python, LangGraph, FastMCP |
 | 4 | TBD | Best practices, MCP deep dive, or future trends |
 
-The detailed instructor plan is in `docs/course-plan-february-2026.md`. The slide deck is `docs/warner-agents-pro-february-2026.pptx`.
+The detailed instructor plan is in `docs/course-plan-june-2026.md`. The slide deck is `docs/warner-agents-pro-june-2026.pptx`.
 
 ## Two Content Trees
 
@@ -78,7 +78,7 @@ Also: `prompts/copilot-studio-architect.prompt.md` (blueprint design) and `instr
 
 ## No Build System for Primary Content
 
-The `src/copilot-studio-agent/` content is documentation and YAML blueprints only -- no build, lint, or test pipeline. Quality comes from cross-checking against `docs/course-plan-february-2026.md`, the registration page, and Microsoft documentation.
+The `src/copilot-studio-agent/` content is documentation and YAML blueprints only -- no build, lint, or test pipeline. Quality comes from cross-checking against `docs/course-plan-june-2026.md`, the registration page, and Microsoft documentation.
 
 Markdown linting config exists at `.markdownlint.json` (line length 120, 2-space indent for lists).
 

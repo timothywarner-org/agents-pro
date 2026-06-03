@@ -141,7 +141,6 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
-docs/~$warner-agents-pro-december-2025.pptx
 
 # Claude Code local config (agent-memory contains real infra details)
 .claude/agent-memory/
@@ -170,10 +169,15 @@ appsettings.Development.json
 # Temporary files
 tmp*
 !tmp-*-readme.md
+
+# Instructor decks -- PPTX is instructor source, NOT for students.
+# Office lock/temp files (~$foo.pptx) and the decks themselves stay local.
+# Ship the PDF render instead (committed below).
 ~$*.pptx
+*.pptx
 
 # Zip archives
 *.zip
-docs/warner-agents-pro-april-2026.pptx.bak
-.gitignore
-docs/warner-agents-pro-april-2026.pptx.prefix.bak
+
+# Backup scratch files
+*.bak
