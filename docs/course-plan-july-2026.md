@@ -1,9 +1,9 @@
-# How to Create AI Agents Like a Pro - June 2026
+# How to Create AI Agents Like a Pro - July 2026
 
 _O'Reilly Live Learning - Instructor Source of Truth_
 
 **Instructor:** Tim Warner (Microsoft MVP, MCT Regional Lead)
-**Delivery date:** June 2026
+**Delivery date:** July 2026
 **Duration:** 4 hours (four 60-minute segments, 10-minute break between segments)
 **Delivery mode:** Live, hands-on, single progressively-built agent
 
@@ -69,7 +69,7 @@ _Framing the scenario and designing the agent before a single node is built._
 
 - **Agent taxonomy.** Declarative agents (M365 Copilot), retrieval agents (grounded Q&A), tool-using agents (actions/MCP), multi-agent systems (connected agents). Copilot Studio spans all four. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio>
 - **Orchestration modes.** Classic (trigger-phrase routing) vs. generative (AI orchestrator routes to topics, actions, knowledge, and subagents). Generative is now the **default for new agents**. We use generative. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/advanced-generative-actions>
-- **Pick the reasoning model.** Generative orchestration lets you choose the agent's primary model on the **Overview** tab. **GPT-4.1 remains the platform Default model.** **GPT-5 Chat is GA** (say "GPT-5 *Chat*", never bare "GPT-5" - GPT-5 Reasoning (Deep) and GPT-5 Auto are still **preview**). **Claude Sonnet 4.5, Sonnet 4.6, and Opus 4.6 (Deep) are GA**; **Claude Opus 4.7 (Deep) is experimental**. Microsoft's Dynamics 365 ERP MCP guidance is explicit: **do not use GPT-4.1 as the orchestration model** - the recommended orchestrator is **Claude Sonnet 4.5**, with **GPT-5 (Chat) as fallback**. Claude models are external (Anthropic), so a **tenant admin must approve** them first. References: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-select-agent-model> · <https://learn.microsoft.com/dynamics365/fin-ops-core/dev-itpro/copilot/build-agent-mcp>
+- **Pick the reasoning model.** Generative orchestration lets you choose the agent's primary model on the **Overview** tab. **GPT-4.1 remains the platform Default model.** **GPT-5 Chat and GPT-5.5 Chat are GA** (say "GPT-5 *Chat*", never bare "GPT-5" - GPT-5 Reasoning (Deep), GPT-5 Auto, and GPT-5.5 Reasoning are still **preview/experimental**). **Claude Sonnet 4.6, Opus 4.6 (Deep), and Opus 4.7 (Deep) are GA**; **Claude Sonnet 4.5 has retired** (do not demo it). Claude Sonnet 5 is also GA but only in the new-experience agent surface, not the classic authoring model this course teaches. Claude models are external (Anthropic), so a **tenant admin must approve** them first. **Re-verify the current MS-recommended orchestrator against the live docs page before each delivery** - Copilot Studio's model lineup turns over every 4-6 weeks and June 2026's recommendation (Sonnet 4.5) is already stale. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-select-agent-model>
 - **PP-WAF - Experience Optimization first.** Before YAML, we define the learner persona, job-to-be-done, and success metrics. Reference: <https://learn.microsoft.com/en-us/power-platform/well-architected/experience-optimization/>
 - **Instruction design.** System instructions beat per-topic prompts for generative orchestration. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-generative-ai-options>
 - **CAF landing-zone thinking.** Even a single agent lives in an environment - decide dev/test/prod, DLP, and Dataverse scope up front. Reference: <https://learn.microsoft.com/en-us/power-platform/guidance/adoption/environment-strategy>
@@ -104,7 +104,7 @@ _Framing the scenario and designing the agent before a single node is built._
 - [ ] Create new agent `AZ-900 Cert-Prep Assistant`
 - [ ] Set display name, description, conversation starters
 - [ ] Toggle **Generative orchestration** on
-- [ ] Set primary model on the **Overview** tab (Default is GPT-4.1; demo Claude Sonnet 4.5 if tenant-approved)
+- [ ] Set primary model on the **Overview** tab (Default is GPT-4.1; demo Claude Sonnet 4.6 or Opus 4.6/4.7 if tenant-approved -- Sonnet 4.5 has retired, do not select it)
 - [ ] Paste draft instructions
 - [ ] Sketch topic map in portal (empty shells OK)
 - [ ] Confirm DLP policy allows HTTP connector (needed Segment 3)
@@ -299,7 +299,7 @@ _Test, observe, secure, govern, publish._
 ### Talking Points
 
 - **Testing pyramid for agents.** Unit (single utterance in test panel) → Scenario (multi-turn script) → Batch (**native agent evaluations**, with Copilot Studio Kit as a complement) → Shadow / canary in production. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-test-bot>
-- **Native agent evaluations (GA).** Agent evaluations are **generally available as of March 2026**, built into Copilot Studio: build a **test set** by hand, by import, or **generated from your knowledge and topics**; grade with text-match, similarity, and quality graders; inspect each case with an **activity map**; and **compare agent versions** side by side. **Multi-turn (full-conversation) evaluation is preview** (introduced March 2026) - present it as just-arrived, not settled. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-intro>
+- **Native agent evaluations (GA).** Agent evaluations are **generally available as of March 2026**, built into Copilot Studio: build a **test set** by hand, by import, or **generated from your knowledge and topics**; grade with text-match, similarity, and quality graders; inspect each case with an **activity map**; and **compare agent versions** side by side. **Multi-turn (full-conversation) evaluation is now GA** (introduced March 2026 as preview, GA as of this delivery) - up to 20 test cases per conversational test set, with conversation-level and turn-level assertions. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-intro> · <https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-multi-turn>
 - **Copilot Studio Kit.** Power CAT accelerator; still useful for batch regression at scale against Direct Line, and complementary to native evaluations. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/kit-overview>
 - **Analytics.** Session, engagement, resolution, escalation, CSAT - test-panel traffic is excluded. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-overview>
 - **Observability.** Pipe conversations to Application Insights via Dataverse connector; dashboards in Power BI. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-app-insights>
@@ -409,7 +409,7 @@ _Optional closer for the developers in the room; ties the no-code build to real 
 
 ### Instructor Follow-Up
 
-- Slide deck: `docs/warner-agents-pro-june-2026.pptx`
+- Slide deck: `docs/warner-agents-pro-july-2026.pptx`
 - Agent source: `src/copilot-studio-agent/` (rescaffolded for AZ-900 in a follow-up PR)
 - Mock SharePoint content: `src/copilot-studio-agent/knowledge/` (AZ-900 study notes)
 - Issues / errata: <https://github.com/timothywarner-org/agents-pro/issues>

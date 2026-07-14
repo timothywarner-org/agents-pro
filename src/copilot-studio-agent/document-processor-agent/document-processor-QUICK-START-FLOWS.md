@@ -455,7 +455,7 @@ After this flow is working:
 3. **Add approval:** Route high-value items for manager approval
 4. **Upgrade to AI:** Replace keyword matching with AI Builder document classification
 
-See [QUICK-START-TRIGGERS.md](./QUICK-START-TRIGGERS.md) for the full Copilot Studio integration with AI Builder.
+See [document-processor-QUICK-START-TRIGGERS.md](./document-processor-QUICK-START-TRIGGERS.md) for the full Copilot Studio integration with AI Builder.
 
 ---
 

@@ -148,7 +148,7 @@ oreilly-agent-mvp/
 ├── .mcp/
 │   └── claude_desktop_config.json  # Claude Desktop MCP config (local server)
 │
-├── .vscode/
+├── .vscode/                        # create locally; see "Use in VS Code" below
 │   ├── mcp.json                    # VS Code MCP config (GitHub + local server)
 │   └── settings.json               # Recommended VS Code settings
 │
@@ -357,7 +357,7 @@ The O'Reilly Agent MVP includes a built-in **MCP server** that exposes the agent
    - Look for 🔌 icon - you're connected!
 
 4. **Use in VS Code:**
-   - Config already in `.vscode/mcp.json`
+   - Create `.vscode/mcp.json` using the JSON block below (not yet present in this tree)
    - Reload VS Code window
    - Ask Copilot: "Fetch issue #123" or "List mock issues"
 
@@ -410,7 +410,7 @@ This app can fetch issues from GitHub using either:
 
 ---
 
-**`.vscode/mcp.json`** (VS Code Copilot Chat):
+**`.vscode/mcp.json`** (VS Code Copilot Chat) -- create this file with the following content:
 ```json
 {
   "servers": {
@@ -671,9 +671,9 @@ This app demonstrates key AI agent patterns:
 
 ## Further Reading
 
-- [DEBUGGING_SIMPLE.md](DEBUGGING_SIMPLE.md) - **Simple debugging guide** (Command Palette instructions, no Fn keys needed!) 🐛✨
-- [DEBUGGING.md](DEBUGGING.md) - **Advanced debugging guide** (breakpoints, data flow, step-through)
-- [TOKEN_TRACKING.md](TOKEN_TRACKING.md) - **Cost awareness & token tracking guide** 💰
+- [DEBUGGING_SIMPLE.md](../../agents-playground/docs/DEBUGGING_SIMPLE.md) - **Simple debugging guide** (Command Palette instructions, no Fn keys needed!) 🐛✨ (archived reference tree)
+- [DEBUGGING.md](../../agents-playground/docs/DEBUGGING.md) - **Advanced debugging guide** (breakpoints, data flow, step-through) (archived reference tree)
+- [TOKEN_TRACKING.md](../../agents-playground/docs/TOKEN_TRACKING.md) - **Cost awareness & token tracking guide** 💰 (archived reference tree)
 - [LangGraph Documentation](https://langchain-ai.github.io/langgraph/)
 - [CrewAI Documentation](https://docs.crewai.com/)
 - [Model Context Protocol](https://modelcontextprotocol.io/)

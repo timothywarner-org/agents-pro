@@ -2,12 +2,12 @@
 
 ## Purpose
 - Maintain a respectful, inclusive environment for all contributors supporting the How to Create AI Agents Like a Pro course.
-- Align collaboration with the learning outcomes captured in [README.md](README.md) and [course-plan.md](course-plan.md).
-- Protect the integrity of the agent scaffolds documented in [copilot-studio-agents/README.md](copilot-studio-agents/README.md) and its subfolders.
+- Align collaboration with the learning outcomes captured in [README.md](README.md) and [docs/course-plan-july-2026.md](docs/course-plan-july-2026.md).
+- Protect the integrity of the agent scaffolds documented in [src/copilot-studio-agent/](src/copilot-studio-agent/) and its subfolders.
 
 ## Expected Behaviors
 - Treat learners, instructors, and reviewers with courtesy, empathy, and patience.
-- Ground feedback in repository sources, citing files such as [copilot-studio-agents/customer-service-assistant/README.md](copilot-studio-agents/customer-service-assistant/README.md) when proposing changes.
+- Ground feedback in repository sources, citing files such as [src/copilot-studio-agent/customer-service-assistant/README.md](src/copilot-studio-agent/customer-service-assistant/README.md) when proposing changes.
 - Share actionable critiques, outlining learner impact and required follow-up.
 - Respect time-bound delivery needs for live cohorts and respond promptly when tagged.
 
@@ -18,7 +18,7 @@
 - Flooding collaboration channels (issues, pull requests, course chat) with spam or off-topic commentary.
 
 ## Instructional Expectations
-- Keep marketing and proposal collateral synchronized with [reference/how-to-create-ai-agents-like-a-pro-markdown.md](reference/how-to-create-ai-agents-like-a-pro-markdown.md) and [reference/how-to-create-ai-agents-like-a-pro-training-proposal.md](reference/how-to-create-ai-agents-like-a-pro-training-proposal.md).
+- Keep the reference library in [docs/](docs/) synchronized with the current delivery's course plan and reg-page materials.
 - Follow the Overview → Scenario → Success Metrics → Phased Build → Testing/Publishing → Sample structure when authoring new guidance.
 - Validate Power Automate, AI Builder, and authentication notes against current Microsoft documentation before merging.
 

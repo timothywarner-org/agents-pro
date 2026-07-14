@@ -17,7 +17,7 @@ O'Reilly Live Learning course repo for "How to Create AI Agents Like a Pro" -- a
 | 3 | Code-First Agents | Azure AI Foundry, Python, LangGraph, FastMCP |
 | 4 | TBD | Best practices, MCP deep dive, or future trends |
 
-The detailed instructor plan is in `docs/course-plan-june-2026.md`. The slide deck is `docs/warner-agents-pro-june-2026.pptx`.
+The detailed instructor plan is in `docs/course-plan-july-2026.md`. The slide deck is `docs/warner-agents-pro-july-2026.pptx`.
 
 ## Two Content Trees
 
@@ -25,7 +25,7 @@ This repo contains **two generations** of course material:
 
 1. **`src/copilot-studio-agent/`** -- The current primary content for Hour 2. Three progressive Copilot Studio agents (customer-service-assistant, employee-onboarding-agent, document-processor-agent) with topics, actions, knowledge sources, and SharePoint-uploadable demo data.
 
-2. **`agents2/`** -- Archived snapshot of the predecessor repo (`timothywarner-org/agents2`), cloned without git history. Contains a working Python agent pipeline (`agents2/oreilly-agent-mvp/`), Claude Code skill definitions, Copilot Studio adaptive cards, per-hour teaching guides, and research docs. Treat as a reference library, not active development.
+2. **`agents-playground/`** -- Archived snapshot of a distinct, earlier O'Reilly course ("Build Production-Ready AI Agents"), cloned without git history. Contains a working Python agent pipeline (`agents-playground/oreilly-agent-mvp/`), Claude Code skill definitions, Copilot Studio adaptive cards, per-hour teaching guides, and research docs. Treat as a reference library, not active development -- it is not a prior version of the current course, it is a different product.
 
 ### Deployable `.mcs.yml` agents (top-level folders)
 
@@ -55,16 +55,19 @@ Each agent folder follows the same scaffold:
 - `actions/` -- Power Automate flow definitions and connector specs
 - `knowledge/` -- SharePoint-ready demo documents (docx, pdf, xlsx, json) and upload instructions
 
-### agents2/oreilly-agent-mvp/ (Reference Python Project)
+### src/oreilly-agent-mvp/ (Reference Python Project)
 
-A working LangGraph + CrewAI pipeline that processes issue JSON through PM, Dev, and QA agent stages. Has its own CLAUDE.md with build/test commands. Key commands (run from `agents2/oreilly-agent-mvp/`):
+A working LangGraph + CrewAI pipeline that processes issue JSON through PM, Dev, and QA agent stages (`load_issue` -> `pm` -> `dev` -> `qa` -> `finalize`, defined in `src/agent_mvp/pipeline/graph.py`). Has its own CLAUDE.md with full architecture notes. Key commands (run from `src/oreilly-agent-mvp/`):
 
 ```powershell
 .\scripts\setup.ps1                              # Create venv, install deps
 .\scripts\run_once.ps1 mock_issues\issue_002.json # Run pipeline on a mock issue
-pytest                                            # Run tests
-pytest --cov=agent_mvp                           # Tests with coverage
-ruff check src/ tests/                           # Lint
+.\scripts\run_watcher.ps1                         # Poll incoming/ and auto-process
+pytest                                            # Run all tests
+pytest tests/test_schema.py -v                    # Run a single test file
+pytest --cov=agent_mvp                            # Tests with coverage
+ruff check src/ tests/                            # Lint
+ruff format src/ tests/                           # Format
 ```
 
 ### GitHub Copilot Configurations (.github/)
@@ -78,7 +81,7 @@ Also: `prompts/copilot-studio-architect.prompt.md` (blueprint design) and `instr
 
 ## No Build System for Primary Content
 
-The `src/copilot-studio-agent/` content is documentation and YAML blueprints only -- no build, lint, or test pipeline. Quality comes from cross-checking against `docs/course-plan-june-2026.md`, the registration page, and Microsoft documentation.
+The `src/copilot-studio-agent/` content is documentation and YAML blueprints only -- no build, lint, or test pipeline. Quality comes from cross-checking against `docs/course-plan-july-2026.md`, the registration page, and Microsoft documentation.
 
 Markdown linting config exists at `.markdownlint.json` (line length 120, 2-space indent for lists).
 

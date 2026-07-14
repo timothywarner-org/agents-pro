@@ -1,5 +1,7 @@
 # Build Production-Ready AI Agents
 
+> **Archived.** This is the source repo for an earlier, distinct O'Reilly course ("Build Production-Ready AI Agents"), kept here for reference. The active course in this repo is "How to Create AI Agents Like a Pro" -- see the top-level [README.md](../README.md) and [CLAUDE.md](../CLAUDE.md). Content below (teaching guides, research notes, LangGraph/CrewAI pipeline) may still be useful as source material but does not reflect the current course structure.
+
 <p align="center">
    <img src="images/cover.png" alt="Build Production-Ready AI Agents cover" width="360">
 </p>

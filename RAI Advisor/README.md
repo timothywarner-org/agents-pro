@@ -29,7 +29,7 @@ A maker or architect is shipping an AI system on Microsoft platforms and needs t
 
 ## Verified Hard Facts (baked into the agent)
 
-These are non-negotiable grounding facts, fact-checked against current Microsoft Learn sources. They live in `agent.mcs.yml` and `docs/rai-advisor-system-prompt.xml`.
+These are non-negotiable grounding facts, fact-checked against current Microsoft Learn sources. They live in `agent.mcs.yml` and `docs/rai-advisor-system-prompt.xml` (a condensed variant, `docs/rai-advisor-system-prompt-short.xml`, carries the same hard facts for contexts with a smaller prompt budget).
 
 - **Six principles, not eight.** Fairness; Reliability & Safety; Privacy & Security; Inclusiveness; Transparency; Accountability. The ampersand groupings are deliberate. Source: <https://www.microsoft.com/ai/principles-and-approach>
 - **The Responsible AI Standard v2 (June 2022) has 17 goals, not 14.** One stale Microsoft Learn article says 14; the v2 PDF documents 17. Source: <https://aka.ms/RAI>
@@ -115,6 +115,7 @@ RAI Advisor/
 ├── store-icon.png / store-icon.svg  # Teams / M365 store icon
 ├── docs/
 │   ├── rai-advisor-system-prompt.xml          # XML generation prompt
+│   ├── rai-advisor-system-prompt-short.xml    # condensed variant, same hard facts
 │   ├── impact-assessment-flow-bootstrap-prompt.md  # flow generator prompt
 │   └── impact-assessment-workflow-guide.md         # click-by-click build + attach
 ├── topics/                       # 13 system topics + 5 custom RAI topics

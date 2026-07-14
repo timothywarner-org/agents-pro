@@ -46,9 +46,9 @@ agents-pro/
 ├── CLAUDE.md                           # Claude Code instructions
 ├── CODE_OF_CONDUCT.md                  # Community guidelines
 ├── contributing.md                     # Contribution guide
-├── SECURITY.md                         # Security policy
+├── security.md                         # Security policy
 ├── LICENSE                             # MIT License
-├── markdownlint.json                   # Markdown linting config
+├── .markdownlint.json                  # Markdown linting config
 │
 ├── .github/                            # GitHub Copilot configurations
 │   ├── agents/                         # Copilot agent definitions
@@ -58,16 +58,15 @@ agents-pro/
 ├── CKA Exam Prep Assistant/            # Deployable Copilot Studio agent (.mcs.yml)
 ├── RAI Advisor/                        # Deployable Responsible AI agent (.mcs.yml + workflow + icons)
 │
-├── agents-playground/                  # Sandbox workspace + experiments
-├── docs/                               # Course plan, WAF notes, research
+├── agents-playground/                  # Archived predecessor course ("Build Production-Ready AI Agents")
+├── docs/                               # Course plan, WAF notes, reference library, research
 ├── images/                             # Course images and assets
-├── src/                                # Canonical agent implementations
-│   ├── claude-agent/                   # Claude Code agent materials
-│   ├── copilot-studio/                 # Copilot Studio topic assets
-│   ├── copilot-studio-agent/           # Copilot Studio agent scaffolds
-│   ├── foundry-agent/                  # Azure AI Foundry code-first agent
-│   └── oreilly-agent-mvp/              # O'Reilly agent MVP workspace
-└── tests/                              # (currently empty)
+└── src/                                # Canonical agent implementations
+    ├── claude-agent/                   # Claude Code agent materials
+    ├── copilot-studio/                 # Copilot Studio topic assets
+    ├── copilot-studio-agent/           # Copilot Studio agent scaffolds
+    ├── foundry-agent/                  # Azure AI Foundry code-first agent
+    └── oreilly-agent-mvp/              # O'Reilly agent MVP workspace
 ```
 
 ## Quick Start
@@ -78,22 +77,17 @@ agents-pro/
    git clone https://github.com/timothywarner-org/agents-pro.git
    ```
 
-2. **Hour 1 -- Agent Landscape:** Use the teaching guides in `agents-playground/docs/` (see `hour-1-teaching-guide.md`)
+2. **Hour 1 -- Agent Landscape:** Read `docs/what-is-an-agent.md`; see `docs/course-plan-july-2026.md` for the full taxonomy walkthrough
 
-3. **Hour 2 -- Low-Code Agents:** Build from `src/copilot-studio-agent/` and reference assets in `src/copilot-studio/` or `agents-playground/copilot-studio/`
+3. **Hour 2 -- Low-Code Agents:** Build from `src/copilot-studio-agent/` and reference assets in `src/copilot-studio/`
 
 4. **Hour 3 -- Code-First Agents:** Start with `src/foundry-agent/` and the MVP workspace in `src/oreilly-agent-mvp/`
 
-5. **Hour 4 -- TBD:** Track the draft plan in `docs/course-plan-february-2026.md`
+5. **Hour 4 -- TBD:** Track the draft plan in `docs/course-plan-july-2026.md`
 
-## Git LFS
+## Slide Deck
 
-This repo tracks PowerPoint decks with Git LFS. Install Git LFS before cloning or pushing PPTX updates.
-
-```bash
-git lfs install
-git lfs pull
-```
+The instructor deck (`docs/warner-agents-pro-july-2026.pptx`) is gitignored -- PowerPoint files are large and change often between deliveries. A flattened PDF render (`docs/warner-agents-pro-july-2026.pdf`) ships in the repo instead and is always in sync with the last committed deck.
 
 ## Hour Summaries
 

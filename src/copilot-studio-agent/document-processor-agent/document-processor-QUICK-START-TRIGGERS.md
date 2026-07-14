@@ -10,7 +10,7 @@
 
 ## Looking for Something Simpler?
 
-If you want to start with a basic flow that does not require Copilot Studio or AI Builder, see **[QUICK-START-FLOWS.md](./QUICK-START-FLOWS.md)** first. That guide builds a single Power Automate flow that classifies documents by file name and moves them to subfolders.
+If you want to start with a basic flow that does not require Copilot Studio or AI Builder, see **[document-processor-QUICK-START-FLOWS.md](./document-processor-QUICK-START-FLOWS.md)** first. That guide builds a single Power Automate flow that classifies documents by file name and moves them to subfolders.
 
 **This guide (QUICK-START-TRIGGERS.md)** is for the full Copilot Studio integration with AI Builder classification and generative orchestration.
 
@@ -542,7 +542,7 @@ After completing this MVP:
 
 ### Alternative: Start Simpler
 
-If this guide feels overwhelming, start with **[QUICK-START-FLOWS.md](./QUICK-START-FLOWS.md)** instead. That guide builds a standalone Power Automate flow that:
+If this guide feels overwhelming, start with **[document-processor-QUICK-START-FLOWS.md](./document-processor-QUICK-START-FLOWS.md)** instead. That guide builds a standalone Power Automate flow that:
 - Watches the `document-processor-agent` folder
 - Classifies files by keyword matching (no AI Builder required)
 - Moves files to Invoices, Contracts, Resumes, or Exceptions subfolders
