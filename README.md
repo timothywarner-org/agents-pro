@@ -64,6 +64,7 @@ agents-pro/
 ├── agents-playground/                  # Archived predecessor course ("Build Production-Ready AI Agents")
 ├── docs/                               # Course plan, WAF notes, reference library, research
 ├── images/                             # Course images and assets
+├── scripts/                            # Repo-level utility scripts
 └── src/                                # Reference and predecessor agent implementations
     ├── claude-agent/                   # Claude Code agent materials
     ├── copilot-studio/                 # Copilot Studio topic assets and tutorials
@@ -91,6 +92,57 @@ agents-pro/
 6. **Segment 3 -- Autonomous & Event Triggers:** Add the "When an item is created in SharePoint" trigger so a repair-intake row is processed with no user in the chat.
 
 7. **Segment 4 -- Deploy, Analytics, ROI:** Publish to Teams / SharePoint / M365 Copilot, then walk Analytics, the Savings-calculator ROI tile, custom metrics, and governance.
+
+## How to Set Up the Demo
+
+Two ways in. **Path A** is what you want for a live session; **Path B** is the code-first story that lands with a developer audience.
+
+### Path A -- portal-first (fastest, no local tooling)
+
+1. Create a **blank agent** in Copilot Studio named **Contoso Pinball Gallery Concierge**.
+2. Paste `Contoso Pinball Gallery Concierge/instructions.md` into the agent's **Instructions**.
+3. Add the `knowledge/` docs as knowledge sources. **Paste each file's description from `KNOWLEDGE-UPLOAD-METADATA.md`** -- those descriptions drive retrieval quality, so skipping them is the single fastest way to make the demo look broken.
+4. Turn on **generative orchestration** (Overview tab). The topic stubs assume `modelDescription`-driven routing, and event triggers and MCP both require it.
+5. Recreate the two topics from `topics/`, or import them via Path B.
+6. Build the deterministic flows from `flows/deterministic-flow-ideas.md`.
+7. **Publish once**, then add the **Teams and Microsoft 365 Copilot** channel and the **SharePoint** channel. Re-publish after every edit; publishing updates all connected channels together.
+
+### Path B -- code-first (VS Code extension, GA)
+
+1. Install the **Microsoft Copilot Studio** extension for VS Code.
+2. Clone your Contoso agent locally, drop the `.mcs.yml` topic files into the cloned `topics/` folder, edit, then **Apply changes** back to the environment.
+3. Git and PR the agent definition like any other source. Microsoft's docs name **Claude Code** and GitHub Copilot as supported authoring agents, which is a strong hook for a developer room.
+
+> **Known gap, call it out rather than get surprised:** `topics/` currently holds **topic stubs**, not a complete deployable agent. There is no `agent.mcs.yml` / `settings.mcs.yml` shell yet, so the topics have no parent to import into on their own. Scaffold the shell first (generative orchestration on), bind the knowledge sources so each `SearchAndSummarizeContent` node resolves, then replace the `MAKER TODO` handoff in T02 with the real **Book a Service** action. Route all `.mcs.yml` work through the `@copilot-studio:*` sub-agents.
+
+### Optional -- provision the SharePoint backing data
+
+Only needed if you are demoing the **deterministic flows** (inventory lookup, bookings, quotes, status) against real lists rather than hand-waving them. The scripts are idempotent, so re-runs are safe.
+
+Validate before touching the tenant:
+
+```powershell
+pwsh ".\Contoso Pinball Gallery Concierge\scripts\deploy-contoso-inventory-assets.ps1" -TenantName <yourtenant> -DryRun
+```
+
+Then deploy with a tenant or SharePoint admin account:
+
+```powershell
+pwsh ".\Contoso Pinball Gallery Concierge\scripts\deploy-contoso-inventory-assets.ps1" -TenantName <yourtenant> -OwnerEmail admin@<yourtenant>.com -DeviceLogin
+```
+
+This creates the site, the `Concierge Knowledge` library, and the `CPG Inventory *` lists seeded from `data/*.seed.json`. A second script (`deploy-contoso-deterministic-workflow-assets.graph.ps1`) adds the Service Bookings, Repair Quotes, Status Lookup, Trade Ins, and Repair Intake lists. Full schema and flow contract: `Contoso Pinball Gallery Concierge/docs/deterministic-workflow-sharepoint-contracts.md`.
+
+> The committed script defaults point at Tim's tenants (`techtrainertim`, `timwinfo2`). **Substitute your own** tenant and site path before running.
+
+### Pre-flight checklist
+
+- [ ] Copilot Studio environment with **generative orchestration** enabled
+- [ ] Maker can **publish** (M365 Copilot license, or Copilot Studio user license plus credits -- trial licenses build and test but **cannot publish**)
+- [ ] **Model picked and verified today.** The lineup turns over every 4-6 weeks. Never say bare "GPT-5" (the Reasoning/Auto variants are preview), and **Claude Sonnet 4.5 has retired**. See `docs/whats-new-july-2026-delivery.md`.
+- [ ] Knowledge descriptions pasted from `KNOWLEDGE-UPLOAD-METADATA.md`, not left blank
+- [ ] Event-trigger demo: budget for **Copilot Credits**; the trigger's SharePoint connector must survive your DLP policy (most restrictive policy wins)
+- [ ] Smoke-test with `evals/eval-set.md` in the test panel. Test-panel traffic does **not** appear in Analytics, so generate real channel traffic before demoing the Segment 4 dashboards.
 
 ## Slide Deck
 
@@ -174,18 +226,49 @@ The instructor deck (`docs/warner-agents-pro-july-2026.pptx`) is gitignored -- P
 
 ### Bonus (off-contract): Azure AI Foundry
 
-Not on the sell page and not one of the four segments. These back the optional pro-code appendix on where Copilot Studio hands off heavier reasoning to Azure. Verify before delivery -- Foundry surfaces move fast.
+Not on the sell page and not one of the four segments. These back the optional pro-code appendix on where Copilot Studio hands off heavier reasoning to Azure. Verify before delivery -- Foundry surfaces move fast, and the product is now branded **Microsoft Foundry**.
 
-- [Azure AI Foundry Agents](https://learn.microsoft.com/azure/ai-foundry/agents/)
+- [Foundry Agent Service overview](https://learn.microsoft.com/en-us/azure/foundry/agents/overview)
+- [Microsoft Foundry documentation (hub)](https://learn.microsoft.com/en-us/azure/foundry/)
 - [`azure-ai-projects` (PyPI)](https://pypi.org/project/azure-ai-projects/)
 - [Add a Foundry agent to Copilot Studio (preview)](https://learn.microsoft.com/microsoft-copilot-studio/add-agent-foundry-agent)
 - [Model Context Protocol](https://modelcontextprotocol.io)
 
-### Certifications
+## Where to Go Next -- Certifications and Self-Paced Training
 
-- [MS-4004: M365 Copilot Use Cases](https://learn.microsoft.com/en-us/training/courses/ms-4004)
-- [Copilot & Agent Administration Fundamentals](https://learn.microsoft.com/en-us/credentials/certifications/copilot-and-agent-administration-fundamentals/)
-- [AI-102: Azure AI Engineer Associate](https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer/)
+Everything below was verified against the Microsoft Learn catalog API on **July 16, 2026**. Credentials churn fast, so re-check before you recommend any of them from the podium.
+
+### Credentials that actually match what we build
+
+| Credential | Type | Why it fits this course |
+| ---------- | ---- | ----------------------- |
+| [**Applied Skills: Build an agent in Microsoft Copilot Studio**](https://learn.microsoft.com/en-us/credentials/applied-skills/build-an-agent-in-microsoft-copilot-studio/) (APL-6006) | Free hands-on lab, no proctor | **The closest match to Segments 1, 2, and 4.** Assesses exactly what we do live: create and configure an agent, configure generative AI and knowledge, create topics, configure tools, share and publish. Start here. |
+| [**Applied Skills: Enhance agents with autonomous capabilities**](https://learn.microsoft.com/en-us/credentials/applied-skills/enhance-agents-with-autonomous-capabilities/) (APL-6000) | Free hands-on lab, no proctor | **Segment 3 in credential form.** Assesses agent flows as tools, **event triggers for autonomous behavior**, and error handling plus human interaction. |
+| [**Microsoft Certified: AI Agent Builder Associate**](https://learn.microsoft.com/en-us/credentials/certifications/ai-agent-builder-associate/) (exam AB-620) | Proctored, 120 min | The developer-track certification built on Copilot Studio: multi-agent, MCP, A2A, connectors, computer use, ALM. The natural next step after this course. |
+| [**Microsoft 365 Certified: Copilot and Agent Administration Fundamentals**](https://learn.microsoft.com/en-us/credentials/certifications/copilot-and-agent-administration-fundamentals/) (exam AB-900) | Proctored, fundamentals | The **administration** angle on Segment 4: approval processes, monitoring, admin centers. Complements the maker track rather than duplicating it. |
+| [**Microsoft Certified: Agentic AI Business Solutions Architect**](https://learn.microsoft.com/en-us/credentials/certifications/agentic-ai-business-solutions-architect/) | Proctored, advanced | The architect track, for anyone whose day job is deciding *where* agents belong in a solution. |
+
+> **Retired, do not chase:** **APL-7008 "Create agents in Microsoft Copilot Studio"** retired **July 8, 2026**. If you find it in an older reading list (including this repo's `docs/copilot-studio-certs.md`), the live replacement is **APL-6006 "Build an agent in Microsoft Copilot Studio"** in the table above.
+
+### Self-paced learning paths (all free on Microsoft Learn)
+
+Ordered to mirror the four segments. Times are Microsoft's own estimates.
+
+| Segment | Learning path | Time |
+| ------- | ------------- | ---- |
+| Start here | [Create agents with Microsoft Copilot Studio - Online Workshop](https://learn.microsoft.com/en-us/training/paths/power-virtual-agents-workshop/) (beginner, 5 modules) | ~171 min |
+| 1 | [Create agents in Microsoft Copilot Studio](https://learn.microsoft.com/en-us/training/paths/create-extend-custom-copilots-microsoft-copilot-studio/) (4 modules) | ~222 min |
+| 2 | [Design agent conversations and responses using topics](https://learn.microsoft.com/en-us/training/paths/design-agent-conversations-responses-topics-copilot-studio/) (3 modules) | ~137 min |
+| 2 | [Automate tasks and workflows in Microsoft Copilot Studio](https://learn.microsoft.com/en-us/training/paths/automate-tasks-workflows-copilot-studio/) (3 modules) | ~160 min |
+| 3 | [Enhance agents with autonomous capabilities](https://learn.microsoft.com/en-us/training/paths/enhance-autonomous-agents/) (3 modules) -- preps APL-6000 | ~120 min |
+| 3 | [Integrate agents with enterprise systems](https://learn.microsoft.com/en-us/training/paths/integrate-agents-enterprise-systems-copilot-studio/) (4 modules) | ~198 min |
+| 4 | [Explore Microsoft 365 Copilot and agent administration](https://learn.microsoft.com/en-us/training/paths/explore-microsoft-365-copilot-agent-administration/) (3 modules) | ~199 min |
+| Beyond | [Design and build multi-agent solutions in Copilot Studio](https://learn.microsoft.com/en-us/training/paths/design-build-multi-agent-solutions-copilot-studio/) (4 modules) | ~174 min |
+| Beyond | [Architect AI solutions for business productivity](https://learn.microsoft.com/en-us/training/paths/architect-agentic-ai-business-solutions/) (advanced, 11 modules) | ~684 min |
+
+### Instructor-led course
+
+- [MS-4004: Empower your workforce with Microsoft 365 Copilot Use Cases](https://learn.microsoft.com/en-us/training/courses/ms-4004)
 
 ## Course Schedule
 
