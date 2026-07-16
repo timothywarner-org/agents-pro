@@ -18,6 +18,21 @@ beginDialog:
   # sentence so the orchestrator picks this topic for stock/price/condition asks.
   modelDescription: Answers whether a specific pinball machine is in stock and reports its price, condition, and availability grounded in the gallery inventory knowledge source.
 
+  # TWO-STAGE TEACHING ARC (read this before the live build):
+  #
+  # STAGE 1 (ships in this file, works on clone): a static seed SendActivity below
+  # returns the real flagship inventory inline. No knowledge source, no flow, no
+  # binding required. Drop this topic into a fresh agent, say "what do you have,"
+  # and a real answer renders. That is the on-camera guarantee.
+  #
+  # STAGE 2 (the live refine): once the inventory knowledge source is bound in the
+  # portal (Copilot Studio > Knowledge), delete the static seed block and uncomment
+  # the SearchAndSummarizeContent + its SendActivity below. The topic then returns a
+  # grounded, per-machine answer for any title in the catalog, not just the flagships.
+  #
+  # HOW TO FLIP IT LIVE: (1) add the inventory knowledge source, (2) comment out or
+  # delete the "STAGE 1" SendActivity, (3) remove the leading "# " from every line of
+  # the "STAGE 2" SearchAndSummarizeContent and its SendActivity, (4) save.
   actions:
     # Capture the machine name first. alwaysPrompt so the topic works even when the
     # orchestrator has not already resolved a title from the utterance.
@@ -30,29 +45,50 @@ beginDialog:
       interruptionPolicy:
         allowInterruption: false
 
+    # STAGE 1 seed. A hardcoded but real inventory snapshot from inventory-catalog.md,
+    # so the topic answers with zero knowledge binding. References the requested title
+    # so the reply feels targeted even though the list is static. Remove this node once
+    # the knowledge source is bound and STAGE 2 is enabled.
+    - kind: SendActivity
+      id: sendMessage_s1e4dz
+      activity: |-
+        You asked about **{Topic.MachineName}**. Here is our current flagship showroom inventory:
+
+        | Machine | Price | Availability |
+        |---|---|---|
+        | Medieval Madness (Williams, 1997) | $11,500 | In stock |
+        | Jaws Premium (Stern, 2024) | $10,400 | In stock |
+        | Godzilla Premium (Stern, 2021) | $9,900 | In stock |
+        | Attack from Mars (Bally, 1995) | $8,200 | In stock |
+        | The Twilight Zone (Bally, 1993) | $7,400 | In stock |
+        | The Addams Family (Bally, 1992) | $6,900 | Sold - waitlist open |
+
+        If you do not see **{Topic.MachineName}** above, we may still have it. Ask me for the specific title and I can check the full catalog.
+
+    # STAGE 2 (grounded upgrade path, disabled until knowledge is bound).
     # Ground the answer in the inventory knowledge source. webBrowsing: false keeps
     # results confined to Contoso stock data rather than the open web.
-    # MAKER TODO: bind this to the real inventory knowledge source in the portal
-    # (Copilot Studio > Knowledge). Until it is bound, this node returns nothing.
-    - kind: SearchAndSummarizeContent
-      id: searchContent_b3n8wx
-      variable: Topic.InventoryResult
-      userInput: |-
-        =Concatenate("Look up the pinball machine named '", Topic.MachineName, "' in the Contoso Pinball Gallery inventory. Return its title, manufacturer, model year, cabinet condition, price, and current stock availability. If the machine is not in inventory, say so plainly.")
-      additionalInstructions: |
-        Format the answer as:
-        Title: <title>
-        Manufacturer: <manufacturer>
-        Year: <year>
-        Condition: <condition>
-        Price: <price>
-        Availability: <In stock | Sold | On order>
-        Only report facts found in the inventory knowledge source. Do not invent prices or availability.
-      webBrowsing: false
-
-    - kind: SendActivity
-      id: sendMessage_c9p4tz
-      activity: "{Topic.InventoryResult}"
+    # TO ENABLE: bind the inventory knowledge source in the portal, remove the STAGE 1
+    # SendActivity above, then uncomment this node and the SendActivity that follows.
+    # - kind: SearchAndSummarizeContent
+    #   id: searchContent_b3n8wx
+    #   variable: Topic.InventoryResult
+    #   userInput: |-
+    #     =Concatenate("Look up the pinball machine named '", Topic.MachineName, "' in the Contoso Pinball Gallery inventory. Return its title, manufacturer, model year, cabinet condition, price, and current stock availability. If the machine is not in inventory, say so plainly.")
+    #   additionalInstructions: |
+    #     Format the answer as:
+    #     Title: <title>
+    #     Manufacturer: <manufacturer>
+    #     Year: <year>
+    #     Condition: <condition>
+    #     Price: <price>
+    #     Availability: <In stock | Sold | On order>
+    #     Only report facts found in the inventory knowledge source. Do not invent prices or availability.
+    #   webBrowsing: false
+    #
+    # - kind: SendActivity
+    #   id: sendMessage_c9p4tz
+    #   activity: "{Topic.InventoryResult}"
 
     - kind: EndDialog
       id: endDialog_d5r1vy

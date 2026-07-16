@@ -18,6 +18,23 @@ beginDialog:
   # requests here rather than to the inventory topic.
   modelDescription: Triages a reported pinball machine symptom against the repair playbook, gives first-step guidance, and offers to hand off to a service booking.
 
+  # TWO-STAGE TEACHING ARC (read this before the live build):
+  #
+  # STAGE 1 (ships in this file, works on clone): a static seed SendActivity below
+  # returns real first-line triage covering the four most common symptoms (weak
+  # flipper, stuck ball, flickering display, no power) straight from repair-playbook.md.
+  # No knowledge source, no flow, no booking wiring required. Drop this topic in, say
+  # "my flipper is weak," and safe guidance renders. That is the on-camera guarantee.
+  #
+  # STAGE 2 (the live refine): once the repair playbook knowledge source is bound in
+  # the portal (Copilot Studio > Knowledge), delete the static seed block and uncomment
+  # the SearchAndSummarizeContent + its SendActivity for symptom-specific grounded
+  # triage, plus the Book-a-Service Question + ConditionGroup handoff below it.
+  #
+  # HOW TO FLIP IT LIVE: (1) add the repair playbook knowledge source, (2) comment out
+  # or delete the "STAGE 1" SendActivity, (3) remove the leading "# " from every line
+  # of the "STAGE 2" nodes (grounded search, its SendActivity, the booking Question,
+  # and the ConditionGroup), (4) save.
   actions:
     # Capture machine plus symptom in one prompt. The playbook search below needs
     # both to return a relevant fix, so we ask for them together up front.
@@ -30,50 +47,83 @@ beginDialog:
       interruptionPolicy:
         allowInterruption: false
 
+    # STAGE 1 seed. Hardcoded but real triage from repair-playbook.md for the four
+    # common symptoms, so the topic answers with zero knowledge binding. References
+    # the reported issue so the reply feels targeted. Safety framing is preserved: no
+    # step asks a customer to open the backbox or touch high-voltage parts. Remove this
+    # node once the knowledge source is bound and STAGE 2 is enabled.
+    - kind: SendActivity
+      id: sendMessage_s2r5tz
+      activity: |-
+        Thanks - noting: **{Topic.MachineAndSymptom}**. Here are safe first checks for the most common symptoms. Always power the machine off at the switch before touching anything, and never open the backbox (high voltage is present even when off).
+
+        **Weak or dead flipper**
+        - Level the machine at the leg levelers - a tilted playfield feels like a weak flipper.
+        - Check the flipper button snaps back and is not binding.
+        - Needs a technician if: both buttons are fine and it is level (coil sleeve or linkage).
+
+        **Ball keeps getting stuck**
+        - Note the exact spot it sticks (ramp, scoop, lane).
+        - Swap in a fresh ball if the current one is dull or chipped - a safe customer step.
+        - Needs a technician if: it still sticks at a scoop or under a mech after a ball swap.
+
+        **Display flickering, dim, or blank**
+        - Note whether it flickers from cold or all the time, and whether any image shows.
+        - Do NOT open the backbox to reseat cables - that is technician work.
+        - Needs a technician if: any display fault persists (ribbon, node board, or DMD-to-LED).
+
+        **Will not power on**
+        - Confirm it is plugged in and the outlet is live (test with another device).
+        - Confirm the cabinet power switch (lower-left on most machines) is fully on.
+        - Unplug immediately and book service if there is any burning smell.
+
+        When in doubt, a $95 diagnostic is cheaper than a damaged board. Would you like to book a service visit with a Contoso technician? Just say the word and we will get one scheduled.
+
+    # STAGE 2 (grounded upgrade path, disabled until knowledge is bound).
     # Ground triage guidance in the repair playbook. webBrowsing: false so advice
     # comes from Contoso's vetted procedures, not arbitrary web forums.
-    # MAKER TODO: bind this to the real repair playbook knowledge source in the
-    # portal (Copilot Studio > Knowledge) before publishing.
-    - kind: SearchAndSummarizeContent
-      id: searchContent_g8m3qs
-      variable: Topic.TriageGuidance
-      userInput: |-
-        =Concatenate("A customer reports the following pinball issue: '", Topic.MachineAndSymptom, "'. Using the repair playbook, identify the most likely cause and give the safe first troubleshooting steps a customer can try, plus a clear signal for when the machine needs a technician.")
-      additionalInstructions: |
-        Format the answer as:
-        Likely cause: <cause>
-        Try first: <one to three safe customer steps>
-        Needs a technician if: <escalation signal>
-        Only use procedures found in the repair playbook knowledge source. Never suggest opening a powered cabinet or touching high-voltage components.
-      webBrowsing: false
-
-    - kind: SendActivity
-      id: sendMessage_h4t9wp
-      activity: "{Topic.TriageGuidance}"
-
+    # TO ENABLE: bind the repair playbook knowledge source in the portal, remove the
+    # STAGE 1 SendActivity above, then uncomment these nodes.
+    # - kind: SearchAndSummarizeContent
+    #   id: searchContent_g8m3qs
+    #   variable: Topic.TriageGuidance
+    #   userInput: |-
+    #     =Concatenate("A customer reports the following pinball issue: '", Topic.MachineAndSymptom, "'. Using the repair playbook, identify the most likely cause and give the safe first troubleshooting steps a customer can try, plus a clear signal for when the machine needs a technician.")
+    #   additionalInstructions: |
+    #     Format the answer as:
+    #     Likely cause: <cause>
+    #     Try first: <one to three safe customer steps>
+    #     Needs a technician if: <escalation signal>
+    #     Only use procedures found in the repair playbook knowledge source. Never suggest opening a powered cabinet or touching high-voltage components.
+    #   webBrowsing: false
+    #
+    # - kind: SendActivity
+    #   id: sendMessage_h4t9wp
+    #   activity: "{Topic.TriageGuidance}"
+    #
     # Offer a service booking. Boolean entity so the branch below reads yes/no cleanly.
-    - kind: Question
-      id: question_j6v2ln
-      variable: init:Topic.BookService
-      prompt: "Would you like to book a service visit with a Contoso technician?"
-      entity: BooleanPrebuiltEntity
-      alwaysPrompt: true
-      interruptionPolicy:
-        allowInterruption: false
-
-    - kind: ConditionGroup
-      id: conditionGroup_k1x8bd
-      conditions:
-        - id: conditionItem_l7c3mf
-          condition: =Topic.BookService = true
-          actions:
-            # MAKER TODO: this is the handoff point. Replace this message with an
-            # invocation of the deterministic "Book a Service" Power Automate flow
-            # or connector action (add via /copilot-studio:add-action), passing
-            # Topic.MachineAndSymptom so the booking carries the reported symptom.
-            - kind: SendActivity
-              id: sendMessage_m9q5rt
-              activity: "Great - handing you off to the Book a Service flow now. (Maker: wire the deterministic service-booking action here.)"
+    # - kind: Question
+    #   id: question_j6v2ln
+    #   variable: init:Topic.BookService
+    #   prompt: "Would you like to book a service visit with a Contoso technician?"
+    #   entity: BooleanPrebuiltEntity
+    #   alwaysPrompt: true
+    #   interruptionPolicy:
+    #     allowInterruption: false
+    #
+    # - kind: ConditionGroup
+    #   id: conditionGroup_k1x8bd
+    #   conditions:
+    #     - id: conditionItem_l7c3mf
+    #       condition: =Topic.BookService = true
+    #       actions:
+    #         # This is the handoff point. Replace this message with an invocation of
+    #         # the deterministic "Book a Service" Power Automate flow or connector
+    #         # action (add via /copilot-studio:add-action), passing
+    #         # Topic.MachineAndSymptom so the booking carries the reported symptom.
+    #         - kind: SendActivity
+    #           id: sendMessage_m9q5rt
+    #           activity: "Great - handing you off to the Book a Service flow now. (Maker: wire the deterministic service-booking action here.)"
 
     - kind: EndDialog
       id: endDialog_n2w6yz
