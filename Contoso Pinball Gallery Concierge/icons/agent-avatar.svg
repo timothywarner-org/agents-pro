@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192" role="img" aria-labelledby="title desc">
+  <title id="title">Contoso Pinball Gallery Concierge avatar</title>
+  <desc id="desc">A pinball playfield with a silver ball, two flippers, and bumpers, on a deep blue gradient circle.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b3a6b"/>
+      <stop offset="1" stop-color="#0d1b33"/>
+    </linearGradient>
+    <radialGradient id="ball" cx="0.35" cy="0.3" r="0.8">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.5" stop-color="#c9d2df"/>
+      <stop offset="1" stop-color="#7d8797"/>
+    </radialGradient>
+    <linearGradient id="playfield" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#25406f"/>
+      <stop offset="1" stop-color="#16294a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- backing circle -->
+  <circle cx="96" cy="96" r="92" fill="url(#bg)"/>
+  <circle cx="96" cy="96" r="92" fill="none" stroke="#2f5aa0" stroke-width="3"/>
+
+  <!-- playfield panel -->
+  <rect x="52" y="34" width="88" height="124" rx="16" fill="url(#playfield)" stroke="#3f6bb5" stroke-width="2.5"/>
+
+  <!-- top arch guide -->
+  <path d="M60 74 Q96 40 132 74" fill="none" stroke="#5b83c9" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- bumpers -->
+  <circle cx="78" cy="72" r="10" fill="#e8703a" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="114" cy="72" r="10" fill="#3aa66b" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="96" cy="94" r="11" fill="#e5c93a" stroke="#ffffff" stroke-width="2"/>
+
+  <!-- ball -->
+  <circle cx="108" cy="116" r="9" fill="url(#ball)"/>
+
+  <!-- flippers -->
+  <g stroke="#ffffff" stroke-width="2" stroke-linejoin="round">
+    <path d="M66 138 L92 150 L90 142 L70 130 Z" fill="#d64b6a"/>
+    <path d="M126 138 L100 150 L102 142 L122 130 Z" fill="#d64b6a"/>
+  </g>
+
+  <!-- launch lane dot -->
+  <circle cx="132" cy="140" r="4" fill="#9fb4d6"/>
+</svg>

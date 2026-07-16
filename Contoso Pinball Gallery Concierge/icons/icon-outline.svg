@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192" role="img" aria-labelledby="title desc">
+  <title id="title">Contoso Pinball Gallery Concierge monochrome outline</title>
+  <desc id="desc">A single-color line-art pinball icon: playfield arch, ball, bumpers, and flippers. For monochrome or small-size contexts.</desc>
+  <g fill="none" stroke="#1b1b1b" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- playfield outline -->
+    <rect x="44" y="30" width="104" height="132" rx="20"/>
+    <!-- top arch -->
+    <path d="M56 78 Q96 42 136 78"/>
+    <!-- bumpers -->
+    <circle cx="78" cy="76" r="11"/>
+    <circle cx="114" cy="76" r="11"/>
+    <circle cx="96" cy="100" r="12"/>
+    <!-- ball -->
+    <circle cx="110" cy="124" r="9"/>
+    <!-- flippers -->
+    <path d="M62 146 L92 160"/>
+    <path d="M130 146 L100 160"/>
+  </g>
+</svg>

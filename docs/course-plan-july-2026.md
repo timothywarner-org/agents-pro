@@ -4,363 +4,370 @@ _O'Reilly Live Learning - Instructor Source of Truth_
 
 **Instructor:** Tim Warner (Microsoft MVP, MCT Regional Lead)
 **Delivery date:** July 2026
-**Duration:** 4 hours (four 60-minute segments, 10-minute break between segments)
-**Delivery mode:** Live, hands-on, single progressively-built agent
+**Duration:** 4 hours (four ~50-minute segments, 10-minute break between segments)
+**Delivery mode:** Live, hands-on, single progressively-built Copilot Studio agent - the **Contoso Pinball Gallery Concierge**
 
 ## Course Overview - One Agent, Four Segments
 
-We build **one** Copilot Studio agent end-to-end: the **AZ-900 Cert-Prep Assistant**. Every segment adds a capability layer; every segment maps to Microsoft's Power Platform Well-Architected Framework (PP-WAF) pillars.
+This is a **Copilot Studio** course. The four segment titles below are the ones on the O'Reilly sell page, kept verbatim. We satisfy every one of them by building **one** agent end-to-end across the four segments: the **Contoso Pinball Gallery Concierge**. Every segment adds a capability layer; every segment maps to Microsoft's Power Platform Well-Architected Framework (PP-WAF) pillars.
 
-| Segment | Theme | Primary PP-WAF Pillars | Learner Outcome |
-|---------|-------|------------------------|-----------------|
-| 1 - Inception | Design the agent | Experience Optimization, Operational Excellence | Scenario, instructions, topic map |
-| 2 - Build | Topics, triggers, knowledge | Experience Optimization, Reliability | Working Q&A agent grounded in AZ-900 content |
-| 3 - Extend | Actions, MCP, subagents | Performance Efficiency, Reliability | Multi-agent system with external tools |
-| 4 - Operate | Test, observe, govern | Security, Operational Excellence | Production-ready, governed deployment |
+| Segment | Sell-page title | Pinball demo (the running scenario) | Primary PP-WAF Pillars |
+|---------|-----------------|--------------------------------------|------------------------|
+| 1 | Copilot Studio Fundamentals & Creating Your First Agent | Describe the Concierge in natural language, add three knowledge sources, test in the simulator - the customer-service-assistant pattern | Experience Optimization, Operational Excellence |
+| 2 | Topics, Actions, and Power Automate Integration | Build the Repair Triage topic and the **Book a Service** Power Automate flow with an approval step - the onboarding-with-approvals pattern, realized as service booking | Experience Optimization, Reliability |
+| 3 | Autonomous Agents & Event Triggers | A repair-intake or trade-in form lands in SharePoint, an event trigger fires, the agent processes it autonomously - the document-processor pattern | Performance Efficiency, Reliability |
+| 4 | Deployment, Analytics, and ROI | Publish to Teams / SharePoint / M365 Copilot; walk Analytics, the Savings calculator ROI tile, custom metrics, governance and CoE | Security, Operational Excellence |
 
-**The one agent:** An **Azure Fundamentals (AZ-900)** study companion for business and IT pros who are **new to cloud**. It explains exam domains, teaches core cloud concepts and Azure services in plain language, generates domain-weighted practice questions, builds a personalized study plan, and hands off to a human mentor when the learner is stuck. No prior Azure experience is required, which matches the AZ-900 audience profile: a technology professional who wants to demonstrate **foundational knowledge of cloud concepts in general and Microsoft Azure in particular**.
+**The one agent:** The **Contoso Pinball Gallery Concierge** is the always-on virtual host for **Contoso Pinball Gallery**, a fictional boutique showroom that sells, restores, and services classic and modern pinball machines. It answers **inventory** questions (what is in stock, condition, price, availability), **triages repairs** (a reported symptom, safe first-line guidance, a booking offer), explains **history and research** (who made a machine, its era, its significance), and hands off to **deterministic Power Automate flows** for anything transactional (bookings, quotes, status, holds, trade-ins). The company, catalog, prices, and service records are invented. The Copilot Studio facts are grounded in Microsoft Learn.
 
-**AZ-900 domain weighting** (drives topic design and knowledge scoping):
+**The real repo assets** (read these; the plan references them directly):
 
-| Domain | Weight |
-|--------|-------:|
-| Describe Azure architecture and services | 35-40% |
-| Describe Azure management and governance | 30-35% |
-| Describe cloud concepts | 25-30% |
+- Agent instructions - `Contoso Pinball Gallery Concierge/instructions.md`
+- Knowledge docs - `Contoso Pinball Gallery Concierge/knowledge/` (inventory-catalog, repair-playbook, pinball-history-research, warranty-and-services, plus KNOWLEDGE-UPLOAD-METADATA)
+- Topic stubs - `Contoso Pinball Gallery Concierge/topics/` (T01_InventoryLookup, T02_RepairTriage)
+- Flow specs - `Contoso Pinball Gallery Concierge/flows/deterministic-flow-ideas.md`
+- Trigger phrases and model descriptions - `Contoso Pinball Gallery Concierge/triggers/quick-win-triggers.md`
+- Eval set - `Contoso Pinball Gallery Concierge/evals/eval-set.md`
+- MS Learn grounding - `Contoso Pinball Gallery Concierge/docs/ms-learn-sources.md`
+
+**Showroom inventory the demos lean on** (from `knowledge/inventory-catalog.md`):
+
+| Title | Maker | Year | Era | Condition | Price | Availability |
+|-------|-------|------|-----|-----------|-------|--------------|
+| Medieval Madness | Williams | 1997 | DMD | Excellent | $11,500 | In stock |
+| Jaws Premium | Stern | 2024 | LCD | Museum | $10,400 | In stock |
+| Godzilla Premium | Stern | 2021 | LCD | Excellent | $9,900 | In stock |
+| Attack from Mars | Bally | 1995 | DMD | Very Good | $8,200 | In stock |
+| The Twilight Zone | Bally | 1993 | DMD | Good | $7,400 | In stock |
+| Rush Pro | Stern | 2022 | LCD | Very Good | $6,700 | On hold |
+| The Addams Family | Bally | 1992 | DMD | Very Good | $6,900 | Sold - waitlist |
+| Fireball | Bally | 1972 | EM | Museum | $5,200 | In stock |
+| Black Knight | Williams | 1980 | SS | Good | $3,600 | In stock |
+| Firepower | Williams | 1980 | SS | Project | $1,900 | In stock |
 
 **Authoritative references used throughout the course** - all verified stable URLs:
 
-- Copilot Studio overview - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio>
-- Power Platform Well-Architected - <https://learn.microsoft.com/en-us/power-platform/well-architected/>
-- Cloud Adoption Framework - <https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/>
-- Copilot Studio topics - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-create-edit-topics>
-- Generative orchestration - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/advanced-generative-actions>
-- Select a primary AI model - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-select-agent-model>
-- Knowledge sources summary - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio>
-- Add other agents / multi-agent - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-add-other-agents>
-- Agent-to-Agent (A2A) protocol - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-agent-agent-to-agent>
-- MCP in Copilot Studio - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/agent-extend-action-mcp>
+- Copilot Studio overview - <https://learn.microsoft.com/microsoft-copilot-studio/fundamentals-what-is-copilot-studio>
+- Power Platform Well-Architected - <https://learn.microsoft.com/power-platform/well-architected/>
+- Copilot Studio topics - <https://learn.microsoft.com/microsoft-copilot-studio/authoring-create-edit-topics>
+- Generative orchestration - <https://learn.microsoft.com/microsoft-copilot-studio/advanced-generative-actions>
+- Select a primary AI model - <https://learn.microsoft.com/microsoft-copilot-studio/authoring-select-agent-model>
+- Knowledge sources summary - <https://learn.microsoft.com/microsoft-copilot-studio/knowledge-copilot-studio>
+- Power Automate flow actions - <https://learn.microsoft.com/microsoft-copilot-studio/advanced-flow>
+- Event trigger overview - <https://learn.microsoft.com/microsoft-copilot-studio/authoring-triggers-about>
+- Add an event trigger - <https://learn.microsoft.com/microsoft-copilot-studio/authoring-trigger-event>
+- Design autonomous agent capabilities - <https://learn.microsoft.com/microsoft-copilot-studio/guidance/autonomous-agents>
+- MCP in Copilot Studio - <https://learn.microsoft.com/microsoft-copilot-studio/agent-extend-action-mcp>
 - Model Context Protocol spec - <https://modelcontextprotocol.io/specification>
-- Agent evaluations - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-intro>
-- VS Code extension - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/visual-studio-code-extension-overview>
-- Analytics - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-overview>
-- Security & governance - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/security-and-governance>
-- AZ-900 study guide - <https://learn.microsoft.com/credentials/certifications/resources/study-guides/az-900>
-- Azure documentation - <https://learn.microsoft.com/azure/>
+- Agent evaluations - <https://learn.microsoft.com/microsoft-copilot-studio/analytics-agent-evaluation-intro>
+- Analytics overview - <https://learn.microsoft.com/microsoft-copilot-studio/analytics-overview>
+- Savings calculator (cost savings) - <https://learn.microsoft.com/microsoft-copilot-studio/analytics-cost-savings>
+- Custom metrics - <https://learn.microsoft.com/microsoft-copilot-studio/analytics-custom-metrics>
+- Tell the value story (ROI) - <https://learn.microsoft.com/microsoft-copilot-studio/guidance/agent-business-value-tell-value-story>
+- Security & governance - <https://learn.microsoft.com/microsoft-copilot-studio/security-and-governance>
+- VS Code extension - <https://learn.microsoft.com/microsoft-copilot-studio/visual-studio-code-extension-overview>
 
 ---
 
-## Segment 1 - Inception (0:00 – 1:00)
+## Segment 1 - Copilot Studio Fundamentals & Creating Your First Agent (0:00 - 0:50)
 
-_Framing the scenario and designing the agent before a single node is built._
+_Describe the agent in natural language, ground it in three knowledge sources, test in the simulator. This segment ships an FAQ-style agent that answers real questions._
 
 ### Time Table
 
 | Time | Activity |
 |------|----------|
-| 0:00 – 0:08 | Welcome, course arc, the one-agent promise |
-| 0:08 – 0:20 | Agent taxonomy - declarative, retrieval, tool-using, multi-agent |
-| 0:20 – 0:32 | Scenario framing - who is the AZ-900 learner and what do they struggle with? |
-| 0:32 – 0:45 | Instruction design and topic planning |
-| 0:45 – 0:55 | Live: create agent shell, write instructions, list topics on whiteboard |
-| 0:55 – 1:00 | Segment wrap, what's next |
+| 0:00 - 0:07 | Welcome, course arc, the one-agent promise (the Concierge) |
+| 0:07 - 0:16 | What "agent" means in Copilot Studio; generative vs classic orchestration; pick the reasoning model |
+| 0:16 - 0:26 | The Contoso scenario and persona; write the agent instructions |
+| 0:26 - 0:40 | Live: create the agent by natural-language description, paste instructions, add three knowledge sources |
+| 0:40 - 0:48 | Live: test in the simulator against the inventory / research / warranty questions |
+| 0:48 - 0:50 | Segment wrap, what is next |
 
 ### Talking Points
 
-- **Agent taxonomy.** Declarative agents (M365 Copilot), retrieval agents (grounded Q&A), tool-using agents (actions/MCP), multi-agent systems (connected agents). Copilot Studio spans all four. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/fundamentals-what-is-copilot-studio>
-- **Orchestration modes.** Classic (trigger-phrase routing) vs. generative (AI orchestrator routes to topics, actions, knowledge, and subagents). Generative is now the **default for new agents**. We use generative. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/advanced-generative-actions>
-- **Pick the reasoning model.** Generative orchestration lets you choose the agent's primary model on the **Overview** tab. **GPT-4.1 remains the platform Default model.** **GPT-5 Chat and GPT-5.5 Chat are GA** (say "GPT-5 *Chat*", never bare "GPT-5" - GPT-5 Reasoning (Deep), GPT-5 Auto, and GPT-5.5 Reasoning are still **preview/experimental**). **Claude Sonnet 4.6, Opus 4.6 (Deep), and Opus 4.7 (Deep) are GA**; **Claude Sonnet 4.5 has retired** (do not demo it). Claude Sonnet 5 is also GA but only in the new-experience agent surface, not the classic authoring model this course teaches. Claude models are external (Anthropic), so a **tenant admin must approve** them first. **Re-verify the current MS-recommended orchestrator against the live docs page before each delivery** - Copilot Studio's model lineup turns over every 4-6 weeks and June 2026's recommendation (Sonnet 4.5) is already stale. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-select-agent-model>
-- **PP-WAF - Experience Optimization first.** Before YAML, we define the learner persona, job-to-be-done, and success metrics. Reference: <https://learn.microsoft.com/en-us/power-platform/well-architected/experience-optimization/>
-- **Instruction design.** System instructions beat per-topic prompts for generative orchestration. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-generative-ai-options>
-- **CAF landing-zone thinking.** Even a single agent lives in an environment - decide dev/test/prod, DLP, and Dataverse scope up front. Reference: <https://learn.microsoft.com/en-us/power-platform/guidance/adoption/environment-strategy>
+- **What an agent is here.** An agent in Copilot Studio combines **a few curated topics** with **generative answers grounded in trusted sources**, plus tools it can call. The design guidance is deliberately not "hundreds of rigid topics." Reference: <https://learn.microsoft.com/microsoft-copilot-studio/fundamentals-what-is-copilot-studio>
+- **Orchestration modes.** Classic orchestration matches user utterances to trigger phrases. Generative orchestration uses an LLM planner that reads the **description** of every topic, tool, agent, and knowledge source to build a plan. Generative is the **default for new agents**, and we use it. Reference: <https://learn.microsoft.com/microsoft-copilot-studio/advanced-generative-actions>
+- **Create by natural-language description.** The current experience lets you describe the agent in plain language and it scaffolds instructions and starters. We start there, then paste the vetted `instructions.md` block so the persona, grounding rules, and safety boundaries are exact.
+- **Pick the reasoning model on the Overview tab.** Generative orchestration lets you choose the agent's primary model. **GPT-4.1 remains the platform Default model.** **GPT-5 Chat and GPT-5.5 Chat are GA** - say "GPT-5 *Chat*", never bare "GPT-5", because GPT-5 Reasoning (Deep), GPT-5 Auto, and GPT-5.5 Reasoning are still **preview/experimental**. **Claude Sonnet 4.6, Opus 4.6 (Deep), and Opus 4.7 (Deep) are GA**; **Claude Sonnet 4.5 has retired** (do not demo it). Claude Sonnet 5 is GA but only in the new-experience agent surface, not the classic authoring model this course teaches. Claude models are external (Anthropic), so a **tenant admin must approve** them first. **Re-verify the current MS-recommended orchestrator against the live docs page before each delivery** - the model lineup turns over every 4 to 6 weeks. Reference: <https://learn.microsoft.com/microsoft-copilot-studio/authoring-select-agent-model>
+- **PP-WAF - Experience Optimization first.** Before any node, define the persona, the job to be done, and success metrics. Reference: <https://learn.microsoft.com/power-platform/well-architected/experience-optimization/>
+- **Instruction design.** System instructions beat per-topic prompts under generative orchestration. The `instructions.md` file sets persona, boundaries, grounding rules, house style, and the handoff contract. Reference: <https://learn.microsoft.com/microsoft-copilot-studio/guidance/generative-mode-guidance>
 
-### Scenario Framing - The AZ-900 Learner
+### Scenario Framing - The Contoso Pinball Gallery Customer
 
-- **Persona.** Marcus, a business analyst with **no Azure experience**, moving into a cloud-adjacent role and preparing for **Microsoft Azure Fundamentals (AZ-900)** in 4 weeks. He is a technology professional starting his journey toward an Azure career, exactly the AZ-900 target audience.
-- **Pain points.** Cloud jargon overload (IaaS, PaaS, SaaS), no mental model for the **shared responsibility model**, no structured study plan, unsure which exam domain to weight first.
-- **Success metrics.** Time-to-answer under 8s; grounded-citation rate above 80%; containment rate above 70%; CSAT above 4/5.
+- **Company.** **Contoso Pinball Gallery**, a boutique showroom that sells, restores, and services classic and modern pinball machines.
+- **Persona.** Dana, a first-time collector who found the showroom online. Dana wants to know if a specific title is in stock and what it costs, has a machine at home with a symptom to triage, and is curious about the history of the pieces on the floor. Staff also use the Concierge as a quick internal lookup.
+- **Pain points.** Prices and stock change; a customer who gets an invented price or a fabricated appointment slot loses trust immediately. Repairs carry a real safety line: nobody should be told to open a powered backbox.
+- **Success metrics** (from `evals/eval-set.md`): routing accuracy above 90 percent; 100 percent grounding on prices, stock, and policy; zero invented prices, stock, references, or appointment slots (hard requirement); every unsafe-DIY or burning-smell case escalates correctly (hard requirement).
 
-### Agent Instructions - Draft (paste into `settings.mcs.yml`)
+### Agent Instructions - Source of Truth
 
-> You are the **AZ-900 Cert-Prep Assistant**, a patient tutor for business and IT pros preparing for the Microsoft Azure Fundamentals (AZ-900) exam. Assume **no prior Azure experience** and explain cloud concepts in plain language. Ground every answer in the Microsoft Learn AZ-900 study guide, the official Azure documentation, the Cloud Adoption Framework, and the instructor's study notes. When a learner asks about Azure pricing, regions, or service availability, prefer the azure-docs lookup MCP tool. When they want core concepts explained in depth, route to the ConceptExplainer subagent. When they ask for a study plan, use the StudyPlanGenerator topic. Cite sources. Never fabricate service names, pricing, or exam answers. **Refuse requests for exam dumps or "the real exam answers"** and redirect the learner to practice questions and the study guide. If confidence is low, offer to escalate to a human mentor.
+The full instructions block is in `Contoso Pinball Gallery Concierge/instructions.md`. The load-bearing rules to read aloud:
 
-### Topic Map - Planned in Segment 1, Built in Segment 2
+> You are the **Contoso Pinball Gallery Concierge**. Ground every factual answer in the registered knowledge sources; inventory, prices, warranty terms, and service policies come from Contoso's own documents, never from your own guesses. If a machine, price, or policy is not in the knowledge sources, say so plainly and offer to open a request or connect a human. For anything involving money, scheduling, or a commitment (bookings, quotes, orders), hand off to the matching deterministic flow rather than promising an outcome yourself. Never advise a customer to open a machine's high-voltage backbox. Keep a human in the loop for high-impact actions, and be transparent that you are an AI concierge.
 
-| Folder | Purpose | Trigger type |
-|--------|---------|--------------|
-| `T01_ExamDomainOverview` | Explain domain weights, objectives | OnRecognizedIntent |
-| `T02_CloudConcepts` | Cloud models, shared responsibility, IaaS/PaaS/SaaS | OnRecognizedIntent |
-| `T03_CoreArchitectureAndServices` | Regions, availability zones, compute, networking, storage | OnRecognizedIntent |
-| `T04_IdentitySecurityGovernance` | RBAC, Zero Trust, Azure Policy, cost management | OnRecognizedIntent |
-| `T05_PracticeQuestion` | Domain-weighted practice Q generator | OnRecognizedIntent |
-| `T06_StudyPlanGenerator` | 4-week personalized plan | OnRecognizedIntent |
-| `T07_EscalateToHuman` | Handoff to mentor | OnEscalate |
-| `T00_Greeting` | OnConversationStart welcome | OnConversationStart |
-| `T99_Fallback` | OnUnknownIntent + generative answers | OnUnknownIntent |
+### Knowledge Sources Added in Segment 1
+
+| Source doc | What it grounds | Upload description source |
+|------------|-----------------|---------------------------|
+| `inventory-catalog.md` | Stock, condition grade, price, era, availability per title | `KNOWLEDGE-UPLOAD-METADATA.md` |
+| `pinball-history-research.md` | Designer, manufacturer, era, significance, features | `KNOWLEDGE-UPLOAD-METADATA.md` |
+| `warranty-and-services.md` | Warranty coverage, service tiers, price bands, turnaround | `KNOWLEDGE-UPLOAD-METADATA.md` |
+
+The **description** you paste on each upload drives retrieval quality under generative orchestration, so that step is not optional. Reference: <https://learn.microsoft.com/microsoft-copilot-studio/knowledge-copilot-studio>
 
 ### Live Build Checklist - Segment 1
 
-- [ ] Create Copilot Studio environment (dev)
-- [ ] Create new agent `AZ-900 Cert-Prep Assistant`
-- [ ] Set display name, description, conversation starters
-- [ ] Toggle **Generative orchestration** on
-- [ ] Set primary model on the **Overview** tab (Default is GPT-4.1; demo Claude Sonnet 4.6 or Opus 4.6/4.7 if tenant-approved -- Sonnet 4.5 has retired, do not select it)
-- [ ] Paste draft instructions
-- [ ] Sketch topic map in portal (empty shells OK)
-- [ ] Confirm DLP policy allows HTTP connector (needed Segment 3)
+- [ ] Create a Copilot Studio environment (dev)
+- [ ] Create the agent by natural-language description; name it **Contoso Pinball Gallery Concierge**
+- [ ] Confirm **Generative orchestration** is on (it is the default)
+- [ ] Set the primary model on the **Overview** tab (Default is GPT-4.1; demo Claude Sonnet 4.6 or Opus 4.6/4.7 only if tenant-approved - Sonnet 4.5 has retired, do not select it)
+- [ ] Paste the `instructions.md` block into **Instructions**
+- [ ] Add the three knowledge docs above; paste each description from `KNOWLEDGE-UPLOAD-METADATA.md`
+- [ ] Set the display name, description, and the four suggested conversation starters
+- [ ] Test in the simulator against the prompts below
 
-### Demo Prompt Set - "Flex the Muscles" (empty shell)
+### Demo Prompt Set - Segment 1
 
-- "What is this agent?" - shows instructions surfacing through orchestrator.
-- "Who are you?" - verifies persona.
-- "Just give me the real exam answers." - shows guardrail (refuses exam-dump request, redirects to study guide).
+| Prompt | Expected behavior |
+|--------|-------------------|
+| "What pinball machines do you have in stock?" | Grounded inventory answer listing in-stock titles with prices |
+| "Do you have Medieval Madness, and how much?" | Confirms in stock, names Williams 1997, states $11,500 |
+| "Tell me about Attack from Mars." | Bally, 1995, DMD golden era, Brian Eddy, "Rule the Universe" |
+| "What's the weather tomorrow?" | Politely redirects to pinball; does not answer off-domain |
 
 ---
 
-## Segment 2 - Build (1:10 – 2:10)
+## Segment 2 - Topics, Actions, and Power Automate Integration (1:00 - 1:50)
 
-_Topics, triggers, knowledge sources, variables, generative answers._
+_Build the Repair Triage topic, then the **Book a Service** Power Automate flow with an approval step. This is the onboarding-with-approvals pattern realized as service booking - the mini-exercise wires an action to a topic._
 
 ### Time Table
 
 | Time | Activity |
 |------|----------|
-| 1:10 – 1:18 | Recap, preview the build |
-| 1:18 – 1:30 | Knowledge sources - AZ-900 study guide, Azure docs, Cloud Adoption Framework, SharePoint notes |
-| 1:30 – 1:45 | Build `T01_ExamDomainOverview` and `T05_PracticeQuestion` |
-| 1:45 – 1:58 | Build `T06_StudyPlanGenerator` with AutomaticTaskInput (weeks, weak domain) |
-| 1:58 – 2:05 | Build `T99_Fallback` with SearchAndSummarizeContent |
-| 2:05 – 2:10 | Demo and segment wrap |
+| 1:00 - 1:08 | Recap; topics vs actions vs flows; when to make something deterministic |
+| 1:08 - 1:24 | Build `T02_RepairTriage` - question, grounded playbook search, booking offer |
+| 1:24 - 1:42 | Build the **Book a Service** Power Automate flow with an approval step; wire it into the topic |
+| 1:42 - 1:48 | Test the end-to-end triage-to-booking path |
+| 1:48 - 1:50 | Segment wrap |
 
 ### Talking Points
 
-- **Knowledge source ordering matters.** Sources in a generative-answers node override agent-level sources. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio>
-- **The source menu grew.** Beyond public websites and SharePoint, you can now ground on **Azure AI Search** (vector index + semantic ranker, VNet support), **Bing Custom Search** (a scoped Bing index via a Configuration ID), and **Web Search** (broad Bing grounding). You can also build a fully custom source with the **`OnKnowledgeRequested`** trigger (YAML/code view only). References: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-azure-ai-search> · <https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-bing-custom-search> · <https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/custom-knowledge-sources>
-- **Generative-mode limits.** Generative orchestration allows up to **25 public websites** and **25 SharePoint URLs**; uploaded files do not count against the 25-source search limit. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio>
-- **Bing Custom Search overrides public sites.** Turning on Bing Custom Search at the agent level **turns off and blocks** any public-website knowledge sources. Pick one. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-bing-custom-search>
-- **Public website source requires crawlable content.** learn.microsoft.com/azure is ideal; gated docs are not. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-add-public-website>
-- **SharePoint knowledge requires `Sites.Read.All` and `Files.Read.All`.** Work IQ now improves SharePoint-grounded retrieval. References: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-add-sharepoint> · <https://learn.microsoft.com/en-us/microsoft-copilot-studio/knowledge-copilot-studio#turn-on-work-iq>
-- **Topic inputs via AutomaticTaskInput** are preferred under generative orchestration - the orchestrator fills them from context. Use an explicit Question node only when the input is conditional (e.g., ask for weak domain only if learner did not mention one).
-- **PP-WAF - Reliability.** Ground answers in trusted sources; degrade gracefully when knowledge is missing. Reference: <https://learn.microsoft.com/en-us/power-platform/well-architected/reliability/>
+- **Topics carry conversation logic; flows carry transactions.** The guidance from `flows/deterministic-flow-ideas.md`: if the business says "the agent must follow these exact steps," make it **deterministic**. A booking, quote, status check, or hold returns a **real** reference number, not one the model guessed. References: <https://learn.microsoft.com/microsoft-copilot-studio/authoring-create-edit-topics> and <https://learn.microsoft.com/microsoft-copilot-studio/advanced-flow>
+- **The Repair Triage topic shape** (`topics/T02_RepairTriage.mcs.yml`): one `Question` node captures machine plus symptom together, a `SearchAndSummarizeContent` node grounds triage in the repair playbook with `webBrowsing: false` so advice comes from Contoso's vetted procedures, a `SendActivity` returns the formatted guidance, a boolean `Question` offers a booking, and a `ConditionGroup` branches to the flow handoff. The stub carries a `MAKER TODO` at the handoff - Segment 2 replaces it with the real **Book a Service** action.
+- **Model descriptions are the routing contract.** Under generative orchestration the `modelDescription` on a topic is the number-one driver of correct routing; a weak description is the number-one cause of the wrong topic firing. The Repair Triage description: "Triages a reported pinball machine symptom against the repair playbook, gives first-step guidance, and offers to hand off to a service booking." Reference: `triggers/quick-win-triggers.md`
+- **Trigger phrases - 5 to 10 is the sweet spot.** Variety of phrasing beats volume. The Repair Triage phrases include "my flipper is weak", "display is flickering", "book a service appointment". Reference: <https://learn.microsoft.com/microsoft-copilot-studio/guidance/trigger-phrases-best-practices>
+- **The Book a Service flow** (`flows/deterministic-flow-ideas.md`, Flow 1). Inputs: `MachineTitle`, `Symptom`, `PreferredWindow`, `ContactEmail`. Steps: validate inputs, write a row to a **Dataverse** table `ServiceBookings` (or a SharePoint list for a lighter demo), generate a `SVC-` booking reference, send a confirmation email. Outputs: `BookingReference`, `ConfirmedWindow`, `Status = Booked`. The Concierge reports the reference verbatim from the flow output.
+- **The approval step.** For a commitment like an appointment slot, add a **Power Automate approval action** so a Contoso staff member confirms the slot before it is booked. This is the "onboarding-with-approvals" pattern from the sell page, realized as service booking. It also satisfies the responsible-AI practice of keeping a **human in the loop** for high-impact actions.
+- **On Plan Complete - a graceful-close nicety.** Copilot Studio has an **On Plan Complete** trigger that fires after the whole plan runs and the response is sent. Use it to redirect to an end-of-conversation topic or a CSAT survey - but gate it on a context variable so it does not fire after every follow-up question. Reference: <https://learn.microsoft.com/microsoft-copilot-studio/guidance/generative-orchestration#custom-triggers-in-generative-orchestration>
+- **PP-WAF - Reliability.** Ground triage in a trusted source; degrade gracefully when the playbook has no match; let the deterministic flow own the transaction. Reference: <https://learn.microsoft.com/power-platform/well-architected/reliability/>
 
-### Knowledge Sources - Quick Reference
+### Deterministic Flow Inventory (build order, highest value first)
 
-| Source | Kind | Scope | Notes |
-|--------|------|-------|-------|
-| AZ-900 study guide | PublicSiteSearchSource | <https://learn.microsoft.com/credentials/certifications/resources/study-guides/az-900> | Domain weights and objectives; primary exam ground truth |
-| Azure documentation | PublicSiteSearchSource | <https://learn.microsoft.com/azure/> (concepts, services, pricing, regions) | High authority; service and concept detail |
-| Cloud Adoption Framework | PublicSiteSearchSource | <https://learn.microsoft.com/azure/cloud-adoption-framework/> | Governance, landing-zone, cost context |
-| Tim's study notes | SharePointSearchSource | `/sites/AZ900Study/Shared Documents/Notes/` | Instructor-authored highlights and gotchas |
-
-**Other sources available (not all used in this build, but worth naming):**
-
-| Source | When to reach for it | Watch out for |
-|--------|----------------------|---------------|
-| Azure AI Search | Large private corpus needing vector + semantic ranking | Add via a formal data connection, not a raw endpoint + key; supports VNet |
-| Bing Custom Search | A curated, scoped public web index | **Overrides and disables public-website sources** when turned on |
-| Web Search | Broad, real-time public info | Bing grounding; interleaves with your public-site sources |
-| `OnKnowledgeRequested` topic | Your own search API / enterprise search | YAML/code view only, no visual designer; uses `System.SearchQuery` |
-
-### Topic Patterns Taught
-
-- **Empty-shell + AutomaticTaskInput** - generative orchestrator supplies `weeksUntilExam`, `weakestDomain`.
-- **Conditional Question node** - only ask for weakest domain if orchestrator could not infer it.
-- **SearchAndSummarizeContent** in `T99_Fallback` - grounded summary with citations.
-- **EndDialog with Topic.Result** - exam-domain topic returns structured output the orchestrator can cite.
+| # | Flow | Trigger | Real reference it returns | Why deterministic |
+|---|------|---------|---------------------------|-------------------|
+| 1 | Book a Service Visit | Repair Triage says yes to booking | `SVC-` | An appointment slot is a commitment |
+| 2 | Request a Repair Quote | "how much to fix X" | `QUO-` | Pricing comes from the policy table, not a guess |
+| 3 | Check Order or Service Status | "status of SVC-1042" | (status read) | A status lookup is a database read |
+| 4 | Reserve / Hold a Machine | "hold Medieval Madness" | `HOLD-` | A hold changes inventory state, hard 48-hour expiry |
+| 5 | Trade-In Valuation Start | "trade in my Firepower" | `TRD-` | A valuation offer follows a rate table |
 
 ### Live Build Checklist - Segment 2
 
-- [ ] Add public website knowledge: AZ-900 study guide
-- [ ] Add public website knowledge: learn.microsoft.com/azure (scoped to concepts/services)
-- [ ] Add public website knowledge: Cloud Adoption Framework
-- [ ] Add SharePoint knowledge: AZ900Study site (Sites.Read.All consented)
-- [ ] Author `T01_ExamDomainOverview` with Topic.Domain input, table response
-- [ ] Author `T05_PracticeQuestion` weighted by AZ-900 domain percentages
-- [ ] Author `T06_StudyPlanGenerator` with two AutomaticTaskInput fields
-- [ ] Author `T99_Fallback` with SearchAndSummarizeContent
-- [ ] Validate each topic YAML via `/copilot-studio:validate`
-- [ ] Test-panel: run the demo prompts below
+- [ ] Author `T02_RepairTriage` (machine+symptom question, grounded playbook search, booking offer, condition branch)
+- [ ] Bind the `SearchAndSummarizeContent` node to the **repair playbook** knowledge source so triage resolves
+- [ ] Register the connections the flow needs (Dataverse or SharePoint, Office 365 Outlook)
+- [ ] Create the **Book a Service** Power Automate flow (`MachineTitle`, `Symptom`, `PreferredWindow`, `ContactEmail`)
+- [ ] Add a Power Automate **approval** step before the booking is committed
+- [ ] Replace the `MAKER TODO` handoff in `T02_RepairTriage` with the flow action, passing `MachineAndSymptom`
+- [ ] Validate topic YAML via `/copilot-studio:validate`
+- [ ] Test the triage-to-booking path in the test panel
 
 ### Demo Prompt Set - Segment 2
 
 | Prompt | Expected behavior |
 |--------|-------------------|
-| "What domains are on the AZ-900 exam?" | T01 returns table with the three AZ-900 domains and weights |
-| "Give me a practice question on Azure storage." | T05 returns domain-scoped question |
-| "I have 4 weeks, weak on management and governance. Plan?" | T06 auto-fills both inputs |
-| "What is the shared responsibility model?" | T99 generative answer with citation to the AZ-900 study guide / Azure docs |
+| "My flipper feels weak on my Godzilla." | Routes to Repair Triage, gives level + button check, routes to Standard service, offers booking |
+| "Yes, book the visit." | Invokes the Book a Service flow, approval fires, returns a real `SVC-` reference and confirmed window |
+| "There's a burning smell when I turn it on." | Escalates: unplug immediately, do not power on, Priority service |
+| "Can you help me rewire the transformer myself?" | Declines the unsafe DIY, recommends a technician / service visit |
 
 ---
 
-## Segment 3 - Extend (2:20 – 3:20)
+## Segment 3 - Autonomous Agents & Event Triggers (2:00 - 2:50)
 
-_Actions, Power Automate flows, MCP tool integration, connected subagents, channel deployment._
+_A repair-intake or trade-in form lands in SharePoint, an event trigger fires, and the agent processes it autonomously with no user in the chat. This is the document-processor pattern. The mini-exercise wires an event trigger to autonomous instructions._
 
 ### Time Table
 
 | Time | Activity |
 |------|----------|
-| 2:20 – 2:28 | Extension landscape - actions, flows, MCP, subagents |
-| 2:28 – 2:42 | Add Power Automate flow action (email a study plan) |
-| 2:42 – 2:58 | Add MCP server for Azure pricing/region lookup |
-| 2:58 – 3:12 | Add two connected subagents: concept-explainer, practice-exam-coach |
-| 3:12 – 3:18 | Deploy to Teams / M365 Copilot |
-| 3:18 – 3:20 | Segment wrap |
+| 2:00 - 2:08 | Conversational vs autonomous; what an event trigger is; billing impact |
+| 2:08 - 2:24 | Add "When an item is created in SharePoint" trigger; define the payload |
+| 2:24 - 2:38 | Write the autonomous plan: read the intake row, triage, create a booking or trade-in record |
+| 2:38 - 2:46 | Debug with the activity map; discuss the 15-consecutive-call guardrail |
+| 2:46 - 2:50 | Segment wrap; the MCP option for pro-code extension |
 
 ### Talking Points
 
-- **Action types.** Prebuilt connectors, custom connectors, Power Automate flows, MCP tools, and subagents. Start with Power Automate when the workflow is multi-step; use MCP when a capability is already a well-formed external tool. References:
-  - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/advanced-flow>
-  - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/agent-extend-action-mcp>
-- **MCP is standards-based.** Model Context Protocol is a JSON-RPC 2.0 protocol with tools, resources, and prompts primitives (Copilot Studio currently consumes **tools and resources**). The recommended way to connect is the **MCP onboarding wizard** (Tools > Add a tool > New tool > Model Context Protocol), which handles **None / API key / OAuth 2.0** auth; the custom-connector route is the fallback. MCP requires **generative orchestration**. References:
-  - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/mcp-add-existing-server-to-agent>
-  - <https://modelcontextprotocol.io/specification>
-- **Transport reality check.** Copilot Studio supports the **Streamable HTTP** transport only. **SSE was deprecated and is no longer supported for MCP after August 2025** - do not teach it as a live option.
-- **REST API tools are still preview.** If you would rather wrap an existing REST endpoint than stand up an MCP server, "Extend your agent with tools from a REST API" is **preview** (prerelease) and requires an **OpenAPI v2** spec (a v3 spec is auto-downgraded to v2). Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/agent-extend-action-rest-api>
-- **FastMCP for Python servers.** Decorator API - docstrings become tool descriptions, type hints become parameter schemas. Expose the server over **Streamable HTTP** for Copilot Studio. Reference: <https://github.com/modelcontextprotocol/python-sdk>
-- **Add other agents (the taxonomy broadened).** "Connected agents" is now one option among several. **Child agents** (embedded), **connected Copilot Studio (in-environment) agents**, and **agent-to-agent (A2A) protocol** connections are all **GA** (A2A reached GA in **April 2026**). **External connections are preview**: **Microsoft Foundry agents (preview)**, **Fabric Data agents (preview)**, and **agents built with the Microsoft 365 Agents SDK (preview)**. We use connected agents so specialists can be reused outside the AZ-900 use case. References: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-add-other-agents> · <https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-agent-agent-to-agent> · <https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-agent-foundry-agent> · <https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-agent-fabric-data-agent> · <https://learn.microsoft.com/en-us/microsoft-copilot-studio/add-agent-microsoft-365-agents-sdk-agent>
-- **Teams / M365 deployment.** One click from Channels → Microsoft Teams; requires tenant admin approval for broad publishing. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/publication-add-bot-to-microsoft-teams>
-- **PP-WAF - Performance Efficiency.** Offload specialized reasoning to subagents; keep the root agent's instruction budget small. Reference: <https://learn.microsoft.com/en-us/power-platform/well-architected/performance-efficiency/>
+- **Autonomous means no user prompt.** Event triggers let the agent act in response to an external event instead of a user message. The orchestrator turns the **trigger payload** plus the agent's instructions into a plan and executes it. This capability is **only available when generative orchestration is on**. References: <https://learn.microsoft.com/microsoft-copilot-studio/authoring-triggers-about> and <https://learn.microsoft.com/microsoft-copilot-studio/guidance/autonomous-agents>
+- **The Contoso event.** A repair-intake or trade-in form is submitted and lands as a new item in a SharePoint list. The **"When an item is created in SharePoint"** trigger fires. Other examples in the docs: "When a file is created in OneDrive", "When a task is completed in Planner", and a **Recurrence** (time-based) trigger. Reference: <https://learn.microsoft.com/microsoft-copilot-studio/authoring-triggers-about>
+- **Author the trigger from Overview > Triggers.** On the agent's **Overview** page, go to the **Triggers** section, select **Add trigger**, choose the event, provide the maker's authentication, then define the event parameters and the **trigger payload**. Triggers ship a default payload; you add your own content and instructions. Reference: <https://learn.microsoft.com/microsoft-copilot-studio/authoring-trigger-event>
+- **The payload plus instructions drive the plan.** The trigger payload carries the intake data (machine title, reported symptom, contact). Trigger-level instructions plus the agent's own instructions tell the orchestrator which topic, tool, or flow to call - for Contoso, triage the symptom against the playbook and create a **Book a Service** row, or start a **Trade-In Valuation**. Reference: <https://learn.microsoft.com/microsoft-copilot-studio/faqs-generative-orchestration>
+- **Billing impact is real.** Enabling event triggers changes how billing is calculated (Copilot Credits) because the agent can run without a user. Say this out loud so learners scope pilots deliberately. Reference: <https://learn.microsoft.com/microsoft-copilot-studio/requirements-messages-management>
+- **Debug with the activity map.** Autonomous runs record an activity trail: which action or topic the agent called and why. When an autonomous plan misses an input, the activity map is where you find the gap. Keep **consecutive action/topic calls under 15** so a plan does not run away. Reference: <https://learn.microsoft.com/microsoft-copilot-studio/authoring-triggers-about>
+- **Trigger connectors respect data policies.** Which triggers are available depends on your organization's DLP policies, configured in Power Automate by an admin. The trigger connector authenticates as the **agent maker's** account, so the maker can only trigger on systems they can access. Reference: <https://learn.microsoft.com/microsoft-copilot-studio/authoring-triggers-about>
+- **Pro-code extension - MCP (optional, if time allows).** When a capability is already a well-formed external tool, connect it as an **MCP** tool. Copilot Studio supports the **Streamable HTTP** transport only; **SSE was deprecated and is no longer supported for MCP after August 2025**. Add via the **MCP onboarding wizard** (Tools > Add a tool > New tool > Model Context Protocol), which handles None / API key / OAuth 2.0 auth. MCP requires generative orchestration. For a Python server, **FastMCP** turns docstrings into tool descriptions and type hints into parameter schemas; serve it over Streamable HTTP. References: <https://learn.microsoft.com/microsoft-copilot-studio/agent-extend-action-mcp> and <https://modelcontextprotocol.io/specification>
+- **PP-WAF - Performance Efficiency.** Autonomous background processing removes a human step from routine intake; keep the plan short and the instruction budget tight. Reference: <https://learn.microsoft.com/power-platform/well-architected/performance-efficiency/>
 
-### Extension Inventory
+### Autonomous Flow - Contoso Repair Intake
 
-| Extension | Kind | Purpose |
-|-----------|------|---------|
-| `EmailStudyPlan` | Power Automate flow (TaskDialog) | Email generated plan to learner via Office 365 Outlook |
-| `AzureDocsLookup` | MCP tool | Look up Azure region availability and pricing-calculator reference from a FastMCP server |
-| `agents/ConceptExplainer` | Connected agent | Explain a cloud concept (e.g., shared responsibility, IaaS vs PaaS) in plain English with examples |
-| `agents/PracticeExamCoach` | Connected agent | Coach the learner through domain-weighted practice questions and rationale |
+1. A customer submits the **Repair Intake** form; a row is created in the SharePoint list `RepairIntake`.
+2. The **"When an item is created in SharePoint"** trigger fires and sends the payload (machine, symptom, contact, preferred window) to the agent.
+3. The orchestrator triages the symptom against the **repair playbook** knowledge source.
+4. It calls the **Book a Service** flow to create a `ServiceBookings` row and a `SVC-` reference.
+5. It sends the customer a confirmation via the Outlook connector, and (optional) posts a summary to the staff Teams channel.
+6. The **activity map** records each step for audit.
 
-### FastMCP Azure Docs Server - Reference Sketch
+### FastMCP Reference Sketch (optional pro-code tool)
 
 ```python
-# mcp_servers/azure_docs/server.py
+# mcp_servers/pinball_parts/server.py
 from fastmcp import FastMCP
 
-mcp = FastMCP("azure-docs")
+mcp = FastMCP("pinball-parts")
 
 @mcp.tool()
-def lookup_azure_service(service: str, topic: str | None = None) -> dict:
-    """Return a grounded Azure reference entry for a service.
+def lookup_part_availability(machine: str, part: str) -> dict:
+    """Return parts-stock and lead time for a repair part.
 
     Args:
-        service: The Azure service or concept (regions, virtual machines, pricing calculator, ...).
-        topic: Optional sub-topic (availability zones, region pairs, cost, ...).
+        machine: The machine title (Godzilla Premium, Medieval Madness, ...).
+        part: The part or assembly (coil sleeve, flipper linkage, DMD, ...).
     """
-    # Query a local index of learn.microsoft.com/azure JSON (regions, pricing, service docs)
-    return azure_index.lookup(service, topic)
+    # Read a local parts index; the flow owns the actual order commitment.
+    return parts_index.lookup(machine, part)
 
 if __name__ == "__main__":
-    mcp.run()  # stdio for local dev; serve Streamable HTTP for Copilot Studio (SSE no longer supported after Aug 2025)
+    # stdio for local dev; serve Streamable HTTP for Copilot Studio.
+    # SSE is no longer supported for MCP after Aug 2025.
+    mcp.run()
 ```
-
-MCP protocol reference: <https://modelcontextprotocol.io/specification>
 
 ### Live Build Checklist - Segment 3
 
-- [ ] Register Office 365 Outlook connection
-- [ ] Create Power Automate flow `EmailStudyPlan(toAddress, planMarkdown)`
-- [ ] Add flow as action with AutomaticTaskInput for both parameters
-- [ ] Deploy FastMCP `azure-docs` server behind an HTTPS Streamable HTTP endpoint
-- [ ] Add the MCP server via the **onboarding wizard** (Tools > Add a tool > New tool > Model Context Protocol); custom connector only if the wizard cannot reach the server
-- [ ] Add MCP tool to agent; verify tool discovery in chat
-- [ ] Create connected agent `ConceptExplainer` (own topics, own knowledge)
-- [ ] Create connected agent `PracticeExamCoach` (question bank)
-- [ ] Link both connected agents to root AZ-900 agent
-- [ ] Enable Microsoft Teams channel
-- [ ] Install in instructor's Teams tenant, smoke-test
+- [ ] Create the SharePoint list `RepairIntake` with columns for machine, symptom, contact, preferred window
+- [ ] Confirm the SharePoint trigger connector is allowed by the tenant DLP policy
+- [ ] On **Overview > Triggers**, add **"When an item is created in SharePoint"**
+- [ ] Define the trigger payload and the autonomous instructions (triage, then book or start a trade-in)
+- [ ] Test by submitting an intake row; watch the plan run with no chat input
+- [ ] Open the **activity map** and confirm each action fired with the right inputs
+- [ ] (Optional) Add a FastMCP tool via the onboarding wizard for a parts lookup
+- [ ] Note the Copilot Credits billing impact before enabling in a shared environment
 
-### Demo Prompt Set - Segment 3
+### Demo Prompt Set - Segment 3 (event-driven, not chat)
 
-| Prompt | Expected behavior |
-|--------|-------------------|
-| "Email me the 4-week plan." | Orchestrator invokes `EmailStudyPlan` with filled inputs |
-| "Which Azure regions are paired with East US?" | Routes to azure-docs MCP tool, returns grounded region-pair reference |
-| "Explain the difference between IaaS, PaaS, and SaaS." | Orchestrator hands off to ConceptExplainer subagent |
-| "Quiz me on management and governance and explain my mistakes." | Handoff to PracticeExamCoach subagent |
+| Event | Expected behavior |
+|-------|-------------------|
+| A new `RepairIntake` row: "Godzilla Premium, left flipper weak, weekend" | Trigger fires; agent triages, calls Book a Service, writes a `SVC-` row, emails confirmation |
+| A trade-in intake row: "Firepower, EM, Project grade" | Agent starts the Trade-In Valuation, writes a `TRD-` record, flags specialist confirmation |
+| A malformed intake row (missing machine) | Activity map shows the missing input; agent requests follow-up rather than inventing a booking |
 
 ---
 
-## Segment 4 - Operate (3:30 – 4:30)
+## Segment 4 - Deployment, Analytics, and ROI (3:00 - 3:50)
 
-_Test, observe, secure, govern, publish._
+_Publish to the three targets, walk Analytics, build the Savings ROI tile, define custom metrics, and lay down governance. The mini-exercise: publish and read a real KPI._
 
 ### Time Table
 
 | Time | Activity |
 |------|----------|
-| 3:30 – 3:38 | Testing pyramid for agents |
-| 3:38 – 3:52 | Test panel + native agent evaluations (Kit as complement) |
-| 3:52 – 4:05 | Analytics, observability, Application Insights |
-| 4:05 – 4:18 | Security, DLP, governance, CoE |
-| 4:18 – 4:26 | Publishing, channels, admin approval workflow |
-| 4:26 – 4:30 | Course wrap, resources, Q&A pointers |
+| 3:00 - 3:08 | Publish once, connect channels; Teams / M365 Copilot / SharePoint |
+| 3:08 - 3:20 | Analytics: the built-in KPIs; conversational vs autonomous |
+| 3:20 - 3:30 | Savings calculator ROI tile; up to three custom metrics; themes to eval sets |
+| 3:30 - 3:40 | Native agent evaluations; App Insights KQL |
+| 3:40 - 3:48 | Security, DLP, governance, CoE |
+| 3:48 - 3:50 | Course wrap, resources, Q&A pointers |
 
 ### Talking Points
 
-- **Testing pyramid for agents.** Unit (single utterance in test panel) → Scenario (multi-turn script) → Batch (**native agent evaluations**, with Copilot Studio Kit as a complement) → Shadow / canary in production. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-test-bot>
-- **Native agent evaluations (GA).** Agent evaluations are **generally available as of March 2026**, built into Copilot Studio: build a **test set** by hand, by import, or **generated from your knowledge and topics**; grade with text-match, similarity, and quality graders; inspect each case with an **activity map**; and **compare agent versions** side by side. **Multi-turn (full-conversation) evaluation is now GA** (introduced March 2026 as preview, GA as of this delivery) - up to 20 test cases per conversational test set, with conversation-level and turn-level assertions. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-intro> · <https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-multi-turn>
-- **Copilot Studio Kit.** Power CAT accelerator; still useful for batch regression at scale against Direct Line, and complementary to native evaluations. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/kit-overview>
-- **Analytics.** Session, engagement, resolution, escalation, CSAT - test-panel traffic is excluded. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-overview>
-- **Observability.** Pipe conversations to Application Insights via Dataverse connector; dashboards in Power BI. Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-app-insights>
-- **Security.** Authentication (M365 SSO), content moderation, DLP classification of connectors. References:
-  - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/security-and-governance>
-  - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/admin-data-loss-prevention>
-- **Governance.** CoE Starter Kit, environment strategy, solution-aware deployment. Reference: <https://learn.microsoft.com/en-us/power-platform/guidance/coe/starter-kit>
-- **PP-WAF - Security & Operational Excellence** are the Segment 4 pillars. References:
-  - <https://learn.microsoft.com/en-us/power-platform/well-architected/security/>
-  - <https://learn.microsoft.com/en-us/power-platform/well-architected/operational-excellence/>
+- **Publish once, connect channels.** Publishing updates every connected channel at the same time, so re-publish after any edit. Reference: <https://learn.microsoft.com/microsoft-copilot-studio/publication-fundamentals-publish-channels>
+- **The three Contoso targets.** **Microsoft 365 Copilot** and **Microsoft Teams** are served by one **Teams and Microsoft 365 Copilot** channel; **SharePoint** is a separate channel for embedding contextual help on a site. Publishing to M365 Copilot submits the agent as a **request** in the Microsoft 365 admin center, which an admin approves before org users see it. Keep **Authenticate with Microsoft** on so the agent works across Teams, M365 Copilot, and SharePoint with Entra ID. Reference: <https://learn.microsoft.com/microsoft-copilot-studio/publication-add-bot-to-microsoft-teams>
+- **Honesty note on the SharePoint channel.** The new agent experience has listed the SharePoint channel as not yet available in that specific experience, while the classic experience and the broad publishing docs describe SharePoint as a supported native channel. Confirm the channel is present in your tenant's experience before you demo the SharePoint publish live. Reference: `Contoso Pinball Gallery Concierge/docs/ms-learn-sources.md`
+- **Built-in conversational KPIs.** Every published agent emits analytics from the first conversation: **Total Sessions**, **Engagement Rate**, **Resolution Rate** (confirmed or implied), **Escalation Rate**, **Abandon Rate** (an engaged session that ends without resolution or escalation after **60 minutes**), and **CSAT** (1 to 5, from the End of Conversation survey). Test-panel traffic is excluded from Analytics. References: <https://learn.microsoft.com/microsoft-copilot-studio/analytics-overview> and <https://learn.microsoft.com/microsoft-copilot-studio/guidance/deflection-overview>
+- **The Savings calculator produces a defensible ROI tile.** On the agent's **Analytics** page, the **Savings** area lets you enter the estimated time or money saved per run or per tool. Copilot Studio computes totals in real time against successful runs in the period and updates retroactively when you change inputs - an ROI tile with no data engineering. References: <https://learn.microsoft.com/microsoft-copilot-studio/analytics-cost-savings> and <https://learn.microsoft.com/microsoft-copilot-studio/guidance/agent-business-value-tell-value-story>
+- **Up to three custom metrics, defined in natural language.** Copilot Studio scores a sample of sessions against your definition and shows each metric as a labeled **donut graph** under **Custom metrics**. For Contoso, a good one is "share of sessions where the customer got a grounded price or availability without escalation." Reference: <https://learn.microsoft.com/microsoft-copilot-studio/analytics-custom-metrics>
+- **Autonomous agents get their own KPIs.** For agents that run on event triggers rather than chat, analytics reports **run outcomes, trigger use, tool use, and knowledge-source use** - the right lens for the Segment 3 repair-intake agent. Reference: <https://learn.microsoft.com/microsoft-copilot-studio/analytics-improve-agent-effectiveness>
+- **Themes become eval test sets in one click.** Copilot Studio groups generative questions into **themes**; any theme can be turned into an evaluation test set with one select. That is the on-ramp from "what are people actually asking" to a regression suite. Reference: <https://learn.microsoft.com/microsoft-copilot-studio/analytics-themes>
+- **Native agent evaluations (GA).** Agent evaluations are **generally available as of March 2026**: build a **test set** by hand, by import, or **generated from your knowledge and topics**; grade with text-match, similarity, and quality graders; inspect each case with an **activity map**; and **compare agent versions** side by side. **Multi-turn (full-conversation) evaluation is GA** (up to 20 test cases per conversational test set). Seed the set from `evals/eval-set.md`. Reference: <https://learn.microsoft.com/microsoft-copilot-studio/analytics-agent-evaluation-intro>
+- **Deep telemetry with Application Insights.** Connect from **Settings > Analytics**; the agent then emits logged messages, topic-trigger events, and custom telemetry for KQL analysis. Reference: <https://learn.microsoft.com/microsoft-copilot-studio/advanced-bot-framework-composer-capture-telemetry>
+- **Security and governance.** Entra ID SSO, per-agent content moderation, DLP classification of connectors (the **most restrictive DLP policy wins**), solution-aware ALM (dev to test to prod), and a **CoE Starter Kit** inventory entry. References: <https://learn.microsoft.com/microsoft-copilot-studio/security-and-governance> and <https://learn.microsoft.com/power-platform/guidance/coe/starter-kit>
+- **PP-WAF - Security and Operational Excellence** are the Segment 4 pillars. References: <https://learn.microsoft.com/power-platform/well-architected/security/> and <https://learn.microsoft.com/power-platform/well-architected/operational-excellence/>
 
-### Test Matrix - AZ-900 Cert-Prep Assistant
+### Sample KQL - Sessions and Messages per Day (last 30 days)
+
+```kusto
+// Common adoption starting point once App Insights is connected.
+requests
+| where timestamp > ago(30d)
+| summarize sessions = dcount(session_Id), messages = count() by bin(timestamp, 1d)
+| render timechart
+```
+
+The same pattern answers top topics, escalation rate over time, agent latency, and peak-hour volume.
+
+### ROI Story - Contoso Pinball Gallery Concierge
+
+| Value driver | Metric to show | Where to read it |
+|--------------|----------------|------------------|
+| Efficiency | Hours saved on inventory and warranty questions the Concierge deflects | Savings calculator |
+| Quality | Resolution rate, escalation rate, groundedness | Analytics Overview + Effectiveness |
+| Revenue | Holds placed and trade-ins started through the agent | Custom metric (donut) |
+| Autonomy | Repair-intake runs completed without staff touch | Autonomous KPIs (run outcomes, tool use) |
+
+### Test Matrix - Contoso Pinball Gallery Concierge
 
 | Layer | Tool | What we cover |
 |-------|------|---------------|
-| Unit | Copilot Studio Test panel | Each topic's trigger + happy path |
-| Scenario | Test panel multi-turn | StudyPlanGenerator with follow-ups |
-| Batch | **Native agent evaluations** (GA) | Test set across all three AZ-900 domains + 2 off-topic; quality + similarity graders |
+| Unit | Copilot Studio test panel | Each topic's trigger + happy path from `evals/eval-set.md` |
+| Scenario | Test panel multi-turn | Triage-to-booking with follow-ups |
+| Batch | Native agent evaluations (GA) | Inventory, repair, research, warranty, flow-handoff, and out-of-scope cases; quality + similarity graders |
 | Batch (scale) | Copilot Studio Kit | Optional Direct Line regression suite; complements native evaluations |
-| Integration | Teams channel | End-to-end install, auth, Teams rendering |
+| Integration | Teams / SharePoint channel | End-to-end install, auth, rendering |
 | Regression | Native eval set + solution export | Re-run and version-compare before every publish |
-
-### Observability Dashboard - Fields to Track
-
-- Intent routing confidence (median, p95)
-- Grounded-citation rate
-- Escalation rate
-- Fallback count per session
-- Tool-call latency (MCP, flows)
-- CSAT
 
 ### Security & Governance Checklist
 
-- [ ] Authentication: Microsoft Entra, SSO enforced
-- [ ] DLP policy: HTTP connector in Business; Outlook in Business; unknowns blocked
-- [ ] Content moderation level: High
+- [ ] Authentication: Entra ID, **Authenticate with Microsoft** on
+- [ ] DLP policy: Dataverse/SharePoint and Outlook connectors classified; unknowns blocked
+- [ ] Content moderation set for the audience
 - [ ] Secrets in environment variables (never in YAML)
-- [ ] Solution-aware deployment (dev → test → prod)
+- [ ] Solution-aware deployment (dev to test to prod), connection references reset per environment
 - [ ] CoE inventory entry for the agent
-- [ ] Responsible-AI notice in conversation starters
+- [ ] Responsible-AI notice in conversation starters; human-in-the-loop on the booking approval
 
 ### Live Build Checklist - Segment 4
 
-- [ ] Run 10 unit tests in test panel
-- [ ] Build a native evaluation **test set** (generate from knowledge/topics, then hand-tune the AZ-900 domain cases)
-- [ ] Run the evaluation; review quality + similarity scores and an activity map for one failing case
-- [ ] (Optional) Import the same suite into Copilot Studio Kit for Direct Line regression
-- [ ] Connect Application Insights
-- [ ] Tag DLP policy; confirm connector classifications
-- [ ] Export solution from dev, import into test
-- [ ] Publish; route to Teams
-- [ ] File CoE inventory entry
+- [ ] Publish; add the **Teams and Microsoft 365 Copilot** channel; keep **Make available in Microsoft 365 Copilot** selected
+- [ ] Confirm the **SharePoint** channel is present in your experience, then add it
+- [ ] Submit the M365 Copilot request; note the admin-approval step
+- [ ] On **Analytics**, read Total Sessions, Engagement, Resolution, Escalation, Abandon, CSAT
+- [ ] Enter Savings calculator inputs to produce the ROI tile
+- [ ] Define one custom metric in natural language; review the donut
+- [ ] Turn a **theme** into an evaluation test set; run native agent evaluations seeded from `evals/eval-set.md`
+- [ ] Connect Application Insights; run the sample KQL
+- [ ] Tag the DLP policy; export the solution from dev into test; file the CoE entry
 
 ### Demo Prompt Set - Segment 4
 
-| Prompt | Expected behavior |
-|--------|-------------------|
-| (Batch) AZ-900 domain test set | Evaluation run shows pass/fail + graded score per case |
-| "Just give me the exam answers." | Guardrail refuses the exam-dump request; logged as moderation event |
-| "Email the plan to external@gmail.com" | DLP / auth path blocks external address if policy set |
-| "Show analytics for this week." | Instructor walks Analytics dashboard |
+| Prompt / action | Expected behavior |
+|-----------------|-------------------|
+| Publish, then chat in Teams: "Do you have Jaws?" | Confirms Jaws Premium, Stern 2024, Museum, $10,400 through the Teams channel |
+| (Batch) Run the eval set | Evaluation shows pass/fail + graded score per case |
+| "Show analytics for this week." | Instructor walks the KPI Overview and the Savings tile |
+| "Email the confirmation to external@gmail.com" | DLP / auth path blocks the external address if policy is set |
 
 ---
 
@@ -370,46 +377,99 @@ _Test, observe, secure, govern, publish._
 
 _Optional closer for the developers in the room; ties the no-code build to real source control._
 
-- **What it is.** The Microsoft Copilot Studio extension for Visual Studio Code is **generally available** (GA as of January 2026). Clone an agent from Copilot Studio to your machine, edit its **agent definition YAML** locally, manage it with **Git and pull requests**, then apply or deploy changes back to your environment.
-- **Why it matters here.** It turns a portal-authored agent into a versioned artifact - diffs, code review, CI-friendly workflows - without leaving the editor your team already uses.
-- **The hook for this audience.** Microsoft's own docs name **GitHub Copilot and Claude Code** as authoring agents you can point at the YAML. Agent-driven authoring of an agent.
-- **Caveat for our repo.** Any blueprint YAML you may have seen in earlier course repos predates this April model and multi-agent refresh; treat it as historical, not as a clone-and-edit starting point.
-- Reference: <https://learn.microsoft.com/en-us/microsoft-copilot-studio/visual-studio-code-extension-overview>
+- **What it is.** The Microsoft Copilot Studio extension for Visual Studio Code is **generally available**. Clone an agent from Copilot Studio to your machine, edit its **agent definition YAML** (`.mcs.yml`) locally, manage it with **Git and pull requests**, then apply changes back to your environment.
+- **Why it matters here.** It turns a portal-authored agent into a versioned artifact with diffs and code review. The topic stubs in `Contoso Pinball Gallery Concierge/topics/` are already in the `.mcs.yml` shape the extension reads.
+- **The hook for this audience.** Microsoft's own docs name **GitHub Copilot and Claude Code** as authoring agents you can point at the YAML - agent-driven authoring of an agent.
+- **Caveat.** The two topic files are deliberately **stubs**, not a complete deployable agent. To deploy them, scaffold the agent shell (generative orchestration on), bind the knowledge sources so each `SearchAndSummarizeContent` node resolves, and replace the T02 `MAKER TODO` handoff with the real Book a Service action. Do any `.mcs.yml` edits through the `@copilot-studio:*` sub-agents.
+- Reference: <https://learn.microsoft.com/microsoft-copilot-studio/visual-studio-code-extension-overview>
 
 ### Recap - What We Built
 
-- One Copilot Studio agent, progressively enriched across four segments.
-- Nine topics, four knowledge sources, one Power Automate flow, one MCP tool, two connected subagents.
-- Tested with the test panel and **native agent evaluations**, observed through Application Insights, governed through DLP and CoE.
+- One Copilot Studio agent, the **Contoso Pinball Gallery Concierge**, progressively enriched across four segments.
+- Segment 1: an FAQ-style agent grounded in three knowledge sources. Segment 2: the Repair Triage topic and a Book a Service flow with an approval step. Segment 3: an autonomous repair-intake agent on a SharePoint event trigger. Segment 4: published to three channels, measured with Analytics, the Savings ROI tile, custom metrics, and native evaluations, governed with DLP and CoE.
 
 ### PP-WAF Pillar Recap
 
 | Pillar | Where we applied it |
 |--------|---------------------|
-| Experience Optimization | Segment 1 persona, Segment 2 grounded answers |
-| Reliability | Segment 2 knowledge ordering, Segment 3 fallback routing |
-| Performance Efficiency | Segment 3 subagents and MCP offload |
-| Security | Segment 4 DLP, auth, moderation |
-| Operational Excellence | Segment 1 environment strategy, Segment 4 CoE + ALM |
+| Experience Optimization | Segment 1 persona and grounded answers, Segment 2 clear topic routing |
+| Reliability | Segment 2 grounded triage and deterministic flows, Segment 3 auditable autonomous plan |
+| Performance Efficiency | Segment 3 background event-driven processing |
+| Security | Segment 4 DLP, auth, moderation, approval in the loop |
+| Operational Excellence | Segment 1 environment strategy, Segment 4 CoE + ALM + analytics |
 
 ### Reference Library
 
-- Copilot Studio docs - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/>
-- Power Platform Well-Architected - <https://learn.microsoft.com/en-us/power-platform/well-architected/>
-- Cloud Adoption Framework - <https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/>
-- Microsoft MCP for Beginners - <https://github.com/microsoft/mcp-for-beginners>
+- Copilot Studio docs - <https://learn.microsoft.com/microsoft-copilot-studio/>
+- Power Platform Well-Architected - <https://learn.microsoft.com/power-platform/well-architected/>
+- Event trigger overview - <https://learn.microsoft.com/microsoft-copilot-studio/authoring-triggers-about>
+- Design autonomous agent capabilities - <https://learn.microsoft.com/microsoft-copilot-studio/guidance/autonomous-agents>
+- Analytics overview - <https://learn.microsoft.com/microsoft-copilot-studio/analytics-overview>
+- Savings calculator - <https://learn.microsoft.com/microsoft-copilot-studio/analytics-cost-savings>
+- Custom metrics - <https://learn.microsoft.com/microsoft-copilot-studio/analytics-custom-metrics>
+- Tell the value story - <https://learn.microsoft.com/microsoft-copilot-studio/guidance/agent-business-value-tell-value-story>
+- Agent evaluations - <https://learn.microsoft.com/microsoft-copilot-studio/analytics-agent-evaluation-intro>
+- MCP in Copilot Studio - <https://learn.microsoft.com/microsoft-copilot-studio/agent-extend-action-mcp>
 - Model Context Protocol - <https://modelcontextprotocol.io/>
-- Select a primary AI model - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/authoring-select-agent-model>
-- Agent evaluations - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/analytics-agent-evaluation-intro>
-- Copilot Studio VS Code extension - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/visual-studio-code-extension-overview>
-- AZ-900 study guide - <https://learn.microsoft.com/credentials/certifications/resources/study-guides/az-900>
-- Azure documentation - <https://learn.microsoft.com/azure/>
-- Copilot Studio Kit - <https://learn.microsoft.com/en-us/microsoft-copilot-studio/guidance/kit-overview>
-- CoE Starter Kit - <https://learn.microsoft.com/en-us/power-platform/guidance/coe/starter-kit>
+- Copilot Studio VS Code extension - <https://learn.microsoft.com/microsoft-copilot-studio/visual-studio-code-extension-overview>
+- CoE Starter Kit - <https://learn.microsoft.com/power-platform/guidance/coe/starter-kit>
 
 ### Instructor Follow-Up
 
 - Slide deck: `docs/warner-agents-pro-july-2026.pptx`
-- Agent source: `src/copilot-studio-agent/` (rescaffolded for AZ-900 in a follow-up PR)
-- Mock SharePoint content: `src/copilot-studio-agent/knowledge/` (AZ-900 study notes)
+- Agent source: `Contoso Pinball Gallery Concierge/`
+- Knowledge docs for SharePoint upload: `Contoso Pinball Gallery Concierge/knowledge/`
+- Eval set: `Contoso Pinball Gallery Concierge/evals/eval-set.md`
 - Issues / errata: <https://github.com/timothywarner-org/agents-pro/issues>
+
+---
+
+## Appendix - Bonus (Off-Contract): Where Copilot Studio Hands Off to Azure AI Foundry
+
+> **Not on the sell page.** This appendix is **not** part of the contracted four segments. It is an optional 5-minute aside for the pro-code attendees who want to know where the no-code ceiling is and how Contoso would graduate the Concierge's heavier reasoning to Azure. Skip it if the room is business-user heavy.
+
+**The honest tie-in.** The Concierge is a great no-code fit for inventory, triage, and research. If Contoso later needs deep multi-step reasoning (for example, a full restoration-planning agent that weighs parts availability, labor, and resale value), that heavier work is a candidate for a **Foundry prompt agent** that Copilot Studio calls as a **connected agent**.
+
+**Verified July-2026 facts:**
+
+- The **classic Hub + Project** agents are **deprecated** and retire **March 31, 2027**. Do not start new work there.
+- The GA path is the **Microsoft Foundry Agents Service**, SDK **`azure-ai-projects>=2.3.0`**, auth via `az login` + `DefaultAzureCredential`, endpoint supplied through the **`PROJECT_ENDPOINT`** environment variable (not a connection string).
+- Two agent flavors: **Prompt Agents** (server-side, created with `AIProjectClient.agents.create_version()` using a `PromptAgentDefinition`) and **Hosted Agents** (your own container).
+- **MCP is a first-class tool** in Foundry, the same protocol Copilot Studio consumes.
+- **The Copilot Studio bridge:** from Copilot Studio you can add a **Microsoft Foundry agent as a connected agent (preview)**, so the no-code Concierge can delegate one hard sub-task to a Foundry prompt agent and stitch the answer back.
+
+**Tiny prompt-agent sketch (Foundry Agents Service):**
+
+```python
+# Requires: pip install "azure-ai-projects>=2.3.0"
+# Auth: az login first; DefaultAzureCredential picks up the CLI session.
+import os
+from azure.identity import DefaultAzureCredential
+from azure.ai.projects import AIProjectClient
+from azure.ai.projects.models import PromptAgentDefinition
+
+# PROJECT_ENDPOINT is the Foundry project endpoint, not a connection string.
+project = AIProjectClient(
+    endpoint=os.environ["PROJECT_ENDPOINT"],
+    credential=DefaultAzureCredential(),
+)
+
+# A server-side prompt agent Contoso could connect back into Copilot Studio.
+agent = project.agents.create_version(
+    agent_name="pinball-restoration-planner",
+    definition=PromptAgentDefinition(
+        model=os.environ["MODEL_DEPLOYMENT_NAME"],
+        instructions=(
+            "You plan pinball restorations. Given a machine, its condition grade, "
+            "and a target resale band, propose a staged restoration plan with parts, "
+            "labor estimate, and go/no-go economics. Defer firm pricing to the shop."
+        ),
+    ),
+)
+```
+
+**Reference (verify before delivery; Foundry surfaces move fast):**
+
+- Azure AI Foundry Agents documentation - <https://learn.microsoft.com/azure/ai-foundry/agents/>
+- `azure-ai-projects` (PyPI) - <https://pypi.org/project/azure-ai-projects/>
+- Add a Foundry agent to Copilot Studio (preview) - <https://learn.microsoft.com/microsoft-copilot-studio/add-agent-foundry-agent>

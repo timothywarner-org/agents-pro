@@ -1,0 +1,80 @@
+mcs.metadata:
+  componentName: T02_RepairTriage
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Repair Triage
+    triggerQueries:
+      - my flipper is weak
+      - pinball won't start
+      - ball keeps getting stuck
+      - display is flickering
+      - machine needs repair
+      - book a service appointment
+      - troubleshoot my pinball
+  # One crisp sentence so the orchestrator routes symptom reports and service
+  # requests here rather than to the inventory topic.
+  modelDescription: Triages a reported pinball machine symptom against the repair playbook, gives first-step guidance, and offers to hand off to a service booking.
+
+  actions:
+    # Capture machine plus symptom in one prompt. The playbook search below needs
+    # both to return a relevant fix, so we ask for them together up front.
+    - kind: Question
+      id: question_f2h7kd
+      variable: init:Topic.MachineAndSymptom
+      prompt: "Which machine is having trouble, and what's the symptom? (for example: 'Godzilla Premium, left flipper is weak')"
+      entity: StringPrebuiltEntity
+      alwaysPrompt: true
+      interruptionPolicy:
+        allowInterruption: false
+
+    # Ground triage guidance in the repair playbook. webBrowsing: false so advice
+    # comes from Contoso's vetted procedures, not arbitrary web forums.
+    # MAKER TODO: bind this to the real repair playbook knowledge source in the
+    # portal (Copilot Studio > Knowledge) before publishing.
+    - kind: SearchAndSummarizeContent
+      id: searchContent_g8m3qs
+      variable: Topic.TriageGuidance
+      userInput: |-
+        =Concatenate("A customer reports the following pinball issue: '", Topic.MachineAndSymptom, "'. Using the repair playbook, identify the most likely cause and give the safe first troubleshooting steps a customer can try, plus a clear signal for when the machine needs a technician.")
+      additionalInstructions: |
+        Format the answer as:
+        Likely cause: <cause>
+        Try first: <one to three safe customer steps>
+        Needs a technician if: <escalation signal>
+        Only use procedures found in the repair playbook knowledge source. Never suggest opening a powered cabinet or touching high-voltage components.
+      webBrowsing: false
+
+    - kind: SendActivity
+      id: sendMessage_h4t9wp
+      activity: "{Topic.TriageGuidance}"
+
+    # Offer a service booking. Boolean entity so the branch below reads yes/no cleanly.
+    - kind: Question
+      id: question_j6v2ln
+      variable: init:Topic.BookService
+      prompt: "Would you like to book a service visit with a Contoso technician?"
+      entity: BooleanPrebuiltEntity
+      alwaysPrompt: true
+      interruptionPolicy:
+        allowInterruption: false
+
+    - kind: ConditionGroup
+      id: conditionGroup_k1x8bd
+      conditions:
+        - id: conditionItem_l7c3mf
+          condition: =Topic.BookService = true
+          actions:
+            # MAKER TODO: this is the handoff point. Replace this message with an
+            # invocation of the deterministic "Book a Service" Power Automate flow
+            # or connector action (add via /copilot-studio:add-action), passing
+            # Topic.MachineAndSymptom so the booking carries the reported symptom.
+            - kind: SendActivity
+              id: sendMessage_m9q5rt
+              activity: "Great - handing you off to the Book a Service flow now. (Maker: wire the deterministic service-booking action here.)"
+
+    - kind: EndDialog
+      id: endDialog_n2w6yz
+      clearTopicQueue: true

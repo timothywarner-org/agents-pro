@@ -6,24 +6,30 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 O'Reilly Live Learning course repo for "How to Create AI Agents Like a Pro" -- a 4-hour instructor-led course surveying the full AI agent landscape (no-code, low-code, code-first). This is Tim Warner's instructor source of truth and learner reference material.
 
-**Important context:** The O'Reilly registration page (`docs/research/oreilly-reg-page-copy.md`) promises a Copilot Studio-only course. The actual delivery covers the broader agent ecosystem. The course structure below is authoritative; the reg page copy is legacy.
+**Important context:** The delivery is reconciled to the live O'Reilly sell page (`docs/research/oreilly-reg-page-copy.md`, verified July 2026), which is **Copilot Studio only** and explicitly excludes Azure AI Foundry and other no-code platforms. To cut context-switching, all four segments build **one** running scenario, the **Contoso Pinball Gallery Concierge** (root folder `Contoso Pinball Gallery Concierge/`), which carries the sell page's three promised agent patterns (customer service, onboarding-with-approvals, autonomous document processor) as modes of a single agent. Azure AI Foundry appears only as a clearly labeled, off-contract bonus appendix.
 
-## Course Structure (4 Hours)
+## Course Structure (4 Segments, ~50 min each)
 
-| Hour | Theme | Platforms & Tools |
-|------|-------|--------------------|
-| 1 | What "Agent" Means | M365 Copilot agents, declarative agents, taxonomy |
-| 2 | Low-Code Agents | Copilot Studio, Antigrav, Claude Code / GitHub Copilot |
-| 3 | Code-First Agents | Azure AI Foundry, Python, LangGraph, FastMCP |
-| 4 | TBD | Best practices, MCP deep dive, or future trends |
+Segment titles are fixed by the sell page; the pinball demo is how each is taught.
+
+| Segment | Sell-page title | Contoso Pinball demo |
+|---------|-----------------|----------------------|
+| 1 | Copilot Studio Fundamentals & Creating Your First Agent | Build the Concierge by natural language; add knowledge sources; test in simulator |
+| 2 | Topics, Actions, and Power Automate Integration | Repair Triage topic + Book-a-Service approval flow |
+| 3 | Autonomous Agents & Event Triggers | Repair-intake/trade-in form in SharePoint fires an event trigger; agent processes it autonomously |
+| 4 | Deployment, Analytics, and ROI | Publish to Teams/SharePoint/M365 Copilot; Analytics, Savings-calculator ROI tile, governance |
 
 The detailed instructor plan is in `docs/course-plan-july-2026.md`. The slide deck is `docs/warner-agents-pro-july-2026.pptx`.
 
-## Two Content Trees
+## Primary Course Agent
 
-This repo contains **two generations** of course material:
+**`Contoso Pinball Gallery Concierge/`** (top-level folder) is the agent the course builds live across all four segments. It holds the agent instructions, four knowledge docs plus their upload-metadata, two validated Topic `.mcs.yml` stubs (Inventory Lookup, Repair Triage), deterministic-flow specs, quick-win triggers, an eval set, and icons. Start here for anything about the running scenario. It is currently topic stubs and assets; it still needs an `agent.mcs.yml` shell to deploy.
 
-1. **`src/copilot-studio-agent/`** -- The current primary content for Hour 2. Three progressive Copilot Studio agents (customer-service-assistant, employee-onboarding-agent, document-processor-agent) with topics, actions, knowledge sources, and SharePoint-uploadable demo data.
+## Two Older Content Trees
+
+The repo also contains earlier course material, kept as reference, not the live build:
+
+1. **`src/copilot-studio-agent/`** -- Three progressive Copilot Studio agents (customer-service-assistant, employee-onboarding-agent, document-processor-agent) with topics, actions, knowledge sources, and SharePoint-uploadable demo data. These are the blueprint originals of the three patterns the Concierge now consolidates into one agent; useful as a deeper reference per pattern.
 
 2. **`agents-playground/`** -- Archived snapshot of a distinct, earlier O'Reilly course ("Build Production-Ready AI Agents"), cloned without git history. Contains a working Python agent pipeline (`agents-playground/oreilly-agent-mvp/`), Claude Code skill definitions, Copilot Studio adaptive cards, per-hour teaching guides, and research docs. Treat as a reference library, not active development -- it is not a prior version of the current course, it is a different product.
 
@@ -105,15 +111,11 @@ Markdown linting config exists at `.markdownlint.json` (line length 120, 2-space
 - Sources in a generative answers node override agent-level sources
 - Most restrictive DLP policy wins when multiple apply
 
-### Azure AI Foundry (Hour 3)
-- Uses `azure-ai-projects` SDK with Hub + Project model
-- Auth via `DefaultAzureCredential` (`az login` required)
-- Env vars: `PROJECT_ENDPOINT`, `MODEL_DEPLOYMENT_NAME`
+### Azure AI Foundry (bonus appendix only, off-contract)
+- Current path (July 2026): **Microsoft Foundry Agents Service**, SDK `azure-ai-projects>=2.3.0`. The classic **Hub + Project** agents are deprecated and retire **March 31, 2027** -- do not teach them as current.
+- Auth via `DefaultAzureCredential` (`az login` required); endpoint via `PROJECT_ENDPOINT` (not a connection string)
+- Two flavors: **Prompt Agents** (`AIProjectClient.agents.create_version()` with `PromptAgentDefinition`) and **Hosted Agents** (your container). MCP is a first-class tool. Copilot Studio can add a Foundry agent as a connected agent (preview).
 
-### LangGraph (Hour 3)
-- State machines with `StateGraph`, nodes, and conditional edges
-- Use `langgraph` package; avoid mixing with raw LangChain agent executors
-
-### FastMCP (Hour 3)
+### FastMCP (only if a Segment 3 MCP tool is demoed)
 - Decorator-based Python API; docstrings become tool descriptions, type hints become parameter schemas
-- Servers run via `mcp run` or `mcp dev`; stdio transport by default
+- Copilot Studio consumes **Streamable HTTP** transport only (SSE deprecated after Aug 2025); MCP requires generative orchestration

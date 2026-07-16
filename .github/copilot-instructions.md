@@ -3,7 +3,7 @@
 ## Repository Purpose
 
 - Align every addition with the four-hour O'Reilly live course outlined in [README.md](../README.md) and [CLAUDE.md](../CLAUDE.md); the detailed instructor plan lives in [docs/course-plan-july-2026.md](../docs/course-plan-july-2026.md).
-- The course's primary built-live agent is the **AZ-900 Cert-Prep Assistant** (see `docs/course-plan-july-2026.md`), not the three-agent Copilot Studio set below -- keep those two workloads distinct and don't conflate them.
+- The course's primary built-live agent is the **Contoso Pinball Gallery Concierge** (root folder `Contoso Pinball Gallery Concierge/`, see `docs/course-plan-july-2026.md`). It is ONE agent carrying the sell page's three patterns (customer service, onboarding-with-approvals, autonomous document processor) as modes across four Copilot Studio segments. The `src/copilot-studio-agent/` three-agent set below is older blueprint material; keep the two workloads distinct and don't conflate them.
 - Treat the repo as the instructor's source of truth: capture objectives, prerequisites, success metrics, and deliverables for every agent experience.
 
 ## Key Reference Materials

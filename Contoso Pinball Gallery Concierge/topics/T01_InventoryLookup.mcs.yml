@@ -1,0 +1,59 @@
+mcs.metadata:
+  componentName: T01_InventoryLookup
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent:
+    displayName: Inventory Lookup
+    triggerQueries:
+      - do you have Medieval Madness
+      - is the Godzilla Premium in stock
+      - what pinball machines do you have
+      - check availability
+      - how much is the Twilight Zone
+      - any Stern machines available
+      - is Attack from Mars available
+  # modelDescription drives generative-orchestration routing. Keep it one crisp
+  # sentence so the orchestrator picks this topic for stock/price/condition asks.
+  modelDescription: Answers whether a specific pinball machine is in stock and reports its price, condition, and availability grounded in the gallery inventory knowledge source.
+
+  actions:
+    # Capture the machine name first. alwaysPrompt so the topic works even when the
+    # orchestrator has not already resolved a title from the utterance.
+    - kind: Question
+      id: question_a7k2mq
+      variable: init:Topic.MachineName
+      prompt: "Which pinball machine are you asking about? (for example Medieval Madness, Godzilla Premium, Twilight Zone, or Attack from Mars)"
+      entity: StringPrebuiltEntity
+      alwaysPrompt: true
+      interruptionPolicy:
+        allowInterruption: false
+
+    # Ground the answer in the inventory knowledge source. webBrowsing: false keeps
+    # results confined to Contoso stock data rather than the open web.
+    # MAKER TODO: bind this to the real inventory knowledge source in the portal
+    # (Copilot Studio > Knowledge). Until it is bound, this node returns nothing.
+    - kind: SearchAndSummarizeContent
+      id: searchContent_b3n8wx
+      variable: Topic.InventoryResult
+      userInput: |-
+        =Concatenate("Look up the pinball machine named '", Topic.MachineName, "' in the Contoso Pinball Gallery inventory. Return its title, manufacturer, model year, cabinet condition, price, and current stock availability. If the machine is not in inventory, say so plainly.")
+      additionalInstructions: |
+        Format the answer as:
+        Title: <title>
+        Manufacturer: <manufacturer>
+        Year: <year>
+        Condition: <condition>
+        Price: <price>
+        Availability: <In stock | Sold | On order>
+        Only report facts found in the inventory knowledge source. Do not invent prices or availability.
+      webBrowsing: false
+
+    - kind: SendActivity
+      id: sendMessage_c9p4tz
+      activity: "{Topic.InventoryResult}"
+
+    - kind: EndDialog
+      id: endDialog_d5r1vy
+      clearTopicQueue: true
