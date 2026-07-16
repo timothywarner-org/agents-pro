@@ -355,4 +355,5 @@ When you are ready, you can expand this flow:
 
 **Document version:** 2025-01
 **Last verified against:** Power Automate web app (December 2024)
+**Status (July 2026):** Legacy reference, **not re-verified** for the July 2026 delivery. The live course builds the Contoso Pinball Gallery Concierge instead. Re-check every UI path against current docs before demoing from this file.
 **SharePoint site:** `timwinfo2.sharepoint.com/sites/CERTSTAR.NET`

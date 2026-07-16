@@ -75,6 +75,6 @@ One vocabulary across all materials. **GA** means production-ready. **Preview** 
 | Single-response + multi-turn evaluations | Real-time voice agents | |
 | VS Code extension | New agent experience (agents-experience/overview) | |
 
-> **Workload note:** the WAF teaching doc uses a **different agent set** (Customer Service, Onboarding, Document Processor) than this course's single **AZ-900 Cert-Prep Assistant**. Do not blur them. They are separate teaching workloads that share the same WAF lens.
+> **Workload note:** the WAF teaching doc uses a **different agent set** (Customer Service, Onboarding, Document Processor) than this course's single **Contoso Pinball Gallery Concierge**. Do not blur them. They are separate teaching workloads that share the same WAF lens. The Concierge carries those same three patterns as *modes of one agent*, which is the whole point of the pivot.
 >
 > **Retired model note:** **Claude Sonnet 4.5** was this doc's recommended orchestrator as of June 2026. It is now retired. Do not repeat the June recommendation on stage -- verify the current MS-recommended orchestration model against <https://learn.microsoft.com/microsoft-copilot-studio/authoring-select-agent-model> before each delivery, since Copilot Studio's model lineup is turning over roughly every 4-6 weeks.

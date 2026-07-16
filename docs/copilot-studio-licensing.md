@@ -1,6 +1,6 @@
-# Copilot Studio Licensing: June 2026 Lay of the Land
+# Copilot Studio Licensing: July 2026 Lay of the Land
 
-> Last verified: June 2026. Pricing flagged inline with as-of dates. Numbers Microsoft can change without notice. Re-check the [Copilot Studio Licensing Guide](https://go.microsoft.com/fwlink/?linkid=2320995) before any delivery.
+> Last verified: July 2026. Pricing flagged inline with as-of dates. Numbers Microsoft can change without notice. Re-check the [Copilot Studio Licensing Guide](https://go.microsoft.com/fwlink/?linkid=2320995) before any delivery.
 
 **TL;DR:** Building agents is free (the **maker license is $0**). The cost is **consumption** at runtime, metered in **Copilot Credits**. If your end users already hold a **Microsoft 365 Copilot** license, their agent usage inside M365 surfaces is **zero-rated** (free). Everything else burns credits.
 
@@ -30,9 +30,9 @@ Two distinct populations. Do not conflate them.
 
 | SKU / path | What it is | Price (as-of) | M365 tenant required? | Where to buy |
 |-----------|-----------|---------------|----------------------|--------------|
-| **Copilot Studio User License** | Maker seat. Build and publish rights. | **$0 / user / month** (verified June 2026; tenant must first hold a Copilot Credit pack) | Yes | Microsoft 365 admin center |
-| **Copilot Credit Capacity Pack** (prepaid) | Tenant-pooled credits, monthly subscription, resets monthly | **$200 / pack / month = 25,000 Copilot Credits** (verified June 2026) | Yes | Microsoft 365 admin center |
-| **Pay-as-you-go (PAYG) meter** | Consumption billed to an Azure subscription, no upfront commitment | **$0.01 / Copilot Credit** (verified June 2026) | Yes (M365 tenant + linked Azure subscription) | Azure subscription, via a Power Platform billing policy |
+| **Copilot Studio User License** | Maker seat. Build and publish rights. | **$0 / user / month** (verified July 2026; tenant must first hold a Copilot Credit pack) | Yes | Microsoft 365 admin center |
+| **Copilot Credit Capacity Pack** (prepaid) | Tenant-pooled credits, monthly subscription, resets monthly | **$200 / pack / month = 25,000 Copilot Credits** (verified July 2026) | Yes | Microsoft 365 admin center |
+| **Pay-as-you-go (PAYG) meter** | Consumption billed to an Azure subscription, no upfront commitment | **$0.01 / Copilot Credit** (verified July 2026) | Yes (M365 tenant + linked Azure subscription) | Azure subscription, via a Power Platform billing policy |
 | **Copilot Credits Pre-Purchase Plan** | One-year prepaid pool (Copilot Credit Commit Units), tiered volume discounts | Tiered, **not publicly listed** (could not verify a flat number) | Yes | Azure portal; counts toward **MACC** |
 | **Trial license** | Individual sign-up, build and test only, no publish | $0 | Yes | Self-service or admin-assigned |
 
@@ -57,7 +57,7 @@ When both are active, **prepaid is consumed first**, then PAYG covers the overag
 
 ### What consumes credits (billing rates)
 
-Source: [Billing rates and management](https://learn.microsoft.com/microsoft-copilot-studio/requirements-messages-management#copilot-credits-billing-rates). Verified June 2026. Rightmost column is the Section 4 punchline.
+Source: [Billing rates and management](https://learn.microsoft.com/microsoft-copilot-studio/requirements-messages-management#copilot-credits-billing-rates). Verified July 2026. Rightmost column is the Section 4 punchline.
 
 | Agent feature | Credits | M365 Copilot-licensed user |
 |--------------|--------:|----------------------------|

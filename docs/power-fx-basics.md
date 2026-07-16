@@ -1,6 +1,6 @@
 # Power Fx Basics for Copilot Studio Makers
 
-> Last verified: June 2026 (Microsoft Learn `microsoft-copilot-studio/advanced-power-fx` and `power-platform/power-fx/formula-reference-copilot-studio`).
+> Last verified: July 2026 (Microsoft Learn `microsoft-copilot-studio/advanced-power-fx` and `power-platform/power-fx/formula-reference-copilot-studio`).
 
 A quickstart for the **one expression language** you reach for when point-and-click runs out of road in Copilot Studio. This is not an Excel tutorial. Every example below is framed around how a real Copilot Studio maker wires up topics, variables, conditions, and Power Automate actions.
 

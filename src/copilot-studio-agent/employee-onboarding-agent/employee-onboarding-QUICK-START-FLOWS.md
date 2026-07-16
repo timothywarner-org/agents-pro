@@ -538,3 +538,4 @@ After completing this flow:
 ---
 
 *Last updated: December 2025*
+*Status (July 2026): Legacy reference, **not re-verified** for the July 2026 delivery. The live course builds the Contoso Pinball Gallery Concierge instead. Re-check every UI path against current docs before demoing from this file.*

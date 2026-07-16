@@ -1,9 +1,9 @@
 # Power Platform Well-Architected Framework (WAF) for Copilot Studio Agents  
 **Applies to:** Customer Service Assistant · Employee Onboarding Agent · Document Processor Agent  
 **Goal:** Teach “how Microsoft wants you to build this” and still ship something that works on Monday.  
-**Last updated:** 2026-06-01  
+**Last updated:** 2026-07-16  
 
-> **Workload note:** this doc teaches the PP-WAF pillars against the **three-agent set** in `src/copilot-studio-agent/` (Customer Service, Onboarding, Document Processor) -- a distinct teaching workload from `docs/course-plan-july-2026.md`'s single **AZ-900 Cert-Prep Assistant**. Both apply the same WAF lens; use whichever agent set fits the audience, and don't blur the two builds together mid-session.
+> **Workload note:** this doc teaches the PP-WAF pillars against the **three-agent set** in `src/copilot-studio-agent/` (Customer Service, Onboarding, Document Processor) -- a distinct teaching workload from `docs/course-plan-july-2026.md`'s single **Contoso Pinball Gallery Concierge**. Both apply the same WAF lens; the Concierge folds those same three patterns into one agent. Use whichever set fits the audience, and don't blur the two builds together mid-session.
 
 ---
 

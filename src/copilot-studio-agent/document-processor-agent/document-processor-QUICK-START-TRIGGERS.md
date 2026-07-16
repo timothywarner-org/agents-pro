@@ -565,3 +565,4 @@ Once that flow is working, return to this guide to add Copilot Studio and AI Bui
 
 *Last updated: December 2024*
 *Compatible with: Microsoft Copilot Studio (December 2024 release)*
+*Status (July 2026): Legacy reference, **not re-verified** for the July 2026 delivery. The live course builds the Contoso Pinball Gallery Concierge instead. Re-check every UI path against current docs before demoing from this file.*

@@ -2,11 +2,11 @@
 
 ![RAI Advisor icon](icon.png)
 
-A deployable **Copilot Studio** agent that advises on Microsoft's six **Responsible AI (RAI)** principles and, more importantly, on how to **operationalize** them: running Responsible AI Impact Assessments, drafting Transparency Notes, configuring content moderation, and evaluating agents for harms. Built for the O'Reilly course **"How to Create AI Agents Like a Pro"** (Hour 2, Low-Code Agents). Schema sibling of `CKA Exam Prep Assistant/`.
+A deployable **Copilot Studio** agent that advises on Microsoft's six **Responsible AI (RAI)** principles and, more importantly, on how to **operationalize** them: running Responsible AI Impact Assessments, drafting Transparency Notes, configuring content moderation, and evaluating agents for harms. Built for the O'Reilly course **"How to Create AI Agents Like a Pro"**. Reference/bonus material, not part of the four-segment Contoso Pinball Gallery Concierge build. Schema sibling of `CKA Exam Prep Assistant/`.
 
 ## Overview
 
-RAI Advisor is an **advisor that produces governance artifacts**, not a definitions bot. It is grounded in current (June 2026) Microsoft Responsible AI documentation and carries verified hard facts in its system prompt so it never drifts on the high-risk details.
+RAI Advisor is an **advisor that produces governance artifacts**, not a definitions bot. It is grounded in current (July 2026) Microsoft Responsible AI documentation and carries verified hard facts in its system prompt so it never drifts on the high-risk details.
 
 | Property | Value |
 |----------|-------|

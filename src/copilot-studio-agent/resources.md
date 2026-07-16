@@ -21,10 +21,10 @@ Curated Microsoft Learn assets to accelerate building low-code agents that compl
 
 ## Choosing a Model
 
-- [Select an agent model](https://learn.microsoft.com/microsoft-copilot-studio/authoring-select-agent-model) - Region availability table for the generative AI models you can pick as the agent orchestration model. As of June 2026, **GPT-5 Chat is generally available** (rolled out Nov 24, 2025) and **Claude Sonnet 4.5, Claude Sonnet 4.6, and Claude Opus 4.6 (Deep) are generally available**, while **GPT-5 Reasoning (Deep)**, **GPT-5 Auto**, and **Claude Opus 4.7 (Deep)** remain in **Preview** or **Experimental**.
+- [Select an agent model](https://learn.microsoft.com/microsoft-copilot-studio/authoring-select-agent-model) - Region availability table for the generative AI models you can pick as the agent orchestration model. As of July 2026, **GPT-5 Chat** (rolled out Nov 24, 2025) and **GPT-5.5 Chat** are generally available, as are **Claude Sonnet 4.6**, **Claude Opus 4.6 (Deep)**, and **Claude Opus 4.7 (Deep)**. **Claude Sonnet 5** is GA but only in new-experience agents, not the classic authoring surface this course teaches. **GPT-5 Reasoning (Deep)**, **GPT-5 Auto**, and **GPT-5.5 Reasoning** remain **Preview** or **Experimental**. **Claude Sonnet 4.5 has retired** - do not teach it as current.
 - [Select an external response model](https://learn.microsoft.com/microsoft-copilot-studio/authoring-select-external-response-model) - Companion reference for choosing the model used for external responses.
 
-> **Orchestration model note:** Per the Dynamics 365 finance and operations [Build an agent with MCP](https://learn.microsoft.com/dynamics365/fin-ops-core/dev-itpro/copilot/build-agent-mcp) guidance, do **not** use **GPT-4.1** as the orchestration model for Copilot Studio agents. The recommended orchestration model is **Claude Sonnet 4.5**, with **GPT-5 (Chat)** as the fallback. Note that GPT-4.1 remains the platform **Default** model.
+> **Orchestration model note:** Per the Dynamics 365 finance and operations [Build an agent with MCP](https://learn.microsoft.com/dynamics365/fin-ops-core/dev-itpro/copilot/build-agent-mcp) guidance, do **not** use **GPT-4.1** as the orchestration model for Copilot Studio agents, even though it remains the platform **Default**. That page's named recommendation (**Claude Sonnet 4.5**) is stale as of July 2026 - the model retired. Copilot Studio's lineup turns over every 4-6 weeks, so **re-verify the current recommended orchestrator** against the model-selection page before each delivery rather than quoting any cached recommendation. **GPT-5 Chat** remains a safe GA fallback.
 
 ## Extending Low-Code Agents
 
@@ -49,7 +49,7 @@ Curated Microsoft Learn assets to accelerate building low-code agents that compl
 ## Testing & Tooling
 
 - [Visual Studio Code extension overview](https://learn.microsoft.com/microsoft-copilot-studio/visual-studio-code-extension-overview) - The **Microsoft Copilot Studio extension for Visual Studio Code is generally available** as of January 2026. Author agents and edit YAML from VS Code.
-- Agent evaluations: **agent evaluations reached general availability in March 2026** using customizable test sets, and **multi-turn conversation tests** are in **Preview** (introduced March 2026).
+- Agent evaluations: **agent evaluations reached general availability in March 2026** using customizable test sets, and **multi-turn conversation tests reached GA** as well (introduced March 2026 as Preview; GA confirmed as of July 2026). Up to 20 test cases per conversational test set, with conversation-level and turn-level assertions.
 
 ## Adoption & Scenarios
 

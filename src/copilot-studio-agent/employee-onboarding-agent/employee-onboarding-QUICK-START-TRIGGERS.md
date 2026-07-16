@@ -326,4 +326,5 @@ You created a topic that uses **Generative answers** grounded in your uploaded k
 
 ---
 
-*Last updated: December 2025 | Verified against Copilot Studio current UI*
+*Last updated: December 2025 | Verified against Copilot Studio UI as of that date*
+*Status (July 2026): Legacy reference, **not re-verified** for the July 2026 delivery. The live course builds the Contoso Pinball Gallery Concierge instead. Re-check every UI path against current docs before demoing from this file.*

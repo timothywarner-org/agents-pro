@@ -6,7 +6,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 O'Reilly Live Learning course repo for "How to Create AI Agents Like a Pro" -- a 4-hour instructor-led course surveying the full AI agent landscape (no-code, low-code, code-first). This is Tim Warner's instructor source of truth and learner reference material.
 
-**Important context:** The delivery is reconciled to the live O'Reilly sell page (`docs/research/oreilly-reg-page-copy.md`, verified July 2026), which is **Copilot Studio only** and explicitly excludes Azure AI Foundry and other no-code platforms. To cut context-switching, all four segments build **one** running scenario, the **Contoso Pinball Gallery Concierge** (root folder `Contoso Pinball Gallery Concierge/`), which carries the sell page's three promised agent patterns (customer service, onboarding-with-approvals, autonomous document processor) as modes of a single agent. Azure AI Foundry appears only as a clearly labeled, off-contract bonus appendix.
+**Delivery date:** July 2026.
+
+**Important context:** The delivery is reconciled to the live O'Reilly sell page (`docs/research/oreilly-reg-page-copy.md`, verified July 15, 2026), which is **Copilot Studio only** and explicitly excludes Azure AI Foundry and other no-code platforms. To cut context-switching, all four segments build **one** running scenario, the **Contoso Pinball Gallery Concierge** (root folder `Contoso Pinball Gallery Concierge/`), which carries the sell page's three promised agent patterns (customer service, onboarding-with-approvals, autonomous document processor) as modes of a single agent. Azure AI Foundry appears only as a clearly labeled, off-contract bonus appendix.
 
 ## Course Structure (4 Segments, ~50 min each)
 
@@ -91,6 +93,16 @@ The `src/copilot-studio-agent/` content is documentation and YAML blueprints onl
 
 Markdown linting config exists at `.markdownlint.json` (line length 120, 2-space indent for lists).
 
+## Dating and Verification Discipline
+
+This repo is a teaching artifact whose credibility rests on every claim being checkable, so dates carry meaning and are not decoration:
+
+- **Verification stamps** ("Last verified: July 2026") assert *when a human actually checked against Microsoft Learn*. Never bump one to make a doc look fresh. Bumping the stamp without re-verifying the claim is worse than leaving the old date, because it launders a stale fact as a current one.
+- **Historical facts are immutable.** GA dates, retirement dates, and deprecations (SSE retired after Aug 2025; Hub+Project retire March 31, 2027; per-prompt moderation slider GA February 11, 2026; RAI Standard v2 = **17 goals, not 14**) are load-bearing anti-hallucination anchors. Never sweep them in a date update.
+- **Legacy trees under `src/copilot-studio-agent/`** carry Dec-2024/Dec-2025 stamps plus an explicit "not re-verified" status line. That honesty is deliberate. Re-verify against the live UI before promoting any of it, or leave the warning in place.
+- **Seed data in `Contoso Pinball Gallery Concierge/data/*.seed.json`** uses cross-referencing IDs (`TRD-20260715-*`, `SVC-20260715-*`) and hold-expiry dates that must stay mutually consistent across files and the data dictionary. Renumbering one file breaks referential integrity.
+- `agents-playground/` is an archived snapshot of a **different** course. Do not sweep, refresh, or reconcile it.
+
 ## Authoring Conventions
 
 - **Document structure:** Overview > Scenario > Success Metrics > Phased Build > Testing/Publishing > Sample Transcript
@@ -110,6 +122,9 @@ Markdown linting config exists at `.markdownlint.json` (line length 120, 2-space
 - SharePoint knowledge requires `Sites.Read.All` and `Files.Read.All` scopes
 - Sources in a generative answers node override agent-level sources
 - Most restrictive DLP policy wins when multiple apply
+
+### Model lineup churn (verify before every delivery)
+The model list turns over roughly every 4-6 weeks. **Never quote a cached orchestrator recommendation.** Re-verify against `authoring-select-agent-model` before stating one on stage. As of **July 2026**: GPT-5 Chat and GPT-5.5 Chat are GA; Claude Sonnet 4.6, Opus 4.6, and Opus 4.7 are GA; **Claude Sonnet 4.5 has retired** (it was the June recommendation -- do not teach it); Claude Sonnet 5 is GA but **only in new-experience agents**, not the classic surface this course teaches. Never say bare "GPT-5" -- the Reasoning/Auto variants are preview. `docs/whats-new-july-2026-delivery.md` is the reconciliation source of truth for this churn; when docs disagree, it wins.
 
 ### Azure AI Foundry (bonus appendix only, off-contract)
 - Current path (July 2026): **Microsoft Foundry Agents Service**, SDK `azure-ai-projects>=2.3.0`. The classic **Hub + Project** agents are deprecated and retire **March 31, 2027** -- do not teach them as current.

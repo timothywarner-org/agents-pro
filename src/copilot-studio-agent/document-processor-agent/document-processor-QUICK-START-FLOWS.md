@@ -470,3 +470,4 @@ See [document-processor-QUICK-START-TRIGGERS.md](./document-processor-QUICK-STAR
 
 *Last updated: December 2024*
 *Tested with: Power Automate (December 2024 release)*
+*Status (July 2026): Legacy reference, **not re-verified** for the July 2026 delivery. The live course builds the Contoso Pinball Gallery Concierge instead. Re-check every UI path against current docs before demoing from this file.*

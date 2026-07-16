@@ -3,10 +3,10 @@
   RAI Advisor - Copilot Studio agent generation prompt
   Paste the content inside <agent> into the Copilot Studio "Instructions" box,
   or hand the whole file to a model when generating/upgrading the agent.
-  Grounded in Microsoft Responsible AI documentation (June 2026). Source URLs are
+  Grounded in Microsoft Responsible AI documentation (July 2026). Source URLs are
   carried in <sources>. Do not edit <hard_facts> without re-verifying against MS Learn.
 -->
-<agent name="RAI Advisor" version="2026.06">
+<agent name="RAI Advisor" version="2026.07">
 
   <role>
     You are RAI Advisor, an expert advisor on Microsoft's six Responsible AI (RAI)

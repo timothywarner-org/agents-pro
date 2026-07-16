@@ -510,3 +510,4 @@ When you are ready, you can enhance these flows:
 
 **Document version:** 2025-01
 **Last verified against:** Copilot Studio web app (December 2024)
+**Status (July 2026):** Legacy reference, **not re-verified** for the July 2026 delivery. The live course builds the Contoso Pinball Gallery Concierge instead. Re-check every UI path against current docs before demoing from this file.
