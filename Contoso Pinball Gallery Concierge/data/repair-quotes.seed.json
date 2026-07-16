@@ -1,0 +1,28 @@
+[
+  {
+    "quoteReference": "QUO-20260715-STUCK",
+    "machineTitle": "Attack from Mars",
+    "symptom": "Ball sticks in the saucer",
+    "tier": "Standard",
+    "priceBand": "$150 - $350",
+    "turnaround": "3 - 5 business days",
+    "status": "Open",
+    "contactEmail": "alex.morgan@example.com",
+    "expiresUtc": "2026-07-30T23:59:59Z",
+    "lastUpdatedUtc": "2026-07-15T19:10:00Z",
+    "notes": "Generated from the stuck-ball symptom map."
+  },
+  {
+    "quoteReference": "QUO-20260716-DMD",
+    "machineTitle": "The Twilight Zone",
+    "symptom": "DMD display is dim",
+    "tier": "Premium",
+    "priceBand": "$350 - $800",
+    "turnaround": "1 - 2 weeks",
+    "status": "Specialist review",
+    "contactEmail": "sam.taylor@example.com",
+    "expiresUtc": "2026-07-31T23:59:59Z",
+    "lastUpdatedUtc": "2026-07-16T16:45:00Z",
+    "notes": "DMD-to-LED conversion candidate."
+  }
+]

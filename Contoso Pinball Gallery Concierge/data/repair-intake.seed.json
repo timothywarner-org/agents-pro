@@ -1,0 +1,26 @@
+[
+  {
+    "intakeReference": "INT-20260716-0001",
+    "source": "SharePoint form",
+    "machineTitle": "Black Knight",
+    "symptom": "No scoring on the left orbit",
+    "contactEmail": "nina.brooks@example.com",
+    "priority": "Normal",
+    "processingStatus": "Ready for agent review",
+    "createdUtc": "2026-07-16T12:40:00Z",
+    "fileUrl": "https://timwinfo2.sharepoint.com/sites/CERTSTAR.NET/Shared%20Documents/Pinball%20Concierge%20Agent%20Intelligence/evals/eval-set.md",
+    "notes": "Autonomous trigger demo row for list-item intake."
+  },
+  {
+    "intakeReference": "INT-20260716-0002",
+    "source": "Email attachment",
+    "machineTitle": "Jaws Premium",
+    "symptom": "Audio cuts out after multiball",
+    "contactEmail": "lee.wong@example.com",
+    "priority": "Normal",
+    "processingStatus": "Needs triage",
+    "createdUtc": "2026-07-16T16:20:00Z",
+    "fileUrl": "",
+    "notes": "Autonomous trigger demo row for a non-file intake source."
+  }
+]

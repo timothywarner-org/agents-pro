@@ -1,0 +1,26 @@
+[
+  {
+    "tradeInReference": "TRD-20260715-FP80",
+    "machineTitle": "Firepower",
+    "era": "Solid-state classic",
+    "conditionSelfGrade": "Good",
+    "contactEmail": "chris.lee@example.com",
+    "estimateBand": "$900 - $1,400",
+    "status": "Specialist review",
+    "specialistReviewRequired": true,
+    "lastUpdatedUtc": "2026-07-15T20:30:00Z",
+    "notes": "Training row for a common trade-in starter conversation."
+  },
+  {
+    "tradeInReference": "TRD-20260716-EM01",
+    "machineTitle": "Gottlieb Spirit of 76",
+    "era": "Electromechanical",
+    "conditionSelfGrade": "Project",
+    "contactEmail": "pat.davis@example.com",
+    "estimateBand": "$300 - $700",
+    "status": "Awaiting photos",
+    "specialistReviewRequired": true,
+    "lastUpdatedUtc": "2026-07-16T15:05:00Z",
+    "notes": "Shows the branch where the valuation needs photos before review."
+  }
+]

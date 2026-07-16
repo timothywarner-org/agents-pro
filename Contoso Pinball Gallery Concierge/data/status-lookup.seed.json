@@ -1,0 +1,38 @@
+[
+  {
+    "referenceNumber": "SVC-20260715-GODZ",
+    "referenceType": "Service booking",
+    "status": "Booked",
+    "lastUpdatedUtc": "2026-07-15T21:15:00Z",
+    "sourceList": "CPG Service Bookings",
+    "customerMessage": "Your Godzilla Premium service visit is booked for 2026-07-17 10:00-12:00.",
+    "notes": "Status lookup row mirrors the service booking."
+  },
+  {
+    "referenceNumber": "QUO-20260715-STUCK",
+    "referenceType": "Repair quote",
+    "status": "Open",
+    "lastUpdatedUtc": "2026-07-15T19:10:00Z",
+    "sourceList": "CPG Repair Quotes",
+    "customerMessage": "Your Attack from Mars quote is open. Estimated tier: Standard, $150 - $350.",
+    "notes": "Status lookup row mirrors the repair quote."
+  },
+  {
+    "referenceNumber": "HLD-20260715-RUSH",
+    "referenceType": "Inventory hold",
+    "status": "Pending deposit",
+    "lastUpdatedUtc": "2026-07-15T22:00:00Z",
+    "sourceList": "CPG Inventory Holds",
+    "customerMessage": "Rush Pro is on hold pending deposit until 2026-07-18 22:00 UTC.",
+    "notes": "Status lookup row mirrors the hold table."
+  },
+  {
+    "referenceNumber": "ORD-20260714-FB72",
+    "referenceType": "Order",
+    "status": "Ready for pickup",
+    "lastUpdatedUtc": "2026-07-16T13:20:00Z",
+    "sourceList": "CPG Status Lookup",
+    "customerMessage": "Fireball is ready for local pickup by appointment.",
+    "notes": "Standalone order-status row for the Check Status flow."
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "bookingReference": "SVC-20260715-GODZ",
+    "machineTitle": "Godzilla Premium",
+    "symptom": "Left flipper feels weak after warm-up",
+    "preferredWindow": "this week",
+    "contactEmail": "maya.chen@example.com",
+    "confirmedWindow": "2026-07-17 10:00-12:00",
+    "status": "Booked",
+    "approvalStatus": "Approved",
+    "technician": "Riley Patel",
+    "scheduledStartUtc": "2026-07-17T15:00:00Z",
+    "lastUpdatedUtc": "2026-07-15T21:15:00Z",
+    "notes": "Training row for the Book a Service Visit flow."
+  },
+  {
+    "bookingReference": "SVC-20260716-TZ93",
+    "machineTitle": "The Twilight Zone",
+    "symptom": "Display flickers from cold start",
+    "preferredWindow": "next week",
+    "contactEmail": "jordan.rivera@example.com",
+    "confirmedWindow": "2026-07-21 13:00-15:00",
+    "status": "Awaiting approval",
+    "approvalStatus": "Pending",
+    "technician": "Unassigned",
+    "scheduledStartUtc": "2026-07-21T18:00:00Z",
+    "lastUpdatedUtc": "2026-07-16T14:30:00Z",
+    "notes": "Shows the approval branch before technician assignment."
+  }
+]

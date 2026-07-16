@@ -1,0 +1,22 @@
+[
+  {
+    "holdReference": "HLD-20260715-RUSH",
+    "sku": "CPG-STE-RUSH-PR",
+    "machineTitle": "Rush Pro",
+    "contactName": "Maya Chen",
+    "contactEmail": "maya.chen@example.com",
+    "status": "Pending deposit",
+    "expiresUtc": "2026-07-18T22:00:00Z",
+    "notes": "Training data only. Use to test the flow branch that refuses a second hold."
+  },
+  {
+    "holdReference": "HLD-20260714-AFM",
+    "sku": "CPG-BAL-AFM-95",
+    "machineTitle": "Attack from Mars",
+    "contactName": "Jordan Rivera",
+    "contactEmail": "jordan.rivera@example.com",
+    "status": "Released",
+    "expiresUtc": "2026-07-16T18:00:00Z",
+    "notes": "Released hold retained as audit trail for deterministic-flow demos."
+  }
+]

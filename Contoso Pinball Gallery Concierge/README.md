@@ -26,10 +26,26 @@ Contoso Pinball Gallery Concierge/
     T02_RepairTriage.mcs.yml
   knowledge/                     <- fake demo docs + upload metadata (grounding)
     inventory-catalog.md
+    inventory-machine-briefs.md
+    inventory-flow-data-dictionary.md
     repair-playbook.md
     pinball-history-research.md
     warranty-and-services.md
     KNOWLEDGE-UPLOAD-METADATA.md <- the description fields you paste on upload
+  data/                          <- seed data for SharePoint-backed deterministic flows
+    inventory-machines.seed.json
+    inventory-holds.seed.json
+    inventory-movements.seed.json
+    service-bookings.seed.json
+    repair-quotes.seed.json
+    status-lookup.seed.json
+    trade-ins.seed.json
+    repair-intake.seed.json
+  scripts/                       <- idempotent Microsoft 365 deployment scripts
+    deploy-contoso-inventory-assets.ps1
+    deploy-contoso-inventory-assets.graph.ps1
+    deploy-contoso-deterministic-workflow-assets.graph.ps1
+    stage-contoso-agent-intelligence.graph.ps1
   flows/
     deterministic-flow-ideas.md  <- Power Automate flow specs (easy wins)
   triggers/
@@ -74,6 +90,53 @@ You publish once, then connect channels. Publishing updates every connected chan
 | SharePoint | **SharePoint** channel | Embed on a SharePoint site for contextual help |
 
 **Authentication:** leave **Authenticate with Microsoft** on (the default) so the agent works in Teams, M365 Copilot, and SharePoint with Entra ID and no manual setup. Only switch to **No authentication** for an anonymous web demo, and know that it disables tools that need user credentials.
+
+## Deploying the Inventory Lookup backing assets
+
+The inventory demo now includes a repeatable Microsoft 365 deployment script. It creates or updates:
+
+- **SharePoint site:** `https://techtrainertim.sharepoint.com/sites/ContosoPinballGallery`
+- **Knowledge library:** `Concierge Knowledge`
+- **Lists:** `CPG Inventory Machines`, `CPG Inventory Holds`, `CPG Inventory Movements`
+- **Seed rows:** machines, holds, and audit movements from `data/*.seed.json`
+- **Knowledge files:** inventory docs and supporting JSON files
+
+Run a local validation first:
+
+```powershell
+pwsh ".\Contoso Pinball Gallery Concierge\scripts\deploy-contoso-inventory-assets.ps1" `
+  -TenantName techtrainertim `
+  -DryRun
+```
+
+Then deploy with a tenant admin or SharePoint admin account:
+
+```powershell
+pwsh ".\Contoso Pinball Gallery Concierge\scripts\deploy-contoso-inventory-assets.ps1" `
+  -TenantName techtrainertim `
+  -OwnerEmail admin@techtrainertim.com `
+  -DeviceLogin
+```
+
+Use `CPG Inventory Machines` as the SharePoint source for the **Inventory Lookup** Power Automate flow. The stable key is `SKU`; the fallback lookup is machine title.
+
+For the action-oriented deterministic workflows, run:
+
+```powershell
+pwsh ".\Contoso Pinball Gallery Concierge\scripts\deploy-contoso-deterministic-workflow-assets.graph.ps1" `
+  -SharePointHost timwinfo2.sharepoint.com `
+  -SitePath /sites/CERTSTAR.NET
+```
+
+This creates the remaining flow backing lists:
+
+- `CPG Service Bookings`
+- `CPG Repair Quotes`
+- `CPG Status Lookup`
+- `CPG Trade Ins`
+- `CPG Repair Intake`
+
+The full schema and flow contract live in `docs/deterministic-workflow-sharepoint-contracts.md`.
 
 ## Next Best Steps
 

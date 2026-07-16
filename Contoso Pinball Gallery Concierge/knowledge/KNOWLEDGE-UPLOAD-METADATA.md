@@ -9,9 +9,9 @@ The pattern for a good source description: **what it contains + what questions i
 ## Source 1 -- Inventory Catalog
 
 - **Display name:** `Contoso Inventory Catalog`
-- **File:** `inventory-catalog.md`
+- **Files:** `inventory-catalog.md`, `inventory-machine-briefs.md`, `inventory-flow-data-dictionary.md`
 - **Description (paste this):**
-  > Current Contoso Pinball Gallery showroom inventory. Use this source for any question about which pinball machines are available, their manufacturer, year, era, condition grade, price in USD, and stock status (in stock, on hold, sold, waitlist). Covers titles such as Medieval Madness, Godzilla, Jaws, Attack from Mars, Twilight Zone, Addams Family, Black Knight, Firepower, and Fireball. Reach for this whenever a user asks about buying, price, availability, condition, or comparing two machines.
+  > Current Contoso Pinball Gallery showroom inventory and Inventory Lookup flow data dictionary. Use this source for any question about which pinball machines are available, their manufacturer, year, era, condition grade, price in USD, stock status, hold status, SKU, and how the inventory lookup flow maps SharePoint list fields to agent replies. Covers titles such as Medieval Madness, Godzilla, Jaws, Rush, Attack from Mars, Twilight Zone, Addams Family, Black Knight, Firepower, and Fireball. Reach for this whenever a user asks about buying, price, availability, condition, comparing two machines, or validating the deterministic Inventory Lookup flow output.
 
 ## Source 2 -- Repair and Triage Playbook
 

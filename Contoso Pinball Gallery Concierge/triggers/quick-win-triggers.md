@@ -56,6 +56,135 @@ These are low-effort, high-payoff topics that round out the agent. Each is a "qu
 
 ---
 
+## Connector wiring — live reference card
+
+Go-time schematic. `*` = required. All grounded (Outlook/SharePoint from connector-lookup; Excel/Approvals from Microsoft Learn connector reference). All four connectors are **Standard tier, no premium license**.
+
+**Wiring matrix**
+
+| Topic | Connector | API name | operationId | Where it runs |
+|-------|-----------|----------|-------------|---------------|
+| T01 Inventory | **SharePoint** | `shared_sharepointonline` | `GetItems` / `GetItem` | Topic action |
+| T01 alt | Excel Online (Business) | `shared_excelonlinebusiness` | `GetItems` / `GetItem` / `GetTables` | Topic action |
+| T02 Approval | **Standard approvals** | `shared_approvals` | `StartAndWaitForAnApproval` | **Power Automate flow** |
+| T02 Email | **Office 365 Outlook** | `shared_office365` | `SendEmailV2` | Topic action or flow |
+| T03 Intake | **SharePoint** | `shared_sharepointonline` | `GetOnNewFileItems` / `GetOnNewItems` | **Autonomous flow** |
+
+**Connection mode** (`action.connectionProperties.mode`): `Maker` = maker's creds (shared inventory reads). `Invoker` = end-user's creds (permission-scoped actions).
+
+---
+
+### T01 Inventory Lookup
+
+```mermaid
+flowchart LR
+  U[utterance] --> T01[T01 InventoryLookup]
+  T01 --> SP[SharePoint GetItems / GetItem]
+  SP --> OUT[machine record]
+  style SP fill:#c8e6c9
+```
+
+```text
+GetItems  ·  SharePoint (shared_sharepointonline)  ·  Entra OAuth  ·  PRIMARY
+  IN   dataset*   Site Address    https://contoso.sharepoint.com/sites/PinballGallery
+       table*     List Name       CPG Inventory Machines
+       $filter    Filter Query    Title eq 'Medieval Madness'  |  SKU eq 'MM-1997'
+       $orderby   Order By        PriceUsd desc
+       $top       Top Count
+       view       Limit by View   pin one to dodge the lookup-column cap
+  OUT  Title SKU Manufacturer ModelYear ConditionGrade PriceUsd Availability
+       Location WarrantyDays HoldExpiresUtc Featured Tags Notes
+  ⚠   >12 lookup cols fails -> pin a view  ·  generic lists (template 100) only
+
+GetItem   ·  same connector  ·  single row
+  IN   dataset*  ·  table*  ·  id* (Number, list item Id)  ·  view
+```
+
+```text
+GetItems / GetItem  ·  Excel Online (Business) (shared_excelonlinebusiness)  ·  ALT (weaker)
+  IN   source*  Location    me | site URL       drive*  Document Library
+       file*    the .xlsx   table*  named table (e.g. InventoryMachines)
+       $filter $orderby $top $skip $select      GetItem adds: idColumn* (case-sensitive), id*
+  ⚠   256 rows default -> needs pagination  ·  read needs WRITE access (else 403/502)
+      no concurrent writers, lock up to 6 min  ·  file 25MB / req 5MB / 100 calls per 60s
+  Discover tables: GetTables -> value[].id, value[].name
+```
+
+**Why SharePoint wins:** matches the seeded lists in `inventory-flow-data-dictionary.md`, no file-lock fragility. **Dataverse** is the scale-up (List rows / Get a row by ID) if you need relationships and option sets.
+
+---
+
+### T02 Repair Triage → Book-a-Service
+
+```mermaid
+flowchart LR
+  T02[T02 RepairTriage] --> F[Book-a-Service flow]
+  F --> AP[Approvals StartAndWaitForAnApproval]
+  AP -->|Outcome| BR{Approve?}
+  BR -->|yes/no| EM[Outlook SendEmailV2]
+  EM --> T02
+  style AP fill:#fff3e0
+  style EM fill:#e1f5fe
+```
+
+```text
+StartAndWaitForAnApproval  ·  Standard approvals (shared_approvals)  ·  RUNS IN A FLOW, not a topic
+  IN   approvalType*   Approve/Reject - First to respond | Everyone must approve | sequential
+       WebhookApprovalCreationInput*  (dynamic body):
+         title*        Book-a-Service visit for Medieval Madness (SKU MM-1997)
+         assignedTo*   manager UPN/email/objectId  (semicolon = multiple)
+         details       markdown OK
+         itemLink requestor enableNotifications enableReassignment
+  OUT  outcome  responseSummary  completionDate
+       responses[].responder.{displayName,email,userPrincipalName}
+       responses[].approverResponse  ("Approve"/"Reject", case-sensitive)  ·  .comments
+  ⚠   records stored in Dataverse (env needs it)  ·  timestamps UTC  ·  sender = flow creator
+      50 creates per 60s
+
+  FLOW SHAPE:  [Run a flow from Copilot Studio] -> StartAndWaitForAnApproval
+               -> branch on Outcome -> return outputs to topic
+```
+
+```text
+SendEmailV2  ·  Office 365 Outlook (shared_office365)  ·  OAuth on sender mailbox
+  IN   To*  (semicolon)   Subject*   Body*
+       Cc Bcc  ·  From (needs Send-as)  ·  Attachments[] (Name + ContentBytes)
+       Importance Sensitivity ReplyTo
+  where  put inside the flow (reads Outcome + comments); can also be a direct topic action
+```
+
+*Lightweight variant, do not use for course: Outlook `SendApprovalMail` (actionable email, returns subscription id, no Dataverse audit). Use the real Approvals connector, it is the sell-page pattern.*
+
+---
+
+### T03 Autonomous repair-intake (Segment 3 event)
+
+```mermaid
+flowchart LR
+  DROP[form -> SharePoint library] -.polling.-> TR[GetOnNewFileItems]
+  TR --> GC[GetFileContent]
+  GC --> AG[agent processes autonomously]
+  style TR fill:#ffcdd2
+```
+
+```text
+GetOnNewFileItems  ·  SharePoint (shared_sharepointonline)  ·  AUTONOMOUS FLOW trigger
+  IN   dataset*  Site Address   table*  Library Name   folderPath  Folder   view
+  OUT  file properties incl. file identifier -> chain GetFileContent to read the form
+GetOnNewItems  ·  same connector  ·  use if intake is a LIST ITEM not a file
+  IN   dataset*  ·  table* (List Name)  ·  view
+  ⚠   deprecated: OnNewFile ("When a file is created in a folder") -> use GetOnNewFileItems
+
+REQUIREMENTS (Segment 3 load-bearing):
+  · GenerativeActionsEnabled: true   (event triggers dead under classic orchestration)
+  · trigger lives on a Power Automate flow attached as autonomous trigger, NOT a topic
+  · billing: autonomous runs consume capacity SEPARATELY -> Segment 4 ROI tile
+  · latency: polling, minutes not instant  ·  scope: libraries (101) / lists (100) only
+  · YAML limit: trigger + flow live OUTSIDE .mcs.yml; only the processing topic is authorable
+```
+
+---
+
 ## Authoring notes (the why)
 
 - **Front-load nouns.** Trigger phrases and descriptions should carry the words a customer actually says: machine names, "price," "repair," "warranty." That is what the NLU and semantic retrieval anchor on.

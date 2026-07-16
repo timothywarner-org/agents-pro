@@ -1,0 +1,29 @@
+[
+  {
+    "movementReference": "MOV-20260712-0001",
+    "sku": "CPG-WIL-MM-97",
+    "machineTitle": "Medieval Madness",
+    "movementType": "Restoration complete",
+    "movementUtc": "2026-07-12T15:30:00Z",
+    "quantityDelta": 0,
+    "notes": "Moved from restoration queue to showroom center after quality check."
+  },
+  {
+    "movementReference": "MOV-20260713-0002",
+    "sku": "CPG-BAL-TAF-92",
+    "machineTitle": "The Addams Family",
+    "movementType": "Sold",
+    "movementUtc": "2026-07-13T20:15:00Z",
+    "quantityDelta": -1,
+    "notes": "Sold row remains in catalog so the agent can answer sold/waitlist questions honestly."
+  },
+  {
+    "movementReference": "MOV-20260715-0003",
+    "sku": "CPG-STE-JAWS-PR",
+    "machineTitle": "Jaws Premium",
+    "movementType": "New arrival",
+    "movementUtc": "2026-07-15T16:00:00Z",
+    "quantityDelta": 1,
+    "notes": "New premium inventory item added for modern Stern comparison prompts."
+  }
+]

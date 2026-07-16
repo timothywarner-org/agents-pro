@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node C:/Users/timot/.claude/plugins/cache/skills-for-copilot-studio/copilot-studio/1.0.0/scripts/connector-lookup.bundle.js list)",
+      "Bash(node C:/Users/timot/.claude/plugins/cache/skills-for-copilot-studio/copilot-studio/1.0.0/scripts/connector-lookup.bundle.js operations excel)",
+      "Bash(node C:/Users/timot/.claude/plugins/cache/skills-for-copilot-studio/copilot-studio/1.0.0/scripts/connector-lookup.bundle.js operations sharepoint)",
+      "Bash(node C:/Users/timot/.claude/plugins/cache/skills-for-copilot-studio/copilot-studio/1.0.0/scripts/connector-lookup.bundle.js operations office365)",
+      "Bash(node C:/Users/timot/.claude/plugins/cache/skills-for-copilot-studio/copilot-studio/1.0.0/scripts/connector-lookup.bundle.js operation office365 SendEmailV2)",
+      "Bash(node C:/Users/timot/.claude/plugins/cache/skills-for-copilot-studio/copilot-studio/1.0.0/scripts/connector-lookup.bundle.js operation sharepoint GetItems)"
+    ]
+  }
+}
